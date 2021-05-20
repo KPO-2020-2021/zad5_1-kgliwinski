@@ -254,6 +254,48 @@ TEST_CASE("P 1.09: konstruktor parametryczny graniastoslupa (przeciazenie z vect
      CHECK(a.get_scale() == vec);
 }
 
+TEST_CASE("P 1.10: Prism przeciazenie operatora ==")
+{
+
+     Prism a,b;
+
+     CHECK(a==b);
+}
+
+TEST_CASE("P 1.11: Prism przeciazenie operatora == 2")
+{
+     int i;
+     double iter[6][3] = {{2, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5},
+                         {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+    {
+        tops[0][i] = Vector3D(iter[i]);
+        iter[i][2] = 0.5;
+        tops[1][i] = Vector3D(iter[i]);
+    }
+     Prism a(tops),b(tops);
+
+     CHECK(a==b);
+}
+
+TEST_CASE("P 1.12: Prism przeciazenie operatora == 3 smol")
+{
+     int i;
+     double iter[6][3] = {{0.0000002, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.0000000005}, {-0.0000000005, sqrt(3) * 0.000000005, -0.00000005}, {-1, 0, -0.5},
+                         {-0.5, -sqrt(3) * 0.000000005, -0.000000005}, {0.5, -sqrt(3) * 0.00000005, -0.0000000005}};
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+    {
+        tops[0][i] = Vector3D(iter[i]);
+        iter[i][2] = 0.5;
+        tops[1][i] = Vector3D(iter[i]);
+    }
+     Prism a(tops),b(tops);
+
+     CHECK(a==b);
+}
+
 TEST_CASE("P 2.01: get_pri przeciazenie dla Vector3D ")
 {
      int i, j;
@@ -416,4 +458,102 @@ TEST_CASE("P 2.06: get_pri przeciazenie dla double neg ")
                }
           }
      }
+}
+TEST_CASE("P 3.01: Prism::translation() 1")
+{
+     int i, j;
+     double tab[3] = {1, 1, 1};
+     Vector3D tran(tab);
+     Prism a;
+     a = a.translation(tran);
+     double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     for (i = 0; i < 6; ++i)
+     {
+          for (j = 0; j < 3; ++j)
+          {
+               iter[i][j]+=1;
+          }
+     }
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+     {
+
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 1.5;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism res(tops);
+     CHECK (a == res);
+}
+
+TEST_CASE("P 3.02: Prism::translation() 2 neg")
+{
+     int i, j;
+     double tab[3] = {-1, -2, -3};
+     Vector3D tran(tab);
+     Prism a;
+     a = a.translation(tran);
+     double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     for (i = 0; i < 6; ++i)
+     {
+          for (j = 0; j < 3; ++j)
+          {
+               iter[i][j]-=(j+1);
+          }
+     }
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+     {
+
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = -2.5;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism res(tops);
+     CHECK (a == res);
+}
+
+TEST_CASE("P 3.03: Prism::translation() 3 smol")
+{
+     int i, j;
+     double tab[3] = {0.00000001, 0.00000001, 0.00000001};
+     Vector3D tran(tab);
+     Prism a;
+     a = a.translation(tran);
+     double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     for (i = 0; i < 6; ++i)
+     {
+          for (j = 0; j < 3; ++j)
+          {
+               iter[i][j]+=0.00000001;
+          }
+     }
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+     {
+
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 0.50000001;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism res(tops);
+     CHECK (a == res);
+}
+
+TEST_CASE("P 4.01: Prism::centre_point() 1")
+{
+     Prism a;
+     Vector3D cen = a.centre_point();
+     double tab[3] = {0, 0, 0};
+     Vector3D res(tab);
+     CHECK(cen == res);
+}
+
+TEST_CASE("P 4.02: Prism::centre_point() 2")
+{
+     Prism a;
+     Vector3D cen = a.centre_point();
+     double tab[3] = {0, 0, 0};
+     Vector3D res(tab);
+     CHECK(cen == res);
 }

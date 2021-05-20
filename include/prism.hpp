@@ -81,6 +81,41 @@ void get_pri(Vector3D (&tab)[2][6]) const;
  *     \post Zwraca dwanascie wiercholkow przechowywanych w klasie Cuboid i przypisuje je do podanej tablicy                                  
  */
 void get_pri(double (&tab)[2][6][3]) const;
+
+/*!
+ *  \brief Przeciazenie operatora == dla klasy Prism                                               
+ *  Argumenty:                                                                
+ *      \param[in] pri - porownywany Prism                                             
+ *  Zwraca:
+ *      \retval false - nie sa rowne, 
+ *      \retval true - sa rowne                                                     
+ */
+bool operator == (const Prism &pri) const;
+
+/*!
+ *  \brief Metoda przesuwajaca graniastoslup o zadany kat w 3D                                            
+ *  Argumenty:                                                                
+ *      \param[in] trans - Vector3D                                                     
+ *  Zwraca:                                                                   
+ *     \param[out] translated - graniastoslup po operacji przesuniecia                                
+ */
+Prism translation(Vector3D const &tran) const;
+
+
+/*!
+ *  \brief Metoda zwracajaca punkt centralny (czyli taki, ktorego odleglosci
+ *         do kazdego wierzcholka sa rowne) graniastoslupa. Zgodnie z geometria
+ *         graniastoslupa, lezy on na przecieciu jego przekatnych lub w polowie
+ *         jednej z przekatnych, z czego korzysta ta metoda. Zwracana wartosc jest
+ *         w globalnym ukladzie odniesienia.                                          
+ *  Argumenty:                                                                
+ *      brak                                                    
+ *  Zwraca:                                                                   
+ *     \return point - Vector3D wskazujacy ze srodka ukladu wspolrzednych
+ *                     na punkt centralny graniastoslupa                              
+ */
+
+Vector3D centre_point() const;
 };
 
 

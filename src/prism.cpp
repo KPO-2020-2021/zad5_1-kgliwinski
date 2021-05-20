@@ -76,6 +76,19 @@ void Prism::get_pri(double (&tab)[2][6][3]) const
     }
 }
 
+bool Prism::operator == (const Prism &pri) const
+{
+    int i, j;
+    for (i = 0; i < 2; ++i)
+    {
+        for (j = 0; j < 6; ++j)
+        {
+            if (!(tops[i][j] == pri.tops[i][j]))
+                return 0;
+        }
+    }
+    return 1;
+}
 
 std::ostream &operator<<(std::ostream &out, Prism const &Pri)
 {
@@ -107,4 +120,27 @@ std::ostream &operator<<(std::ostream &out, Prism const &Pri)
     out << "Wierzcholek F2: " << std::endl
         << vecs[1][5] << std::endl;
     return out;
+}
+
+Prism Prism::translation(Vector3D const &tran) const
+{
+    Prism translated;
+    int i,j;
+    for (i=0;i<2;++i)
+    {
+        for (j=0;j<6;++j)
+        {
+            translated.tops[i][j] = tops[i][j] + tran;
+        }
+    }
+    return translated;
+}
+
+Vector3D Prism::centre_point() const
+{
+    Vector3D diag;
+    diag = tops[1][3] - tops[0][0];
+    Vector3D point;
+    point = tops[0][0] + diag*0.5;
+    return point;
 }
