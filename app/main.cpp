@@ -10,10 +10,7 @@
 #include "../include/prism.hpp"
 #include "exampleConfig.h"
 
-/*
- * Simple main program that demontrates how access
- * CMake definitions (here the version number) from source code.
- */
+
 int main()
 {
   std::cout << "C++ Boiler Plate v"
@@ -26,8 +23,6 @@ int main()
             << PROJECT_VERSION_TWEAK
             << std::endl;
 
-  // Bring in the dummy class from the example source,
-  // just to show that it is accessible from main.cpp.
   Prism a;
   std::cout<<a;
 
