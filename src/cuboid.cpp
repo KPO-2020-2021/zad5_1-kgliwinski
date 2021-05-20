@@ -239,6 +239,31 @@ Cuboid Cuboid::rotation(Matrix3D const &mat) const
     return rotated;
 }
 
+Cuboid Cuboid::rotation_around_ref(Matrix3D const &mat, Vector3D const &ref) const
+{
+    int i,j;
+    Cuboid rotated = *this;
+    rotated.translation(ref*-1);
+    for (i = 0; i < 2; ++i)
+    {
+        for (j = 0; j < 4; ++j)
+        {
+            rotated.tops[i][j] = mat.apply_matrix_to_rotation(tops[i][j]);
+        }
+    }
+    rotated.translation(ref);
+    return rotated;
+}
+
+Vector3D Cuboid::centre_point() const
+{
+    Vector3D diag;
+    diag = tops[1][2] - tops[0][0];
+    Vector3D point;
+    point = tops[0][0] + diag*0.5;
+    return point;
+}
+
 void Cuboid::print_cuboid(std::ostream &out) const
 {
     int i,j,k;

@@ -1,3 +1,4 @@
+#pragma once
 #include"block.hpp"
 
 /*!
@@ -187,6 +188,30 @@ Cuboid translation(Vector3D const &tran) const;
  *     \param[out] rotated - prostopadloscian po operacji rotacji                               
  */
 Cuboid rotation(Matrix3D const &mat) const;
+
+/*!
+ *  \brief Metoda obracajaca prostopadloscian o zadany kat w 3D wokol ustalonego
+ *         punktu referencji                                            
+ *  Argumenty:                                                                
+ *      \param[in] mat - macierz obrotu
+ *      \param[in] ref - Vector3D reprezentujacy okreslony punkt referencji                                                     
+ *  Zwraca:                                                                   
+ *     \param[out] rotated - prostopadloscian po operacji rotacji                               
+ */
+Cuboid rotation_around_ref(Matrix3D const &mat, Vector3D const &ref) const;
+
+/*!
+ *  \brief Metoda zwracajaca punkt centralny (czyli taki, ktorego odleglosci
+ *         do kazdego wierzcholka sa rowne) prostopadloscianu. Zgodnie z geometria
+ *         prostopadloscianu, lezy on na przecieciu jego przekatnych lub w polowie
+ *         jednej z przekatnych, z czego korzysta ta metoda                                           
+ *  Argumenty:                                                                
+ *      brak                                                    
+ *  Zwraca:                                                                   
+ *     \return point - Vector3D wskazujacy ze srodka ukladu wspolrzednych
+ *                     na punkt centralny prostopadloscianu                               
+ */
+Vector3D centre_point() const;
 
 /*!
  *  \brief Metoda wypisania odpowiednich wierzcholkow do pliku                                                

@@ -371,6 +371,126 @@ TEST_CASE("C 4.01: Cuboid::rotation(Matrix3D) 1")
     CHECK(c == b);
 }
 
+TEST_CASE("C 4.02: Cuboid::centre_point() 1")
+{
+    Cuboid a;
+    Vector3D ref = a.centre_point();
+    double tab[3] = {0.5,0.5,0.5};
+    Vector3D res(tab);
+    CHECK (res == ref);
+}
+
+TEST_CASE("C 4.03: Cuboid::centre_point() 2")
+{
+    Cuboid a;
+    double tab[3] = {-1, -2, -3};
+    Vector3D tran(tab);
+    a = a.translation(tran);
+    Vector3D ref = a.centre_point();
+    double tab2[3] = {-0.5,-1.5,-2.5};
+    Vector3D res(tab2);
+    CHECK (res == ref);
+}
+
+TEST_CASE("C 4.04: Cuboid::centre_point() 3")
+{
+    int i;
+    Vector3D tops[2][4];
+    double iter[4][3] = {{-1, 1, -1}, {1, 1, -1}, {1, -1, -1}, {-1, -1, -1}};
+    for (i = 0; i < 4; ++i)
+    {
+        tops[0][i] = Vector3D(iter[i]);
+        iter[i][2] = 1;
+        tops[1][i] = Vector3D(iter[i]);
+    }
+    Cuboid a(tops);
+    Vector3D ref = a.centre_point();
+    double tab2[3] = {0,0,0};
+    Vector3D res(tab2);
+    CHECK (res == ref);
+}
+
+TEST_CASE("C 4.05: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 1")
+{
+    int i;
+    Vector3D tops[2][4];
+    double iter[4][3] = {{-1, 1, -1}, {1, 1, -1}, {1, -1, -1}, {-1, -1, -1}};
+    for (i = 0; i < 4; ++i)
+    {
+        tops[0][i] = Vector3D(iter[i]);
+        iter[i][2] = 1;
+        tops[1][i] = Vector3D(iter[i]);
+    }
+    Cuboid a(tops);
+    double tab[3] = {0,0,0};
+    Vector3D ref(tab);
+    Matrix3D rot;
+    rot = rot.rotation_matrix(360,'x');
+    Cuboid b = a.rotation_around_ref(rot, ref);
+    CHECK(a == b);
+}
+
+TEST_CASE("C 4.06: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 2")
+{
+    int i;
+    Vector3D tops[2][4];
+    double iter[4][3] = {{-1, 1, -1}, {1, 1, -1}, {1, -1, -1}, {-1, -1, -1}};
+    for (i = 0; i < 4; ++i)
+    {
+        tops[0][i] = Vector3D(iter[i]);
+        iter[i][2] = 1;
+        tops[1][i] = Vector3D(iter[i]);
+    }
+    Vector3D tops2[2][4];
+    double iter2[4][3] = {{-1, 1, 1}, {1, 1, 1}, {1, 1, -1}, {-1, 1, -1}};
+    for (i = 0; i < 4; ++i)
+    {
+        tops2[0][i] = Vector3D(iter2[i]);
+        iter2[i][1] = -1;
+        tops2[1][i] = Vector3D(iter2[i]);
+        std::cout<<tops2[1][i]<<std::endl;
+    }
+    Cuboid a(tops);
+    Cuboid res(tops2);
+    double tab[3] = {0,0,0};
+    Vector3D ref(tab);
+    Matrix3D rot;
+    rot = rot.rotation_matrix(90,'x');
+    Cuboid b = a.rotation_around_ref(rot, ref);
+    CHECK(res == b);
+    CHECK(a.centre_point() == b.centre_point());
+    CHECK(b.centre_point() == res.centre_point());
+}
+
+TEST_CASE("C 4.07: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 3")
+{
+    Cuboid a;
+    Vector3D cen = a.centre_point();
+    Matrix3D mat;
+    mat = mat.rotation_matrix(360,'x');
+    Cuboid b = a.rotation_around_ref(mat, cen);
+    CHECK (a == b);
+    CHECK (cen == b.centre_point());
+    cen = b.centre_point();
+    b = b.rotation_around_ref(mat, cen);
+    CHECK (a == b);
+    CHECK (cen == b.centre_point());
+}
+
+TEST_CASE("C 4.08: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 4")
+{
+    Cuboid a;
+    Vector3D cen = a.centre_point();
+    Matrix3D mat;
+    mat = mat.rotation_matrix(60,'x');
+    mat = mat.rotation_matrix(60,'y') * mat;
+    Cuboid b = a.rotation_around_ref(mat, cen);
+    CHECK (cen == b.centre_point());
+    cen = b.centre_point();
+    b = b.rotation_around_ref(mat, cen);
+    CHECK (cen == b.centre_point());
+}
+
 TEST_CASE("C 5.01: Cuboid:get_vec_opp i check_vec_opp")
 {
     int i;

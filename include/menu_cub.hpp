@@ -61,7 +61,7 @@ public:
 /*!
  * \brief Obsluguje skladanie rotacji obrotu
  */
-    void switch_rotation();
+    Matrix3D switch_rotation();
 
 /*!
  * \brief Wyswietla informacje o bokach figury na standardowym wyjsciu

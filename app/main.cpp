@@ -7,7 +7,9 @@
 #endif
 
 
+#include "../include/cuboid.hpp"
 #include "../include/prism.hpp"
+#include "../include/menu_cub.hpp"
 #include "exampleConfig.h"
 
 
@@ -23,8 +25,20 @@ int main()
             << PROJECT_VERSION_TWEAK
             << std::endl;
 
-  Prism a;
-  std::cout<<a;
+  int i;
+  Menu_cub menu;
+
+  double iter1[4][3] = {{0, 0, 0}, {50, 0, 0}, {50, 50, 0} , {0, 50, 0}};
+  double iter2[4][3] = {{0, 0, 100}, {50, 0, 100}, {50, 50, 100} , {0, 50, 100}};
+
+  Vector3D tops[2][4];
+  for (i = 0; i < 4; ++i)
+  {
+    tops[0][i] = Vector3D(iter1[i]);
+    tops[1][i] = Vector3D(iter2[i]);
+  }
+    Cuboid cub(tops);
+  menu.init_menu(tops);
 
 
 }
