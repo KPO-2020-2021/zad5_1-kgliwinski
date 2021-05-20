@@ -3,20 +3,19 @@
 // users, this can be left out.
 #ifdef ENABLE_DOCTEST_IN_LIBRARY
 #define DOCTEST_CONFIG_IMPLEMENT
-#include "doctest.h"
+#include "../tests/doctest/doctest.h"
 #endif
 
-#include <iostream>
-#include <stdlib.h>
 
+#include "../include/prism.hpp"
 #include "exampleConfig.h"
-#include "example.h"
 
 /*
  * Simple main program that demontrates how access
  * CMake definitions (here the version number) from source code.
  */
-int main() {
+int main()
+{
   std::cout << "C++ Boiler Plate v"
             << PROJECT_VERSION_MAJOR
             << "."
@@ -26,10 +25,11 @@ int main() {
             << "."
             << PROJECT_VERSION_TWEAK
             << std::endl;
-  std::system("cat ../LICENSE");
 
   // Bring in the dummy class from the example source,
   // just to show that it is accessible from main.cpp.
-  Dummy d = Dummy();
-  return d.doSomething() ? 0 : -1;
+  Prism a;
+  std::cout<<a;
+
+
 }
