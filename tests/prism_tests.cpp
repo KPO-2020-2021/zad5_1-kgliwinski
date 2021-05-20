@@ -552,8 +552,29 @@ TEST_CASE("P 4.01: Prism::centre_point() 1")
 TEST_CASE("P 4.02: Prism::centre_point() 2")
 {
      Prism a;
-     Vector3D cen = a.centre_point();
-     double tab[3] = {0, 0, 0};
-     Vector3D res(tab);
-     CHECK(cen == res);
+     double tab[3] = {1, 1, 1};
+     Vector3D tran(tab);
+     a = a.translation(tran);
+     Vector3D res = a.centre_point();
+     CHECK(tran == res);
+}
+
+TEST_CASE("P 4.03: Prism::centre_point() 3")
+{
+     Prism a;
+     double tab[3] = {1, 21, -111};
+     Vector3D tran(tab);
+     a = a.translation(tran);
+     Vector3D res = a.centre_point();
+     CHECK(tran == res);
+}
+
+TEST_CASE("P 4.04: Prism::centre_point() 4")
+{
+     Prism a;
+     double tab[3] = {0.000001, 0.000021, -1234111};
+     Vector3D tran(tab);
+     a = a.translation(tran);
+     Vector3D res = a.centre_point();
+     CHECK(tran == res);
 }
