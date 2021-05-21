@@ -257,43 +257,41 @@ TEST_CASE("P 1.09: konstruktor parametryczny graniastoslupa (przeciazenie z vect
 TEST_CASE("P 1.10: Prism przeciazenie operatora ==")
 {
 
-     Prism a,b;
+     Prism a, b;
 
-     CHECK(a==b);
+     CHECK(a == b);
 }
 
 TEST_CASE("P 1.11: Prism przeciazenie operatora == 2")
 {
      int i;
-     double iter[6][3] = {{2, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5},
-                         {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     double iter[6][3] = {{2, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
      Vector3D tops[2][6];
      for (i = 0; i < 6; ++i)
-    {
-        tops[0][i] = Vector3D(iter[i]);
-        iter[i][2] = 0.5;
-        tops[1][i] = Vector3D(iter[i]);
-    }
-     Prism a(tops),b(tops);
+     {
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 0.5;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism a(tops), b(tops);
 
-     CHECK(a==b);
+     CHECK(a == b);
 }
 
 TEST_CASE("P 1.12: Prism przeciazenie operatora == 3 smol")
 {
      int i;
-     double iter[6][3] = {{0.0000002, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.0000000005}, {-0.0000000005, sqrt(3) * 0.000000005, -0.00000005}, {-1, 0, -0.5},
-                         {-0.5, -sqrt(3) * 0.000000005, -0.000000005}, {0.5, -sqrt(3) * 0.00000005, -0.0000000005}};
+     double iter[6][3] = {{0.0000002, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.0000000005}, {-0.0000000005, sqrt(3) * 0.000000005, -0.00000005}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.000000005, -0.000000005}, {0.5, -sqrt(3) * 0.00000005, -0.0000000005}};
      Vector3D tops[2][6];
      for (i = 0; i < 6; ++i)
-    {
-        tops[0][i] = Vector3D(iter[i]);
-        iter[i][2] = 0.5;
-        tops[1][i] = Vector3D(iter[i]);
-    }
-     Prism a(tops),b(tops);
+     {
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 0.5;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism a(tops), b(tops);
 
-     CHECK(a==b);
+     CHECK(a == b);
 }
 
 TEST_CASE("P 2.01: get_pri przeciazenie dla Vector3D ")
@@ -471,7 +469,7 @@ TEST_CASE("P 3.01: Prism::translation() 1")
      {
           for (j = 0; j < 3; ++j)
           {
-               iter[i][j]+=1;
+               iter[i][j] += 1;
           }
      }
      Vector3D tops[2][6];
@@ -483,7 +481,7 @@ TEST_CASE("P 3.01: Prism::translation() 1")
           tops[1][i] = Vector3D(iter[i]);
      }
      Prism res(tops);
-     CHECK (a == res);
+     CHECK(a == res);
 }
 
 TEST_CASE("P 3.02: Prism::translation() 2 neg")
@@ -498,7 +496,7 @@ TEST_CASE("P 3.02: Prism::translation() 2 neg")
      {
           for (j = 0; j < 3; ++j)
           {
-               iter[i][j]-=(j+1);
+               iter[i][j] -= (j + 1);
           }
      }
      Vector3D tops[2][6];
@@ -510,7 +508,7 @@ TEST_CASE("P 3.02: Prism::translation() 2 neg")
           tops[1][i] = Vector3D(iter[i]);
      }
      Prism res(tops);
-     CHECK (a == res);
+     CHECK(a == res);
 }
 
 TEST_CASE("P 3.03: Prism::translation() 3 smol")
@@ -525,7 +523,7 @@ TEST_CASE("P 3.03: Prism::translation() 3 smol")
      {
           for (j = 0; j < 3; ++j)
           {
-               iter[i][j]+=0.00000001;
+               iter[i][j] += 0.00000001;
           }
      }
      Vector3D tops[2][6];
@@ -537,7 +535,7 @@ TEST_CASE("P 3.03: Prism::translation() 3 smol")
           tops[1][i] = Vector3D(iter[i]);
      }
      Prism res(tops);
-     CHECK (a == res);
+     CHECK(a == res);
 }
 
 TEST_CASE("P 4.01: Prism::centre_point() 1")
@@ -579,11 +577,61 @@ TEST_CASE("P 4.04: Prism::centre_point() 4")
      CHECK(tran == res);
 }
 
-TEST_CASE("P 5.01: Prism::rotation_around_ref() 1")
+TEST_CASE("P 5.01: Prism::rotation_around_cen() 1")
 {
-     Prism a;
+     Prism a,b;
      Matrix3D rot;
-     rot = rot.rotation_matrix(360,'x');
-     Prism b = a.rotation_around_cen(rot);
-     CHECK (a == b);
+     for (int i = 0; i < 6; ++i)
+     {
+          rot = rot.rotation_matrix(60, 'x');
+          b = a.rotation_around_cen(rot);
+          CHECK(a == b);
+     }
 }
+
+TEST_CASE("P 5.02: Prism::rotation_around_cen() 2")
+{
+     Prism a,b;
+     Matrix3D rot;
+     double tab[3] = {1,2,3};
+     Vector3D tran(tab);
+     a.translation(tran);
+     for (int i = 0; i < 6; ++i)
+     {
+          rot = rot.rotation_matrix(60, 'x');
+          b = a.rotation_around_cen(rot);
+          CHECK(a == b);
+     }
+}
+
+TEST_CASE("P 5.03: Prism::rotation_around_cen() 3")
+{
+     Prism a,b;
+     Matrix3D rot;
+     double tab[3] = {-1,-2,-3};
+     Vector3D tran(tab);
+     a.translation(tran);
+     for (int i = 0; i < 6; ++i)
+     {
+          rot = rot.rotation_matrix(60, 'x');
+          b = a.rotation_around_cen(rot);
+          CHECK(a == b);
+     }
+}
+
+TEST_CASE("P 5.04: Prism::rotation_around_cen() 4")
+{
+     Prism a,b;
+     Matrix3D rot;
+     double tab[3] = {-0.000001,-0.02,-0.000003};
+     Vector3D tran(tab);
+     a.translation(tran);
+     for (int i = 0; i < 6; ++i)
+     {
+          rot = rot.rotation_matrix(60, 'x');
+          b = a.rotation_around_cen(rot);
+          CHECK(a == b);
+     }
+}
+
+

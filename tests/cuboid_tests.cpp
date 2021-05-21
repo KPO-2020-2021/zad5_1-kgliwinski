@@ -410,7 +410,7 @@ TEST_CASE("C 4.04: Cuboid::centre_point() 3")
     CHECK (res == ref);
 }
 
-TEST_CASE("C 4.05: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 1")
+TEST_CASE("C 4.05: Cuboid::rotation_around_cen(Matrix3D, Vector3D) 1")
 {
     int i;
     Vector3D tops[2][4];
@@ -429,7 +429,7 @@ TEST_CASE("C 4.05: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 1")
     CHECK(a == b);
 }
 
-TEST_CASE("C 4.06: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 2")
+TEST_CASE("C 4.06: Cuboid::rotation_around_cen(Matrix3D, Vector3D) 2")
 {
     int i;
     Vector3D tops[2][4];
@@ -459,7 +459,7 @@ TEST_CASE("C 4.06: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 2")
     CHECK(b.centre_point() == res.centre_point());
 }
 
-TEST_CASE("C 4.07: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 3")
+TEST_CASE("C 4.07: Cuboid::rotation_around_cen(Matrix3D, Vector3D) 3")
 {
     Cuboid a;
     Vector3D cen = a.centre_point();
@@ -473,7 +473,7 @@ TEST_CASE("C 4.07: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 3")
     CHECK (cen == b.centre_point());
 }
 
-TEST_CASE("C 4.08: Cuboid::rotation_around_ref(Matrix3D, Vector3D) 4")
+TEST_CASE("C 4.08: Cuboid::rotation_around_cen(Matrix3D, Vector3D) 4")
 {
     Cuboid a;
     Vector3D cen = a.centre_point();
