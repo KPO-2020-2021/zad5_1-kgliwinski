@@ -9,6 +9,9 @@
 
 #include "../include/cuboid.hpp"
 #include "../include/prism.hpp"
+#include"../include/matrix2D.hpp"
+#include"../include/matrix4D.hpp"
+#include"../include/vector2D.hpp"
 #include "../include/menu_cub.hpp"
 #include "exampleConfig.h"
 

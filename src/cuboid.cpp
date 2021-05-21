@@ -239,19 +239,21 @@ Cuboid Cuboid::rotation(Matrix3D const &mat) const
     return rotated;
 }
 
-Cuboid Cuboid::rotation_around_ref(Matrix3D const &mat, Vector3D const &ref) const
+Cuboid Cuboid::rotation_around_cen(Matrix3D const &mat) const
 {
     int i,j;
-    Cuboid rotated = *this;
-    rotated.translation(ref*-1);
+    Cuboid rotated;
+    Vector3D ref = this->centre_point();
+    Vector3D neg_ref = ref*(-1);
     for (i = 0; i < 2; ++i)
     {
         for (j = 0; j < 4; ++j)
         {
-            rotated.tops[i][j] = mat.apply_matrix_to_rotation(tops[i][j]);
+            rotated.tops[i][j] = tops[i][j] + neg_ref;
+            rotated.tops[i][j] = mat.apply_matrix_to_rotation(rotated.tops[i][j]);
         }
     }
-    rotated.translation(ref);
+    rotated = rotated.translation(ref);
     return rotated;
 }
 

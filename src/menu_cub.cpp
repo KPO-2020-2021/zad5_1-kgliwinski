@@ -103,7 +103,7 @@ void Menu_cub::switch_menu(const char &oper, Cuboid &cub)
         for (iter = 0; iter < times; ++iter)
         {
             ref = cub.centre_point();
-            cub = cub.rotation_around_ref(rot_mat,ref);
+            cub = cub.rotation_around_cen(rot_mat);
         }
         Print_to_gnuplot(cub);
         assert(cub);

@@ -190,15 +190,13 @@ Cuboid translation(Vector3D const &tran) const;
 Cuboid rotation(Matrix3D const &mat) const;
 
 /*!
- *  \brief Metoda obracajaca prostopadloscian o zadany kat w 3D wokol ustalonego
- *         punktu referencji                                            
+ *  \brief Metoda obracajaca prostopadloscian o zadany kat w 3D wokol srodka figury                                           
  *  Argumenty:                                                                
- *      \param[in] mat - macierz obrotu
- *      \param[in] ref - Vector3D reprezentujacy okreslony punkt referencji                                                     
+ *      \param[in] mat - macierz obrotu                                                   
  *  Zwraca:                                                                   
  *     \param[out] rotated - prostopadloscian po operacji rotacji                               
  */
-Cuboid rotation_around_ref(Matrix3D const &mat, Vector3D const &ref) const;
+Cuboid rotation_around_cen(Matrix3D const &mat) const;
 
 /*!
  *  \brief Metoda zwracajaca punkt centralny (czyli taki, ktorego odleglosci

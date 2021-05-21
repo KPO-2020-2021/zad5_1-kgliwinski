@@ -103,6 +103,16 @@ Prism translation(Vector3D const &tran) const;
 
 
 /*!
+ *  \brief Metoda obracajaca graniastoslup o zadany kat w 3D wokol srodka figury                                      
+ *  Argumenty:                                                                
+ *      \param[in] mat - macierz obrotu                                                  
+ *  Zwraca:                                                                   
+ *     \param[out] rotated - graniastoslup po operacji rotacji                               
+ */
+Prism rotation_around_cen(Matrix3D const &mat) const;
+
+
+/*!
  *  \brief Metoda zwracajaca punkt centralny (czyli taki, ktorego odleglosci
  *         do kazdego wierzcholka sa rowne) graniastoslupa. Zgodnie z geometria
  *         graniastoslupa, lezy on na przecieciu jego przekatnych lub w polowie

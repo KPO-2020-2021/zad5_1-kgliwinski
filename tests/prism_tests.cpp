@@ -578,3 +578,12 @@ TEST_CASE("P 4.04: Prism::centre_point() 4")
      Vector3D res = a.centre_point();
      CHECK(tran == res);
 }
+
+TEST_CASE("P 5.01: Prism::rotation_around_ref() 1")
+{
+     Prism a;
+     Matrix3D rot;
+     rot = rot.rotation_matrix(360,'x');
+     Prism b = a.rotation_around_cen(rot);
+     CHECK (a == b);
+}

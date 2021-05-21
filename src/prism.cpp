@@ -136,6 +136,24 @@ Prism Prism::translation(Vector3D const &tran) const
     return translated;
 }
 
+Prism Prism::rotation_around_cen(Matrix3D const &mat) const
+{
+    int i,j;
+    Prism rotated;
+    Vector3D ref = this->centre_point();
+    Vector3D neg_ref = ref*(-1);
+    for (i = 0; i < 2; ++i)
+    {
+        for (j = 0; j < 4; ++j)
+        {
+            rotated.tops[i][j] = tops[i][j] + neg_ref;
+            rotated.tops[i][j] = mat.apply_matrix_to_rotation(rotated.tops[i][j]);
+        }
+    }
+    rotated = rotated.translation(ref);
+    return rotated;
+}
+
 Vector3D Prism::centre_point() const
 {
     Vector3D diag;
