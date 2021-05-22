@@ -78,6 +78,20 @@ Cuboid(Vector3D const (&tab)[2][4], const std::string &s_name, const std::string
 Cuboid(double (&tovec)[2][4][3]);
 
 /*!
+ *  \brief Konstruktor parametryczny klasy Cuboid. Przeznaczony do konstrukcji prostopadloscianu
+ *         razem z polami rodzica Block                                           
+ *  Argumenty:                                                                
+ *      \param[in] tab - tablica 2x4x3 typu double 
+ *      \param[in] s_name - docelowo sample_name z klasy Block
+ *      \param[in] f_name - docelowo final_name z klasy Block
+ *      \param[in] vec - docelowo scale z klasy Block                                                
+ *  Zwraca:                                                                   
+ *     \post Zwraca osiem wiercholkow zadanych przez program, oraz pola klasy Block                                 
+ */
+Cuboid(double (&tovec)[2][4][3], const std::string &s_name, const std::string &f_name, const Vector3D &vec);
+
+
+/*!
  *  \brief Sprawdza czy prostopadloscian jest poprawnie zbudowany                                            
  *  Argumenty:                                                                                                                    
  *  Zwraca:                                                                   

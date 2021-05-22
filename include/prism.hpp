@@ -21,6 +21,17 @@ private:
  */
     Vector3D tops[2][6];
 
+/*!
+ * \brief Wektor bedacy srodkiem symetrii wierzcholkow graniastoslupa szesciokatnego
+ */
+Vector3D centre;
+
+/*!
+ * \brief Tablica wektorow reprezentujacych punkty szczegolne graniastoslupa:
+ *        Dwa punkty bedace przecieciami przekatnych dwoch przeciwleglych scian graniastoslupa
+ */
+Vector3D cuts[2];
+
 public:
 /*!
  *  \brief Konstruktor bezparametryczny klasy Prism.
@@ -60,9 +71,22 @@ Prism(Vector3D const (&tab)[2][6], const std::string &s_name, const std::string 
  *  Argumenty:                                                                
  *      \param[in] tovec - tablica 2x6x3 typu double                                                     
  *  Zwraca:                                                                   
- *     \post Zwraca dwanascie wiercholkow zadanych przezuzytkownika                                  
+ *     \post Zwraca dwanascie wiercholkow zadanych przez uzytkownika                                  
  */
 Prism(double (&tovec)[2][6][3]);
+
+/*!
+ *  \brief Konstruktor parametryczny klasy Prism. Przeznaczony do konstrukcji prostopadloscianu
+ *         razem z polami rodzica Block.                                                    
+ *  Argumenty:                                                                
+ *      \param[in] tab - tablica 2x6x3 typu double   
+ *      \param[in] s_name - docelowo sample_name z klasy Block
+ *      \param[in] f_name - docelowo final_name z klasy Block
+ *      \param[in] vec - docelowo scale z klasy Block                                                     
+ *  Zwraca:                                                                   
+ *     \post Zwraca dwanascie wiercholkow zadanych przez uzytkownika, oraz pola klasy Block                                  
+ */
+Prism(double (&tovec)[2][6][3], const std::string &s_name, const std::string &f_name, const Vector3D &vec);
 
 /*!
  *  \brief Metoda zwracajaca wierzcholki graniastoslupa do tablicy 2x6 Vector3D                                              
@@ -126,6 +150,18 @@ Prism rotation_around_cen(Matrix3D const &mat) const;
  */
 
 Vector3D centre_point() const;
+
+/*!
+ *  \brief Metoda zwracajaca punkty specjalne graniastoslupa : cuts (czyli
+ *         te ktore sa przecieciami przekatnych dwoch przeciwleglych
+ *         podstaw graniastoslupa) oraz punkt centre                                     
+ *  Argumenty:                                                                
+ *      \param[in] vecs - tablica wektorow do ktorych program zwroci wartosci                                                    
+ *  Zwraca:                                                                   
+ *     \post - metoda ustawia wartosci w polach tablicy
+ *     \return - metoda zwraca punkt centre                         
+ */
+Vector3D special_points(Vector3D (&vecs)[2]) const;
 };
 
 

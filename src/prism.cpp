@@ -11,6 +11,7 @@ Prism::Prism()
         iter[i][2] = 0.5;
         tops[1][i] = Vector3D(iter[i]);
     }
+    centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 
 Prism::Prism(Vector3D const (&tab)[2][6])
@@ -21,6 +22,7 @@ Prism::Prism(Vector3D const (&tab)[2][6])
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
+    centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 
 Prism::Prism(Vector3D const (&tab)[2][6], const std::string &s_name, const std::string &f_name, const Vector3D &vec) 
@@ -32,6 +34,7 @@ Prism::Prism(Vector3D const (&tab)[2][6], const std::string &s_name, const std::
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
+    centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 
 Prism::Prism(double (&tovec)[2][6][3])
@@ -51,6 +54,27 @@ Prism::Prism(double (&tovec)[2][6][3])
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
+    centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
+}
+Prism::Prism(double (&tovec)[2][6][3], const std::string &s_name, const std::string &f_name, const Vector3D &vec)
+: Block(s_name, f_name, vec)
+{
+    int i, j;
+    Vector3D tab[2][6];
+    for (i = 0; i < 6; ++i)
+    {
+        for (j = 0; j < 3; ++j)
+        {
+            tab[0][i] = Vector3D(tovec[0][i]);
+            tab[1][i] = Vector3D(tovec[1][i]);
+        }
+    }
+    for (i = 0; i < 6; ++i)
+    {
+        tops[0][i] = tab[0][i];
+        tops[1][i] = tab[1][i];
+    }
+        centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 
 void Prism::get_pri(Vector3D (&tab)[2][6]) const
@@ -140,7 +164,7 @@ Prism Prism::rotation_around_cen(Matrix3D const &mat) const
 {
     int i,j;
     Prism rotated;
-    Vector3D ref = this->centre_point();
+    Vector3D ref = centre;
     Vector3D neg_ref = ref*(-1);
     for (i = 0; i < 2; ++i)
     {
@@ -161,4 +185,14 @@ Vector3D Prism::centre_point() const
     Vector3D point;
     point = tops[0][0] + diag*0.5;
     return point;
+}
+
+Vector3D Prism::special_points(Vector3D (&vecs)[2]) const
+{
+    Vector3D cen = this->centre_point();
+    Vector3D side = tops[1][0] - tops[0][0];
+    side = side * 0.5;
+    vecs[0] = cen - side;
+    vecs[1] = cen + side;
+    return cen;
 }

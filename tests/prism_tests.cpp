@@ -577,6 +577,83 @@ TEST_CASE("P 4.04: Prism::centre_point() 4")
      CHECK(tran == res);
 }
 
+TEST_CASE("P 4.05: Prism::special_points() 1")
+{
+     Prism a;
+     Vector3D pts[2];
+     Vector3D cen = a.special_points(pts);
+     double tab[3] = {0, 0, 0};
+     Vector3D res(tab);
+     double one[3] = {0,0,-1};
+     double two[3] = {0,0,1};
+     Vector3D one_pt(one);
+     Vector3D two_pt(two);
+
+     CHECK (cen == res);
+     CHECK (one_pt == pts[0]);
+     CHECK (two_pt == pts[1]);
+}
+
+TEST_CASE("P 4.06: Prism::special_points() 2")
+{
+     Prism a;
+     double tran[3] = {1,2,3};
+     Vector3D trans(tran);
+     a = a.translation(trans);
+     Vector3D pts[2];
+     Vector3D cen = a.special_points(pts);
+     double tab[3] = {1, 2, 3};
+     Vector3D res(tab);
+     double one[3] = {1,2,2};
+     double two[3] = {1,2,4};
+     Vector3D one_pt(one);
+     Vector3D two_pt(two);
+
+     CHECK (cen == res);
+     CHECK (one_pt == pts[0]);
+     CHECK (two_pt == pts[1]);
+}
+
+TEST_CASE("P 4.07: Prism::special_points() 3")
+{
+     Prism a;
+     double tran[3] = {-1,-2,-3};
+     Vector3D trans(tran);
+     a = a.translation(trans);
+     Vector3D pts[2];
+     Vector3D cen = a.special_points(pts);
+     double tab[3] = {-1, -2, -3};
+     Vector3D res(tab);
+     double one[3] = {-1,-2,-4};
+     double two[3] = {-1,-2,-2};
+     Vector3D one_pt(one);
+     Vector3D two_pt(two);
+
+     CHECK (cen == res);
+     CHECK (one_pt == pts[0]);
+     CHECK (two_pt == pts[1]);
+}
+
+TEST_CASE("P 4.08: Prism::special_points() 4")
+{
+     Prism a;
+     double tran[3] = {0.0000000001,0.0000000002,0.0000000003};
+     Vector3D trans(tran);
+     a = a.translation(trans);
+     Vector3D pts[2];
+     Vector3D cen = a.special_points(pts);
+     double tab[3] = {0.0000000001, 0.0000000002, 0.0000000003};
+     Vector3D res(tab);
+     double one[3] = {0.0000000001,0.0000000002,0.0000000002};
+     double two[3] = {0.0000000001,0.0000000002,0.0000000004};
+     Vector3D one_pt(one);
+     Vector3D two_pt(two);
+
+     CHECK (cen == res);
+     CHECK (one_pt == pts[0]);
+     CHECK (two_pt == pts[1]);
+}
+
 TEST_CASE("P 5.01: Prism::rotation_around_cen() 1")
 {
      Prism a,b;

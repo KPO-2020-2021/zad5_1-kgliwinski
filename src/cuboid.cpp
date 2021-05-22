@@ -53,6 +53,28 @@ Cuboid::Cuboid(double (&tovec)[2][4][3])
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
+    centre = this->special_points(cuts); //ustawia centre point i cuts
+}
+
+Cuboid::Cuboid(double (&tovec)[2][4][3], const std::string &s_name, const std::string &f_name, const Vector3D &vec) 
+: Block(s_name, f_name, vec)
+{
+    int i, j;
+    Vector3D tab[2][4];
+    for (i = 0; i < 4; ++i)
+    {
+        for (j = 0; j < 3; ++j)
+        {
+            tab[0][i] = Vector3D(tovec[0][i]);
+            tab[1][i] = Vector3D(tovec[1][i]);
+        }
+    }
+    for (i = 0; i < 4; ++i)
+    {
+        tops[0][i] = tab[0][i];
+        tops[1][i] = tab[1][i];
+    }
+    centre = this->special_points(cuts); //ustawia centre point i cuts
 }
 
 bool Cuboid::check_cub() const
@@ -246,7 +268,7 @@ Cuboid Cuboid::rotation_around_cen(Matrix3D const &mat) const
 {
     int i,j;
     Cuboid rotated;
-    Vector3D ref = this->centre_point();
+    Vector3D ref = centre;
     Vector3D neg_ref = ref*(-1);
     for (i = 0; i < 2; ++i)
     {
