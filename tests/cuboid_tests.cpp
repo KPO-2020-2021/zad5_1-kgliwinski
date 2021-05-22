@@ -241,6 +241,8 @@ TEST_CASE("C 1.08: konstruktor parametryczny prostopadloscianu (przeciazenie z V
     CHECK (a.get_scale() == vec);
 }
 
+
+
 TEST_CASE("C 2.01: Cuboid::get_cub()")
 {
     int i, j;
@@ -655,7 +657,7 @@ TEST_CASE("C 6.07: Cuboid::check_cub 7 small neg"){
     CHECK(a.check_cub());
 }
 
-TEST_CASE("C 7.02: Cuboid::print_cub 2 "){
+TEST_CASE("C 6.08: Cuboid::print_cub 8 "){
     int i;
     Vector3D tops[2][4];
     double iter[4][3] = {{0, 0, 0}, {2, 0, 0}, {2, 2, 0}, {0, 2, 0}};
@@ -685,4 +687,77 @@ out2<<"0.0000000000 0.0000000000 0.0000000000 \n";
 out2<<"2.0000000000 0.0000000000 0.0000000000 \n";
 
   CHECK (out.str() == out2.str());
+}
+
+TEST_CASE("C 7.01: Cuboid::special_points() 1")
+{
+    Cuboid a;
+    Vector3D tab[2], cen;
+    cen = a.special_points(tab);
+    double cen_tab[3] = {0.5, 0.5, 0.5};
+    double one[3] = {0.5, 0.5, 0};
+    double two[3] = {0.5, 0.5, 1};
+    Vector3D cen_res(cen_tab);
+    Vector3D cut_res1(one);
+    Vector3D cut_res2(two);
+    CHECK (cen == cen_res);
+    CHECK (tab[0] == cut_res1);
+    CHECK (tab[1] == cut_res2);
+}
+
+TEST_CASE("C 7.02: Cuboid::special_points() 2")
+{
+    Cuboid a;
+    double tran[3] = {1,2,3};
+    Vector3D trans(tran);
+    a = a.translation(trans);
+    Vector3D tab[2], cen;
+    cen = a.special_points(tab);
+    double cen_tab[3] = {1.5, 2.5, 3.5};
+    double one[3] = {1.5, 2.5, 3};
+    double two[3] = {1.5, 2.5, 4};
+    Vector3D cen_res(cen_tab);
+    Vector3D cut_res1(one);
+    Vector3D cut_res2(two);
+    CHECK (cen == cen_res);
+    CHECK (tab[0] == cut_res1);
+    CHECK (tab[1] == cut_res2);
+}
+
+TEST_CASE("C 7.03: Cuboid::special_points() 3")
+{
+    Cuboid a;
+    double tran[3] = {-1,-2,-3};
+    Vector3D trans(tran);
+    a = a.translation(trans);
+    Vector3D tab[2], cen;
+    cen = a.special_points(tab);
+    double cen_tab[3] = {-0.5, -1.5, -2.5};
+    double one[3] = {-0.5, -1.5, -3};
+    double two[3] = {-0.5, -1.5, -2};
+    Vector3D cen_res(cen_tab);
+    Vector3D cut_res1(one);
+    Vector3D cut_res2(two);
+    CHECK (cen == cen_res);
+    CHECK (tab[0] == cut_res1);
+    CHECK (tab[1] == cut_res2);
+}
+
+TEST_CASE("C 7.04: Cuboid::special_points() 4")
+{
+    Cuboid a;
+    double tran[3] = {-0.0000000001,-0.0000000001,-0.0000000001};
+    Vector3D trans(tran);
+    a = a.translation(trans);
+    Vector3D tab[2], cen;
+    cen = a.special_points(tab);
+    double cen_tab[3] = { 0.499999999, 0.499999999, 0.499999999};
+    double one[3] = {0.499999999, 0.499999999, -0.0000000001};
+    double two[3] = {0.499999999, 0.499999999, 0.999999999};
+    Vector3D cen_res(cen_tab);
+    Vector3D cut_res1(one);
+    Vector3D cut_res2(two);
+    CHECK (cen == cen_res);
+    CHECK (tab[0] == cut_res1);
+    CHECK (tab[1] == cut_res2);
 }

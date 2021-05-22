@@ -45,7 +45,7 @@ void Menu_cub::print_side_len(Cuboid const &cub) const
     double lens[3][2];
     cub.get_vec_len(lens);
 
-    if (abs(lens[0][0] == lens[0][1]) <=0.00000000001)
+    if (abs(lens[0][0] - lens[0][1]) <=0.00000000001)
         std::cout << "\nDluzsze przeciwlegle boki sa sobie rowne\n";
     else
         std::cout << "\n !!! Dluzsze przeciwlegle boki nie sa sobie rowne\n";

@@ -10,6 +10,7 @@ Cuboid::Cuboid()
         iter[i][2] = 1;
         tops[1][i] = Vector3D(iter[i]);
     }
+    centre = this->special_points(cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(Vector3D const (&tab)[2][4])
@@ -20,6 +21,7 @@ Cuboid::Cuboid(Vector3D const (&tab)[2][4])
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
+    centre = this->special_points(cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(Vector3D const (&tab)[2][4], const std::string &s_name, const std::string &f_name, const Vector3D &vec) 
@@ -31,6 +33,7 @@ Cuboid::Cuboid(Vector3D const (&tab)[2][4], const std::string &s_name, const std
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
+    centre = this->special_points(cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(double (&tovec)[2][4][3])
@@ -264,6 +267,16 @@ Vector3D Cuboid::centre_point() const
     Vector3D point;
     point = tops[0][0] + diag*0.5;
     return point;
+}
+
+Vector3D Cuboid::special_points(Vector3D (&vecs)[2]) const
+{
+    Vector3D cen = this->centre_point();
+    Vector3D side = tops[0][1] - tops[0][0];
+    side = side * 0.5;
+    vecs[0] = cen - side;
+    vecs[1] = cen + side;
+    return cen;
 }
 
 void Cuboid::print_cuboid(std::ostream &out) const

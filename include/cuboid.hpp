@@ -21,6 +21,17 @@ private:
  */
 Vector3D tops[2][4];
 
+/*!
+ * \brief Wektor bedacy srodkiem symetrii wierzcholkow prostopadloscianu
+ */
+Vector3D centre;
+
+/*!
+ * \brief Tablica wektorow reprezentujacych punkty szczegolne prostopadloscianu:
+ *        Dwa punkty bedace przecieciami przekatnych dwoch przeciwleglych scian prostopadloscianu
+ */
+Vector3D cuts[2];
+
 public:
 
 /*!
@@ -212,6 +223,18 @@ Cuboid rotation_around_cen(Matrix3D const &mat) const;
 Vector3D centre_point() const;
 
 /*!
+ *  \brief Metoda zwracajaca punkty specjalne prostopadloscianu : cuts (czyli
+ *         te ktore sa przecieciami przekatnych dwoch przeciwleglych
+ *         scian prostopadloscianu) oraz punkt centre                                     
+ *  Argumenty:                                                                
+ *      \param[in] vecs - tablica wektorow do ktorych program zwroci wartosci                                                    
+ *  Zwraca:                                                                   
+ *     \post - metoda ustawia wartosci w polach tablicy
+ *     \return - metoda zwraca punkt centre                         
+ */
+Vector3D special_points(Vector3D (&vecs)[2]) const;
+
+/*!
  *  \brief Metoda wypisania odpowiednich wierzcholkow do pliku                                                
  *  Argumenty:                                                                
  *      \param[in] out - strumien wyjsciowy,                                                                                                
@@ -225,12 +248,28 @@ void print_cuboid(std::ostream &out) const;
  *      \param[in] out - strumien wyjsciowy,                                                                                                
  */
 void print_cuboid_weird(std::ostream &out) const;
+
+/*!
+ *  \brief Metoda wypisania odpowiednich wierzcholkow do pliku
+ *         zgodnie z zaproponowanym sposobem zadaniu dron                            
+ *  Argumenty:                                                                
+ *      \param[in] out - strumien wyjsciowy,                                                                                                
+ */
+void print_cuboid_3D(std::ostream &out) const;
+
+/*!
+ *  \brief Metoda wczytania odpowiednich wierzcholkow z pliku
+ *         zgodnie z zaproponowanym sposobem w zadaniu dron                            
+ *  Argumenty:                                                                
+ *      \param[in] out - strumien wyjsciowy,                                                                                                
+ */
+void read_cuboid_3D(std::istream &in) const;
 };
 
 /*!
- *  \brief Przeciazenie operatora <<                                                 
+ *  \brief Przeciazenie operatora << na wyjscie standardowe                                             
  *  Argumenty:                                                                
  *      \param[in] out - strumien wyjsciowy,                                             
  *      \param[in] Cub - prostopadloscian.                                                      
  */
-std::ostream &operator<<(std::ostream &out,  Cuboid const &Cub); //przeciazenie wyjscia
+std::ostream &operator<<(std::ostream &out,  Cuboid const &Cub);
