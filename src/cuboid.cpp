@@ -10,7 +10,7 @@ Cuboid::Cuboid()
         iter[i][2] = 1;
         tops[1][i] = Vector3D(iter[i]);
     }
-    centre = this->special_points(cuts); //ustawia centre point i cuts
+    this->centre = special_points(this->cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(Vector3D const (&tab)[2][4])
@@ -21,7 +21,7 @@ Cuboid::Cuboid(Vector3D const (&tab)[2][4])
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
-    centre = this->special_points(cuts); //ustawia centre point i cuts
+    this->centre = special_points(this->cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(Vector3D const (&tab)[2][4], const std::string &s_name, const std::string &f_name, const Vector3D &vec) 
@@ -33,7 +33,7 @@ Cuboid::Cuboid(Vector3D const (&tab)[2][4], const std::string &s_name, const std
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
-    centre = this->special_points(cuts); //ustawia centre point i cuts
+    this->centre = special_points(this->cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(double (&tovec)[2][4][3])
@@ -53,7 +53,7 @@ Cuboid::Cuboid(double (&tovec)[2][4][3])
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
-    centre = this->special_points(cuts); //ustawia centre point i cuts
+    this->centre = special_points(this->cuts); //ustawia centre point i cuts
 }
 
 Cuboid::Cuboid(double (&tovec)[2][4][3], const std::string &s_name, const std::string &f_name, const Vector3D &vec) 
@@ -74,7 +74,7 @@ Cuboid::Cuboid(double (&tovec)[2][4][3], const std::string &s_name, const std::s
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
-    centre = this->special_points(cuts); //ustawia centre point i cuts
+    this->centre = special_points(this->cuts); //ustawia centre point i cuts
 }
 
 bool Cuboid::check_cub() const
@@ -245,6 +245,8 @@ Cuboid Cuboid::translation(Vector3D const &tran) const
         for (j = 0; j < 4; ++j)
         {
             translated.tops[i][j] = tops[i][j] + tran;
+            translated.centre = centre + tran;
+            translated.cuts[i] = cuts[i] + tran;
         }
     }
     return translated;
@@ -259,6 +261,8 @@ Cuboid Cuboid::rotation(Matrix3D const &mat) const
         for (j = 0; j < 4; ++j)
         {
             rotated.tops[i][j] = mat.apply_matrix_to_rotation(tops[i][j]);
+            rotated.cuts[i] = mat.apply_matrix_to_rotation(cuts[i]);
+            rotated.centre = mat.apply_matrix_to_rotation(centre);
         }
     }
     return rotated;
@@ -276,6 +280,9 @@ Cuboid Cuboid::rotation_around_cen(Matrix3D const &mat) const
         {
             rotated.tops[i][j] = tops[i][j] + neg_ref;
             rotated.tops[i][j] = mat.apply_matrix_to_rotation(rotated.tops[i][j]);
+            rotated.centre = centre + neg_ref;
+            rotated.cuts[i] = cuts[i] + neg_ref;
+            rotated.cuts[i] = mat.apply_matrix_to_rotation(rotated.cuts[i]);
         }
     }
     rotated = rotated.translation(ref);
@@ -293,8 +300,9 @@ Vector3D Cuboid::centre_point() const
 
 Vector3D Cuboid::special_points(Vector3D (&vecs)[2]) const
 {
-    Vector3D cen = this->centre_point();
-    Vector3D side = tops[0][1] - tops[0][0];
+    Vector3D cen = centre_point();
+    Vector3D side = tops[0][2] - tops[0][1];
+    std::cout<<side;
     side = side * 0.5;
     vecs[0] = cen - side;
     vecs[1] = cen + side;
@@ -329,7 +337,6 @@ void Cuboid::print_cuboid(std::ostream &out) const
 
 void Cuboid::print_cuboid_weird(std::ostream &out) const
 {
-    Vector3D vec[8];
     double tab[2][4][3];
     int i,j,k;
     tops[0][0].get_vec(tab[0][0]); //W1
@@ -339,7 +346,7 @@ void Cuboid::print_cuboid_weird(std::ostream &out) const
     tops[1][3].get_vec(tab[1][0]); //W5
     tops[1][2].get_vec(tab[1][1]); //W6
     tops[1][0].get_vec(tab[1][2]); //W7
-    tops[1][1].get_vec(tab[1][3]);;//W8
+    tops[1][1].get_vec(tab[1][3]); //W8
     
     out.precision(10);
     for (i=0;i<2;++i){
@@ -358,6 +365,69 @@ void Cuboid::print_cuboid_weird(std::ostream &out) const
                 out << std::setw(10) << std::fixed << std::setprecision(10) << tab[i][j][k] << " ";
             }
             out<<std::endl;
+        }
+    }
+}
+
+void Cuboid::print_cuboid_3D(std::ostream &out) const
+{
+
+    double tab[2][4][3];
+    double cen[3];
+    double spec[2][3];
+    int i,j,k;
+    tops[0][1].get_vec(tab[0][0]); //W1
+    tops[0][2].get_vec(tab[0][1]); //W2
+    tops[0][0].get_vec(tab[0][2]); //W3
+    tops[0][3].get_vec(tab[0][3]); //W4
+    tops[1][0].get_vec(tab[1][0]); //W5
+    tops[1][3].get_vec(tab[1][1]); //W6
+    tops[1][1].get_vec(tab[1][2]); //W7
+    tops[1][2].get_vec(tab[1][3]); //W8
+    centre.get_vec(cen);
+    cuts[0].get_vec(spec[0]);
+    cuts[1].get_vec(spec[1]);
+    out.precision(10);
+    for (i=0;i<2;++i){
+        for (j=0;j<4;++j){
+            if (j==0 || j==2)
+            {
+                out << std::setw(10) << std::fixed << std::setprecision(10) << spec[0][0] << " "<< spec[0][1] << " "<< spec[0][2] << " \n";
+            }
+            /*else if (j==2 && i==1)
+            {
+                out << std::setw(10) << std::fixed << std::setprecision(10) << cen[0] << " "<< cen[1] << " "<< cen[2] << " \n";
+            }*/
+            for (k=0;k<3; ++k){
+                out << std::setw(10) << std::fixed << std::setprecision(10) << tab[i][j][k] << " ";
+            }
+            out<<std::endl;
+            if (j==1 || j==3)
+            {
+                out << std::setw(10) << std::fixed << std::setprecision(10) << spec[1][0] << " "<< spec[1][1] << " "<< spec[1][2] << " \n";
+            }
+            if(j==1 || j==3)
+                out<<std::endl;
+            
+        }
+    }
+    for (i=0;i<1;++i){
+        for (j=0;j<2;++j){
+            if (j==0 || j==2)
+            {
+                out << std::setw(10) << std::fixed << std::setprecision(10) << spec[0][0] << " "<< spec[0][1] << " "<< spec[0][2] << " \n";
+            }
+            for (k=0;k<3; ++k){
+                out << std::setw(10) << std::fixed << std::setprecision(10) << tab[i][j][k] << " ";
+            }
+            out<<std::endl;
+            if (j==1 || j==3)
+            {
+                out << std::setw(10) << std::fixed << std::setprecision(10) << spec[1][0] << " "<< spec[1][1] << " "<< spec[1][2] << " \n";
+            }
+            if(j==1 || j==3)
+                    out<<std::endl;
+            
         }
     }
 }
