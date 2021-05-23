@@ -3,8 +3,7 @@
 Prism::Prism()
 {
     int i;
-    double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5},
-                         {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+    double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
     for (i = 0; i < 6; ++i)
     {
         tops[0][i] = Vector3D(iter[i]);
@@ -25,8 +24,8 @@ Prism::Prism(Vector3D const (&tab)[2][6])
     centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 
-Prism::Prism(Vector3D const (&tab)[2][6], const std::string &s_name, const std::string &f_name, const Vector3D &vec) 
-: Block(s_name, f_name, vec)
+Prism::Prism(Vector3D const (&tab)[2][6], const std::string &s_name, const std::string &f_name, const Vector3D &vec)
+    : Block(s_name, f_name, vec)
 {
     int i;
     for (i = 0; i < 6; ++i)
@@ -57,7 +56,7 @@ Prism::Prism(double (&tovec)[2][6][3])
     centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 Prism::Prism(double (&tovec)[2][6][3], const std::string &s_name, const std::string &f_name, const Vector3D &vec)
-: Block(s_name, f_name, vec)
+    : Block(s_name, f_name, vec)
 {
     int i, j;
     Vector3D tab[2][6];
@@ -74,7 +73,7 @@ Prism::Prism(double (&tovec)[2][6][3], const std::string &s_name, const std::str
         tops[0][i] = tab[0][i];
         tops[1][i] = tab[1][i];
     }
-        centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
+    centre = this->special_points(cuts); //ustawienie centrum i specjalnych punktow
 }
 
 void Prism::get_pri(Vector3D (&tab)[2][6]) const
@@ -100,7 +99,7 @@ void Prism::get_pri(double (&tab)[2][6][3]) const
     }
 }
 
-bool Prism::operator == (const Prism &pri) const
+bool Prism::operator==(const Prism &pri) const
 {
     int i, j;
     for (i = 0; i < 2; ++i)
@@ -149,10 +148,10 @@ std::ostream &operator<<(std::ostream &out, Prism const &Pri)
 Prism Prism::translation(Vector3D const &tran) const
 {
     Prism translated;
-    int i,j;
-    for (i=0;i<2;++i)
+    int i, j;
+    for (i = 0; i < 2; ++i)
     {
-        for (j=0;j<6;++j)
+        for (j = 0; j < 6; ++j)
         {
             translated.tops[i][j] = tops[i][j] + tran;
         }
@@ -160,21 +159,37 @@ Prism Prism::translation(Vector3D const &tran) const
     return translated;
 }
 
+Prism Prism::translation_to_O() const
+{
+    Prism translated;
+    int i, j;
+    Vector3D tran = centre*(-1);
+    for (i = 0; i < 2; ++i)
+    {
+        translated.cuts[i] = cuts[i] +tran;
+        for (j = 0; j < 6; ++j)
+        {
+            translated.tops[i][j] = tops[i][j] + tran;
+        }
+    }
+    translated.centre = centre +tran;
+    return translated;
+}
+
 Prism Prism::rotation_around_cen(Matrix3D const &mat) const
 {
-    int i,j;
+    int i, j;
     Prism rotated;
-    Vector3D ref = centre;
-    Vector3D neg_ref = ref*(-1);
+    rotated = this->translation_to_O();
+
     for (i = 0; i < 2; ++i)
     {
         for (j = 0; j < 4; ++j)
         {
-            rotated.tops[i][j] = tops[i][j] + neg_ref;
             rotated.tops[i][j] = mat.apply_matrix_to_rotation(rotated.tops[i][j]);
         }
     }
-    rotated = rotated.translation(ref);
+    rotated = rotated.translation(centre);
     return rotated;
 }
 
@@ -183,7 +198,7 @@ Vector3D Prism::centre_point() const
     Vector3D diag;
     diag = tops[1][3] - tops[0][0];
     Vector3D point;
-    point = tops[0][0] + diag*0.5;
+    point = tops[0][0] + diag * 0.5;
     return point;
 }
 
@@ -195,4 +210,102 @@ Vector3D Prism::special_points(Vector3D (&vecs)[2]) const
     vecs[0] = cen - side;
     vecs[1] = cen + side;
     return cen;
+}
+
+void Prism::print_prism_3D(std::ostream &out) const
+{
+    double top[2][6][3];
+    double cut[2][3];
+
+    int i, j, k;
+    for (i = 0; i < 2; ++i)
+    {
+        cuts[i].get_vec(cut[i]);
+        for (j = 0; j < 6; ++j)
+        {
+            for (k = 0; k < 3; ++k)
+            {
+                tops[i][j].get_vec(top[i][j]);
+            }
+        }
+    }
+    out.precision(10);
+    for (j = 0; j < 6; ++j)
+    {
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << cut[1][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << top[1][j][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << top[0][j][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << cut[0][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n\n";
+    }
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << cut[1][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << top[1][0][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << top[0][0][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+        for (k = 0; k < 3; ++k)
+        {
+            out << std::setw(10) << std::fixed << std::setprecision(10) << cut[0][k] << " ";
+        }
+        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n\n";
+}
+
+Prism Prism::scale_pri() const
+{
+    int i,j;
+    Prism res;
+    res = this->translation_to_O();
+    for (i=0;i<2;++i)
+    {
+        res.cuts[i] = res.cuts[i].scale_vec(scale);
+        for(j=0;j<6;++j)
+        {   
+            res.tops[i][j] = res.tops[i][j].scale_vec(scale);
+        }
+    }
+    res.centre = res.centre.scale_vec(scale);
+    return res;
+}
+
+
+Prism Prism::scale_pri(Vector3D const &scal) const
+{
+    int i,j;
+    Prism res;
+    res = this->translation_to_O();
+    for (i=0;i<2;++i)
+    {
+        res.cuts[i] = res.cuts[i].scale_vec(scal);
+        for(j=0;j<6;++j)
+        {   
+            res.tops[i][j] = res.tops[i][j].scale_vec(scal);
+        }
+    }
+    res.centre = res.centre.scale_vec(scal);
+    return res;
 }

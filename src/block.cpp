@@ -1,10 +1,10 @@
 #include "../include/block.hpp"
 
 Block::Block()
-{ 
+{
     sample_name = "";
     final_name = "";
-    double tab[3] = {1,1,1};
+    double tab[3] = {1, 1, 1};
     Vector3D vec(tab);
     scale = vec;
 }
@@ -28,6 +28,12 @@ void Block::set_final_name(const std::string &name)
 
 void Block::set_scale(const Vector3D &vec)
 {
+    scale = vec;
+}
+
+void Block::set_scale( double(&tab)[3])
+{
+    Vector3D vec(tab);
     scale = vec;
 }
 

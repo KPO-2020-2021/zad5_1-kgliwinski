@@ -79,6 +79,16 @@ class Block
     void set_scale(const Vector3D &vec);
 
 /*!
+ *  \brief Metoda zapisujaca do klasy wektor reprezentujacy skale                                            
+ *  Argumenty:                                                                
+ *      \param[in] tab - tablica z ktorej powstanie wektor                                                  
+ *  Zwraca:                                                                   
+ *     \post Zmiana skali na te podana przez uzytkownika                                
+ */
+    void set_scale(double (&tab)[3]);
+    
+
+/*!
  *  \brief Metoda zwracajaca nazwe pliku z wzorcowa bryla                                             
  *  Argumenty:                                                                
  *      brak                                                   

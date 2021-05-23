@@ -584,79 +584,79 @@ TEST_CASE("P 4.05: Prism::special_points() 1")
      Vector3D cen = a.special_points(pts);
      double tab[3] = {0, 0, 0};
      Vector3D res(tab);
-     double one[3] = {0,0,-1};
-     double two[3] = {0,0,1};
+     double one[3] = {0, 0, -1};
+     double two[3] = {0, 0, 1};
      Vector3D one_pt(one);
      Vector3D two_pt(two);
 
-     CHECK (cen == res);
-     CHECK (one_pt == pts[0]);
-     CHECK (two_pt == pts[1]);
+     CHECK(cen == res);
+     CHECK(one_pt == pts[0]);
+     CHECK(two_pt == pts[1]);
 }
 
 TEST_CASE("P 4.06: Prism::special_points() 2")
 {
      Prism a;
-     double tran[3] = {1,2,3};
+     double tran[3] = {1, 2, 3};
      Vector3D trans(tran);
      a = a.translation(trans);
      Vector3D pts[2];
      Vector3D cen = a.special_points(pts);
      double tab[3] = {1, 2, 3};
      Vector3D res(tab);
-     double one[3] = {1,2,2};
-     double two[3] = {1,2,4};
+     double one[3] = {1, 2, 2};
+     double two[3] = {1, 2, 4};
      Vector3D one_pt(one);
      Vector3D two_pt(two);
 
-     CHECK (cen == res);
-     CHECK (one_pt == pts[0]);
-     CHECK (two_pt == pts[1]);
+     CHECK(cen == res);
+     CHECK(one_pt == pts[0]);
+     CHECK(two_pt == pts[1]);
 }
 
 TEST_CASE("P 4.07: Prism::special_points() 3")
 {
      Prism a;
-     double tran[3] = {-1,-2,-3};
+     double tran[3] = {-1, -2, -3};
      Vector3D trans(tran);
      a = a.translation(trans);
      Vector3D pts[2];
      Vector3D cen = a.special_points(pts);
      double tab[3] = {-1, -2, -3};
      Vector3D res(tab);
-     double one[3] = {-1,-2,-4};
-     double two[3] = {-1,-2,-2};
+     double one[3] = {-1, -2, -4};
+     double two[3] = {-1, -2, -2};
      Vector3D one_pt(one);
      Vector3D two_pt(two);
 
-     CHECK (cen == res);
-     CHECK (one_pt == pts[0]);
-     CHECK (two_pt == pts[1]);
+     CHECK(cen == res);
+     CHECK(one_pt == pts[0]);
+     CHECK(two_pt == pts[1]);
 }
 
 TEST_CASE("P 4.08: Prism::special_points() 4")
 {
      Prism a;
-     double tran[3] = {0.0000000001,0.0000000002,0.0000000003};
+     double tran[3] = {0.0000000001, 0.0000000002, 0.0000000003};
      Vector3D trans(tran);
      a = a.translation(trans);
      Vector3D pts[2];
      Vector3D cen = a.special_points(pts);
      double tab[3] = {0.0000000001, 0.0000000002, 0.0000000003};
      Vector3D res(tab);
-     double one[3] = {0.0000000001,0.0000000002,0.0000000002};
-     double two[3] = {0.0000000001,0.0000000002,0.0000000004};
+     double one[3] = {0.0000000001, 0.0000000002, 0.0000000002};
+     double two[3] = {0.0000000001, 0.0000000002, 0.0000000004};
      Vector3D one_pt(one);
      Vector3D two_pt(two);
 
-     CHECK (cen == res);
-     CHECK (one_pt == pts[0]);
-     CHECK (two_pt == pts[1]);
+     CHECK(cen == res);
+     CHECK(one_pt == pts[0]);
+     CHECK(two_pt == pts[1]);
 }
 
 TEST_CASE("P 5.01: Prism::rotation_around_cen() 1")
 {
-     Prism a,b;
+     Prism a, b;
      Matrix3D rot;
      for (int i = 0; i < 6; ++i)
      {
@@ -668,9 +668,9 @@ TEST_CASE("P 5.01: Prism::rotation_around_cen() 1")
 
 TEST_CASE("P 5.02: Prism::rotation_around_cen() 2")
 {
-     Prism a,b;
+     Prism a, b;
      Matrix3D rot;
-     double tab[3] = {1,2,3};
+     double tab[3] = {1, 2, 3};
      Vector3D tran(tab);
      a.translation(tran);
      for (int i = 0; i < 6; ++i)
@@ -683,9 +683,9 @@ TEST_CASE("P 5.02: Prism::rotation_around_cen() 2")
 
 TEST_CASE("P 5.03: Prism::rotation_around_cen() 3")
 {
-     Prism a,b;
+     Prism a, b;
      Matrix3D rot;
-     double tab[3] = {-1,-2,-3};
+     double tab[3] = {-1, -2, -3};
      Vector3D tran(tab);
      a.translation(tran);
      for (int i = 0; i < 6; ++i)
@@ -698,9 +698,9 @@ TEST_CASE("P 5.03: Prism::rotation_around_cen() 3")
 
 TEST_CASE("P 5.04: Prism::rotation_around_cen() 4")
 {
-     Prism a,b;
+     Prism a, b;
      Matrix3D rot;
-     double tab[3] = {-0.000001,-0.02,-0.000003};
+     double tab[3] = {-0.000001, -0.02, -0.000003};
      Vector3D tran(tab);
      a.translation(tran);
      for (int i = 0; i < 6; ++i)
@@ -711,4 +711,107 @@ TEST_CASE("P 5.04: Prism::rotation_around_cen() 4")
      }
 }
 
+TEST_CASE("P 6.01: Prism::scale_pri() 1")
+{
+     Prism a;
+     double tab[3] = {1, 1, 1};
+     a.set_scale(tab);
+     Prism b = a.scale_pri();
 
+     CHECK(a == b);
+}
+
+TEST_CASE("P 6.02: Prism::scale_pri() 2")
+{
+     Prism a;
+     double tab[3] = {100, 100, 100};
+     int i;
+     Vector3D top[2][6];
+     double iter[6][3] = {{100, 0, -50}, {50, sqrt(3) * 50, -50}, {-50, sqrt(3) * 50, -50}, {-100, 0, -50}, {-50, -sqrt(3) * 50, -50}, {50, -sqrt(3) * 50, -50}};
+     for (i = 0; i < 6; ++i)
+     {
+          top[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 50;
+          top[1][i] = Vector3D(iter[i]);
+     }
+     Prism pri(top);
+     a.set_scale(tab);
+     Prism b = a.scale_pri();
+
+     CHECK(pri == b);
+}
+
+
+
+TEST_CASE("P 6.03: Prism::scale_pri() 3")
+{
+     Prism a;
+     double tab[3] = {0.1, 0.1, 0.1};
+     int i;
+     Vector3D top[2][6];
+     double iter[6][3] = {{0.1, 0, -0.05}, {0.05, 0.1*sqrt(3) * 0.5, -0.05}, {-0.05, sqrt(3) * 0.05, -0.05}, {-0.1, 0, -0.05}, {-0.05, -sqrt(3) * 0.05, -0.05}, {0.05, -sqrt(3) * 0.05, -0.05}};
+     for (i = 0; i < 6; ++i)
+     {
+          top[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 0.05;
+          top[1][i] = Vector3D(iter[i]);
+     }
+     Prism pri(top);
+     a.set_scale(tab);
+     Prism b = a.scale_pri();
+
+     CHECK(pri == b);
+}
+
+
+TEST_CASE("P 6.04: Prism::scale_pri(Vector3D) 1")
+{
+     Prism a;
+     double tab[3] = {1, 1, 1};
+     Vector3D s(tab);
+     Prism b = a.scale_pri(s);
+
+     CHECK(a == b);
+}
+
+TEST_CASE("P 6.05: Prism::scale_pri(Vector3D) 2")
+{
+     Prism a;
+     double tab[3] = {100, 100, 100};
+     int i;
+     Vector3D top[2][6];
+     double iter[6][3] = {{100, 0, -50}, {50, sqrt(3) * 50, -50}, {-50, sqrt(3) * 50, -50}, {-100, 0, -50}, {-50, -sqrt(3) * 50, -50}, {50, -sqrt(3) * 50, -50}};
+     for (i = 0; i < 6; ++i)
+     {
+          top[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 50;
+          top[1][i] = Vector3D(iter[i]);
+     }
+     Prism pri(top);
+     Vector3D s(tab);
+     Prism b = a.scale_pri(s);
+
+     CHECK(pri == b);
+}
+
+
+
+TEST_CASE("P 6.06: Prism::scale_pri(Vector3D) 3")
+{
+     Prism a;
+     double tab[3] = {0.1, 0.1, 0.1};
+     int i;
+     Vector3D top[2][6];
+     double iter[6][3] = {{0.1, 0, -0.05}, {0.05, 0.1*sqrt(3) * 0.5, -0.05}, {-0.05, sqrt(3) * 0.05, -0.05}, {-0.1, 0, -0.05}, {-0.05, -sqrt(3) * 0.05, -0.05}, {0.05, -sqrt(3) * 0.05, -0.05}};
+     for (i = 0; i < 6; ++i)
+     {
+          top[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 0.05;
+          top[1][i] = Vector3D(iter[i]);
+     }
+     Prism pri(top);
+     Vector3D s(tab);
+     Prism b = a.scale_pri(s);;
+
+     CHECK(pri == b);
+}

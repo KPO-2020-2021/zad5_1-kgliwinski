@@ -252,6 +252,23 @@ Cuboid Cuboid::translation(Vector3D const &tran) const
     return translated;
 }
 
+Cuboid Cuboid::translation_to_O() const
+{
+    Cuboid translated;
+    int i, j;
+    Vector3D tran = centre*(-1);
+    for (i = 0; i < 2; ++i)
+    {
+        translated.cuts[i] = cuts[i] + tran;
+        for (j = 0; j < 4; ++j)
+        {
+            translated.tops[i][j] = tops[i][j] + tran;
+        }
+    }
+    translated.centre = centre + tran;
+    return translated;
+}
+
 Cuboid Cuboid::rotation(Matrix3D const &mat) const
 {
     int i, j;
@@ -272,20 +289,17 @@ Cuboid Cuboid::rotation_around_cen(Matrix3D const &mat) const
 {
     int i,j;
     Cuboid rotated;
-    Vector3D ref = centre;
-    Vector3D neg_ref = ref*(-1);
+    rotated = this->translation_to_O();
     for (i = 0; i < 2; ++i)
     {
+        rotated.cuts[i] = mat.apply_matrix_to_rotation(rotated.cuts[i]);
         for (j = 0; j < 4; ++j)
         {
-            rotated.tops[i][j] = tops[i][j] + neg_ref;
             rotated.tops[i][j] = mat.apply_matrix_to_rotation(rotated.tops[i][j]);
-            rotated.centre = centre + neg_ref;
-            rotated.cuts[i] = cuts[i] + neg_ref;
-            rotated.cuts[i] = mat.apply_matrix_to_rotation(rotated.cuts[i]);
+            rotated.centre = mat.apply_matrix_to_rotation(rotated.centre);
         }
     }
-    rotated = rotated.translation(ref);
+    rotated = rotated.translation(this->centre);
     return rotated;
 }
 
@@ -302,7 +316,6 @@ Vector3D Cuboid::special_points(Vector3D (&vecs)[2]) const
 {
     Vector3D cen = centre_point();
     Vector3D side = tops[0][2] - tops[0][1];
-    std::cout<<side;
     side = side * 0.5;
     vecs[0] = cen - side;
     vecs[1] = cen + side;
@@ -394,10 +407,6 @@ void Cuboid::print_cuboid_3D(std::ostream &out) const
             {
                 out << std::setw(10) << std::fixed << std::setprecision(10) << spec[0][0] << " "<< spec[0][1] << " "<< spec[0][2] << " \n";
             }
-            /*else if (j==2 && i==1)
-            {
-                out << std::setw(10) << std::fixed << std::setprecision(10) << cen[0] << " "<< cen[1] << " "<< cen[2] << " \n";
-            }*/
             for (k=0;k<3; ++k){
                 out << std::setw(10) << std::fixed << std::setprecision(10) << tab[i][j][k] << " ";
             }
@@ -430,4 +439,38 @@ void Cuboid::print_cuboid_3D(std::ostream &out) const
             
         }
     }
+}
+
+Cuboid Cuboid::scale_cub() const
+{
+    int i,j;
+    Cuboid res;
+    res = this->translation_to_O();
+    for (i=0;i<2;++i)
+    {
+        res.cuts[i] = res.cuts[i].scale_vec(scale);
+        for(j=0;j<4;++j)
+        {   
+            res.tops[i][j] = res.tops[i][j].scale_vec(scale);
+        }
+    }
+    res.centre = res.centre.scale_vec(scale);
+    return res;
+}
+
+Cuboid Cuboid::scale_cub(Vector3D const &scal) const
+{
+    int i,j;
+    Cuboid res;
+    res = this->translation_to_O();
+    for (i=0;i<2;++i)
+    {
+        res.cuts[i] = res.cuts[i].scale_vec(scal);
+        for(j=0;j<4;++j)
+        {   
+            res.tops[i][j] = res.tops[i][j].scale_vec(scal);
+        }
+    }
+    res.centre = res.centre.scale_vec(scal);
+    return res;
 }

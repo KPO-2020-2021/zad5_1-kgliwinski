@@ -117,7 +117,7 @@ void get_pri(double (&tab)[2][6][3]) const;
 bool operator == (const Prism &pri) const;
 
 /*!
- *  \brief Metoda przesuwajaca graniastoslup o zadany kat w 3D                                            
+ *  \brief Metoda przesuwajaca graniastoslup o zadany wektor w 3D                                            
  *  Argumenty:                                                                
  *      \param[in] trans - Vector3D                                                     
  *  Zwraca:                                                                   
@@ -125,6 +125,14 @@ bool operator == (const Prism &pri) const;
  */
 Prism translation(Vector3D const &tran) const;
 
+/*!
+ *  \brief Metoda przesuwajaca graniastoslup do srodka ukladu wspolrzednych
+ *         (tak, ze srodek graniastoslupa pokrywa sie z (0,0,0))                                            
+ *  Argumenty:                                                                                                               
+ *  Zwraca:                                                                   
+ *     \param[out] translated - graniastoslup po operacji przesuniecia                                
+ */
+Prism translation_to_O() const;
 
 /*!
  *  \brief Metoda obracajaca graniastoslup o zadany kat w 3D wokol srodka figury                                      
@@ -162,6 +170,29 @@ Vector3D centre_point() const;
  *     \return - metoda zwraca punkt centre                         
  */
 Vector3D special_points(Vector3D (&vecs)[2]) const;
+
+/*!
+ *  \brief Metoda wypisania odpowiednich wierzcholkow do pliku
+ *         zgodnie z zaproponowanym sposobem zadaniu dron                            
+ *  Argumenty:                                                                
+ *      \param[in] out - strumien wyjsciowy,                                                                                                
+ */
+void print_prism_3D(std::ostream &out) const;
+
+/*!
+ *  \brief Metoda skalujaca o wektor scale bedacy
+ *         czlonkiem klasy block                         
+ *  
+ *   \return zwraca zeskalowany graniastoslup                                                                                               
+ */
+Prism scale_pri() const;
+
+/*!
+ *  \brief Metoda skalujaca o wektor scal podany na wejsciu                         
+ *  Argumenty:                                                                
+ *      \param[in] scal - wektor o ktory chcemy skalowac,                                                                                                
+ */
+Prism scale_pri(Vector3D const &scal) const;
 };
 
 

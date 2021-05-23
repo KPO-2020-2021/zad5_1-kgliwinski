@@ -206,6 +206,14 @@ bool operator == (const Cuboid &cub) const;
 Cuboid translation(Vector3D const &tran) const;
 
 /*!
+ *  \brief Metoda przesuwajaca prostopadloscian do (0,0,0)                                            
+ *  Argumenty:                                                                                                                     
+ *  Zwraca:                                                                   
+ *     \param[out] translated - prostopadloscian po operacji przesuniecia                                
+ */
+Cuboid translation_to_O() const;
+
+/*!
  *  \brief Metoda obracajaca prostopadloscian o zadany kat w 3D                                            
  *  Argumenty:                                                                
  *      \param[in] mat - macierz obrotu                                                     
@@ -278,6 +286,10 @@ void print_cuboid_3D(std::ostream &out) const;
  *      \param[in] out - strumien wyjsciowy,                                                                                                
  */
 void read_cuboid_3D(std::istream &in) const;
+
+Cuboid scale_cub() const;
+
+Cuboid scale_cub(Vector3D const &scal) const;
 };
 
 /*!

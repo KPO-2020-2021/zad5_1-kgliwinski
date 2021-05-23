@@ -113,6 +113,16 @@ public:
  */
     bool operator == (const Vector &v) const;
 
+/*!
+ *  \brief Skaluje wektor o inny wektors                                     
+ *  Argumenty:                                                               
+ *      \param[in] vec - wektor przez ktory ma zostac przeskalowany
+ *                       obiekt                                          
+ *  Zwraca:                                                                  
+ *     \return - przeskalowany wektor                                                        
+ */
+    Vector scale_vec(const Vector &vec) const;
+
     Vector rotate(const type &theta) const; //2D rotation
 
 /*!
@@ -161,6 +171,7 @@ public:
  *      \param[out] Vector - Wartosc wektora w danym miejscu tablicy.                             
  */
     type &operator [] (unsigned int index);
+
 
 /*!
  *  \brief Iloczyn skalarny wektorow                                                        

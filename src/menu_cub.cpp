@@ -45,7 +45,7 @@ void Menu_cub::print_side_len(Cuboid const &cub) const
     double lens[3][2];
     cub.get_vec_len(lens);
 
-    if (abs(lens[0][0] - lens[0][1]) <=0.00000000001)
+    if (abs(lens[0][0] - lens[0][1]) <= 0.00000000001)
         std::cout << "\nDluzsze przeciwlegle boki sa sobie rowne\n";
     else
         std::cout << "\n !!! Dluzsze przeciwlegle boki nie sa sobie rowne\n";
@@ -53,14 +53,14 @@ void Menu_cub::print_side_len(Cuboid const &cub) const
     std::cout << "Dlugosc pierwszego boku: " << lens[0][0] << "\n";
     std::cout << "Dlugosc trzeciego boku: " << lens[0][1] << "\n";
 
-    if (abs(lens[1][0] - lens[1][1])<=0.00000000001)
+    if (abs(lens[1][0] - lens[1][1]) <= 0.00000000001)
         std::cout << "\nKrotsze przeciwlegle boki sa sobie rowne\n";
     else
         std::cout << "\n !!! Krotsze przeciwlegle boki nie sa sobie rowne\n";
 
     std::cout << "Dlugosc pierwszego boku: " << lens[1][0] << "\n";
     std::cout << "Dlugosc trzeciego boku: " << lens[1][1] << "\n";
-    if (abs(lens[2][0] - lens[2][1]) <=0.00000000001)
+    if (abs(lens[2][0] - lens[2][1]) <= 0.00000000001)
         std::cout << "\nPoprzeczne przeciwlegle boki sa sobie rowne\n";
     else
         std::cout << "\n !!! Poprzeczne przeciwlegle boki nie sa sobie rowne\n";
@@ -93,7 +93,7 @@ void Menu_cub::switch_menu(const char &oper, Cuboid &cub)
     {
         Vector3D ref;
         ref = cub.centre_point();
-        std::cout << " Srodek prostopadloscianu przed obrotem: "<<ref<<"\n";
+        std::cout << " Srodek prostopadloscianu przed obrotem: " << ref << "\n";
         std::cout << "   Podaj sekwencje oznaczen oraz katy obrotu w stopniach. Wejscie typu 'axis angle'\n";
         std::cout << "   !!! Aby zakonczyc wczytywanie wpisz: '. 1' !!!\n";
         Matrix3D rot_mat;
@@ -108,7 +108,7 @@ void Menu_cub::switch_menu(const char &oper, Cuboid &cub)
         Print_to_gnuplot(cub);
         assert(cub);
         ref = cub.centre_point();
-        std::cout << " Srodek prostopadloscianu po obrocie: "<<ref<<"\n";
+        std::cout << " Srodek prostopadloscianu po obrocie: " << ref << "\n";
         break;
     }
 
@@ -153,6 +153,22 @@ void Menu_cub::switch_menu(const char &oper, Cuboid &cub)
         break;
     }
 
+    case 'g':
+    {
+        int i;
+        Vector3D top[2][6];
+        double iter[6][3] = {{100, 0, -50}, {50, sqrt(3) * 50, -50}, {-50, sqrt(3) * 50, -50}, {-100, 0, -50}, {-50, -sqrt(3) * 50, -50}, {50, -sqrt(3) * 50, -50}};
+        for (i = 0; i < 6; ++i)
+        {
+            top[0][i] = Vector3D(iter[i]);
+            iter[i][2] = 50;
+            top[1][i] = Vector3D(iter[i]);
+        }
+        Prism pri(top);
+        Print_to_gnuplot(pri);
+        break;
+    }
+
     case 'k':
     {
         std::cout << "Koniec dzialania programu\n";
@@ -169,15 +185,15 @@ void Menu_cub::switch_menu(const char &oper, Cuboid &cub)
     case 'h':
     {
         Matrix4D mat;
-        double a,b,g;
+        double a, b, g;
         Vector3D trans;
-        std::cout<<"Podaj katy alpha, beta, gamma > ";
-        std::cin>>a>>b>>g;
-        std::cout<<"Podaj wartosci wektora translacji. Wejscie typu: 'x y z' > ";
-        std::cin>>trans;
+        std::cout << "Podaj katy alpha, beta, gamma > ";
+        std::cin >> a >> b >> g;
+        std::cout << "Podaj wartosci wektora translacji. Wejscie typu: 'x y z' > ";
+        std::cin >> trans;
 
-        mat.rotate_and_translate(a,b,g,trans);
-        std::cout<<mat<<std::endl;
+        mat.rotate_and_translate(a, b, g, trans);
+        std::cout << mat << std::endl;
     }
     }
 }
@@ -231,6 +247,7 @@ void Menu_cub::show_menu()
     std::cout << "  s - sprawdzenie dlugosci przeciwleglych bokow\n";
     std::cout << "  m - wyswietl menu\n";
     std::cout << "  h - MODYFIKACJA: tworzenie i wyswietlanie lacznej macierzy obrotu i translacji\n";
+    std::cout << "  g - wyswietl graniastoslup\n";
     std::cout << "  k - koniec dzialania programu\n\n";
 }
 
@@ -263,6 +280,41 @@ void Menu_cub::Print_to_gnuplot(Cuboid const &cub)
     Lacze.ZmienTrybRys(PzG::TR_3D);
     cub.print_cuboid_3D(std::cout);
     if (!this->CuboidToFile("../datasets/cuboid.dat", cub))
+        std::cerr << "ERROR" << std::endl;
+    Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
+    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    std::cin.ignore(100000, '\n');
+}
+
+bool Menu_cub::PrismToFile(const char *filename, Prism const &pri)
+{
+    std::ofstream filestrm;
+
+    filestrm.open(filename);
+    if (!filestrm.is_open())
+    {
+        std::cerr << ":(  Operacja otwarcia do zapisu \"" << filename << "\"" << std::endl
+                  << ":(  nie powiodla sie." << std::endl;
+        return false;
+    }
+    std::ostringstream out;
+    pri.print_prism_3D(filestrm);
+
+    filestrm.close();
+    return !filestrm.fail();
+}
+
+void Menu_cub::Print_to_gnuplot(Prism const &pri)
+{
+    PzG::LaczeDoGNUPlota Lacze; // Ta zmienna jest potrzebna do wizualizacji
+
+    Lacze.DodajNazwePliku("../datasets/prism.dat", PzG::SR_Ciagly);
+
+    Lacze.DodajNazwePliku("../datasets/prism.dat", PzG::SR_Punktowy);
+
+    Lacze.ZmienTrybRys(PzG::TR_3D);
+    pri.print_prism_3D(std::cout);
+    if (!this->PrismToFile("../datasets/prism.dat", pri))
         std::cerr << "ERROR" << std::endl;
     Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;

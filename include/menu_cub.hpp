@@ -1,7 +1,9 @@
+#pragma once
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
 #include "cuboid.hpp"
+#include "prism.hpp"
 #include "lacze_do_gnuplota.hpp"
 #include "matrix4D.hpp"
 
@@ -92,4 +94,22 @@ void show_menu();
  *      \param[in] cub - wyswietlany prostopadloscian
  */
     void Print_to_gnuplot(Cuboid const &cub);
+
+/*!
+ * \brief Wyswietla graniastoslup w GNUplocie
+ *  Argumenty:
+ *      \param[in] pri - wyswietlany graniastoslup
+ */
+    void Print_to_gnuplot(Prism const &pri);
+
+/*!
+ * Przyklad zapisu wspolrzednych zbioru punktow do pliku, z ktorego
+ * dane odczyta program gnuplot i narysuje je w swoim oknie graficznym.
+ * \param[in] filename - nazwa pliku, do którego zostana zapisane
+ *                          wspolrzędne punktów.
+ * \param[in] pri - wyswietlany graniastoslup
+ * \retval true - gdy operacja zapisu powiodła się,
+ * \retval false - w przypadku przeciwnym.
+ */
+    bool PrismToFile(const char *filename, Prism const &pri);
 };

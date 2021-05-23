@@ -40,7 +40,7 @@ int main()
     tops[0][i] = Vector3D(iter1[i]);
     tops[1][i] = Vector3D(iter2[i]);
   }
-    Cuboid cub(tops);
+  Cuboid cub(tops);
   menu.init_menu(tops);
 
 
