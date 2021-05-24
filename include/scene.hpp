@@ -12,9 +12,12 @@
  *         obslugujacej zapis do plikow i wytswietlanie w gnuplocie
  */
 
-
+/*!
+ *  \class Scene
+ *  \brief Opisuje scene w 3D w ktorej poruszaja sie drony
+ */
 class Scene
 {
-    Prism a;
-    
+    Drone a;
+
 };

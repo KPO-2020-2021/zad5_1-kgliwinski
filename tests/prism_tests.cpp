@@ -815,3 +815,186 @@ TEST_CASE("P 6.06: Prism::scale_pri(Vector3D) 3")
 
      CHECK(pri == b);
 }
+
+TEST_CASE("P 7.01 [ASERCJE]: Prism get_vec_ver() i check_vec_ver() 1")
+{
+     Prism a;
+     int i;
+     Vector3D tab[6];
+     a.get_vec_ver(tab);
+     double tab_res[3] = {0,0,1};
+     Vector3D res[6];
+     for (i=0;i<6;++i)
+     {
+          res[i] = Vector3D(tab_res);
+     }
+
+     for (i=0;i<6;++i)
+     {
+          CHECK (res[i] == tab[i]);
+     }
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.02 [ASERCJE]: Prism get_vec_ver() i check_vec_ver() 2")
+{
+     Prism a;
+     int i;
+     Vector3D tab[6];
+     double trans[3] = {124,124124,12343};
+     a = a.translation(Vector3D(trans));
+     a.get_vec_ver(tab);
+     double tab_res[3] = {0,0,1};
+     Vector3D res[6];
+     for (i=0;i<6;++i)
+     {
+          res[i] = Vector3D(tab_res);
+     }
+
+     for (i=0;i<6;++i)
+     {
+          CHECK (res[i] == tab[i]);
+     }
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.03 [ASERCJE]: Prism get_vec_ver() i check_vec_ver() 3")
+{
+     Prism a;
+     int i;
+     Vector3D tab[6];
+     double trans[3] = {124,124124,12343};
+     a = a.translation(Vector3D(trans));
+     Matrix3D rot;
+     rot = rot.rotation_matrix(60, 'x');
+     a = a.rotation_around_cen(rot);
+     a.get_vec_ver(tab);
+     double tab_res[3] = {0,0,1};
+     Vector3D res[6];
+     for (i=0;i<6;++i)
+     {
+          res[i] = Vector3D(tab_res);
+     }
+
+     for (i=0;i<6;++i)
+     {
+          CHECK (res[i] == tab[i]);
+     }
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.04 [ASERCJE]: Prism get_vec_ver() i check_vec_ver() 4")
+{
+     Prism a;
+     double scale_tab[3] = {100,100,100};
+     a.set_scale(scale_tab);
+     a = a.scale_pri();
+     int i;
+     Vector3D tab[6];
+     double trans[3] = {124,124124,12343};
+     a = a.translation(Vector3D(trans));
+     Matrix3D rot;
+
+     a.get_vec_ver(tab);
+     double tab_res[3] = {0,0,100};
+     Vector3D res[6];
+     for (i=0;i<6;++i)
+     {
+          res[i] = Vector3D(tab_res);
+     }
+
+     for (i=0;i<6;++i)
+     {
+          CHECK (res[i] == tab[i]);
+     }
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.05 [ASERCJE]: Prism get_vec_ver() i check_vec_ver() 5")
+{
+     Prism a;
+     double scale_tab[3] = {100,100,300};
+     a.set_scale(scale_tab);
+     a = a.scale_pri();
+     int i;
+     Vector3D tab[6];
+     double trans[3] = {124,124124,12343};
+     a = a.translation(Vector3D(trans));
+     Matrix3D rot;
+
+     a.get_vec_ver(tab);
+     double tab_res[3] = {0,0,300};
+     Vector3D res[6];
+     for (i=0;i<6;++i)
+     {
+          res[i] = Vector3D(tab_res);
+     }
+
+     for (i=0;i<6;++i)
+     {
+          CHECK (res[i] == tab[i]);
+     }
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.06 [ASERCJE]: check_vec_ver() 1 - with rotation")
+{
+     Prism a;
+     double scale_tab[3] = {100,100,300};
+     a.set_scale(scale_tab);
+     a = a.scale_pri();
+     Vector3D tab[6];
+     double trans[3] = {124,124124,12343};
+     a = a.translation(Vector3D(trans));
+     Matrix3D rot;
+     rot = rot.rotation_matrix(60, 'x');
+     a = a.rotation_around_cen(rot);
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.07 [ASERCJE]: check_vec_ver() 2 - with rotation")
+{
+     Prism a;
+     double scale_tab[3] = {1410,1245,300};
+     a.set_scale(scale_tab);
+     a = a.scale_pri();
+     Vector3D tab[6];
+     double trans[3] = {-124,124124,-12343};
+     a = a.translation(Vector3D(trans));
+     Matrix3D rot;
+     rot = rot.rotation_matrix(60, 'x');
+     rot = rot.rotation_matrix(0, 'y');
+     a = a.rotation_around_cen(rot);
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.08 [ASERCJE]: check_vec_ver() 3 - with rotation")
+{
+     Prism a;
+     double scale_tab[3] = {100,1251,300};
+     a.set_scale(scale_tab);
+     a = a.scale_pri();
+     Vector3D tab[6];
+     double trans[3] = {124,124124,12343};
+     a = a.translation(Vector3D(trans));
+     Matrix3D rot;
+     rot = rot.rotation_matrix(60, 'x');
+     rot = rot * rot.rotation_matrix(1241, 'y');
+     rot = rot * rot.rotation_matrix(-27163, 'z');
+     a = a.rotation_around_cen(rot);
+     CHECK (a.check_vec_ver());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.09 [ASERCJE]: get_vec_pairs() 1")
+{
+     Prism a;
+     
+}

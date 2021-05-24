@@ -100,6 +100,7 @@ Cuboid(double (&tovec)[2][4][3], const std::string &s_name, const std::string &f
  */
 bool check_cub() const;
 
+
 /*!
  *  \brief Zwraca do tablicy 3x2 wektory reprezentujace
  *              przeciwne boki prostopadloscianu                                           
@@ -287,8 +288,21 @@ void print_cuboid_3D(std::ostream &out) const;
  */
 void read_cuboid_3D(std::istream &in) const;
 
+/*!
+ *  \brief Metoda skalujaca o wektor scale bedacy
+ *         czlonkiem klasy block                         
+ *  
+ *   \return zwraca zeskalowany prostopadloscian                                                                                               
+ */
 Cuboid scale_cub() const;
 
+/*!
+ *  \brief Metoda skalujaca o wektor scal podany na wejsciu                         
+ *  Argumenty:                                                                
+ *      \param[in] scal - wektor o ktory chcemy skalowac
+ * 
+ *      \return zwraca zeskalowany prostopadloscian                                                                                                
+ */
 Cuboid scale_cub(Vector3D const &scal) const;
 };
 

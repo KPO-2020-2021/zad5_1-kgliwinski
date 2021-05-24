@@ -151,11 +151,13 @@ Prism Prism::translation(Vector3D const &tran) const
     int i, j;
     for (i = 0; i < 2; ++i)
     {
+        translated.cuts[i] = cuts[i] + tran;
         for (j = 0; j < 6; ++j)
         {
             translated.tops[i][j] = tops[i][j] + tran;
         }
     }
+    translated.centre = centre + tran;
     return translated;
 }
 
@@ -184,7 +186,8 @@ Prism Prism::rotation_around_cen(Matrix3D const &mat) const
 
     for (i = 0; i < 2; ++i)
     {
-        for (j = 0; j < 4; ++j)
+        rotated.cuts[i] = mat.apply_matrix_to_rotation(rotated.cuts[i]);
+        for (j = 0; j < 6; ++j)
         {
             rotated.tops[i][j] = mat.apply_matrix_to_rotation(rotated.tops[i][j]);
         }
@@ -308,4 +311,53 @@ Prism Prism::scale_pri(Vector3D const &scal) const
     }
     res.centre = res.centre.scale_vec(scal);
     return res;
+}
+
+bool Prism::check_pri()
+{
+    if (!(check_vec_ver()))
+        return 0;
+    return 1;
+}
+
+void Prism::get_vec_ver(Vector3D (&vecs) [6]) const
+{
+    int i;
+    for (i=0;i<6;++i)
+    {
+        vecs[i] = tops[1][i] - tops[0][i];
+    }
+}
+
+bool Prism::check_vec_ver() const
+{
+    Vector3D ver[6];
+    get_vec_ver(ver);
+    int i;
+    for (i=0;i<5;++i)
+    {
+        if(!(ver[i] == ver[i+1]))
+            return 0;
+    }
+    return 1;
+}
+
+void Prism::get_vec_pairs(Vector3D (&vecs) [2][3][2]) const
+{
+    int i,j;
+    for (i=0;i<2;++i)
+    {
+        for (j=0;j<2;++j)
+        {
+            vecs[i][j][0] = tops[i][j + 1] - tops[i][j];
+            vecs[i][j][1] = tops[i][j + 4] - tops[i][j + 3];
+        }
+        vecs[i][2][0] = tops[i][3] - tops[i][2];
+        vecs[i][2][1] = tops[i][0] - tops[i][5];
+    }
+}
+
+bool Prism::check_vec_pairs() const
+{
+    return 1;
 }

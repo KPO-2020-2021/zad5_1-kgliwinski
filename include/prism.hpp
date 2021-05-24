@@ -107,6 +107,60 @@ void get_pri(Vector3D (&tab)[2][6]) const;
 void get_pri(double (&tab)[2][6][3]) const;
 
 /*!
+ *  \brief Sprawdza czy graniastoslup jest poprawnie zbudowany                                            
+ *  Argumenty:                                                                                                                    
+ *  Zwraca:                                                                   
+ *     \retval true - jest poprawny
+ *     \retval false - nie jest poprawny                                   
+ */
+bool check_pri();
+
+/*!
+ *  \brief Metoda zwracajaca do tablicy wektorow
+ *         wektory "pionowe" graniastoslupa
+ *         (czyli te ktore sa wzgledem siebie rownolegle
+ *          i lacza ze soba wierzcholki podstaw)                                           
+ *  Argumenty:  
+ *      \param[in] vecs - tablica 6 wektorow na 6 kolejnych zwracanych
+ *                        odcinkow zwracanych przez metode                                                                                                                  
+ *  Zwraca:                                                                   
+ *     \post przypisuje polom tablicy odpowiednie wektory graniastoslupa                                  
+ */
+void get_vec_ver(Vector3D (&vecs) [6]) const;
+
+/*!
+ *  \brief Metoda sprawdzajaca czy wektory zwrocone przez get_vec_ver()
+ *         sa rowne                                                                                                                                                         
+ *  Zwraca:                                                                   
+ *     \retval true - jesli sa rowne
+ *     \retval false - jesli nie sa rowne                                
+ */
+bool check_vec_ver() const;
+
+/*!
+ *  \brief Metoda zwracajaca do tablicy wektorow
+ *         wektory "przeciwlegle" obydwoch podstaw graniastoslupa:
+ *         Dla 2 podstaw -> 3 pary -> 2 wektory                                          
+ *  Argumenty:  
+ *      \param[in] vecs - tablica 2x3x2 wektorow na 12 kolejnych zwracanych
+ *                        par odcinkow zwracanych przez metode                                                                                                                  
+ *  Zwraca:                                                                   
+ *     \post przypisuje polom tablicy odpowiednie wektory graniastoslupa                                  
+ */
+void get_vec_pairs(Vector3D (&vecs) [2][3][2]) const;
+
+/*!
+ *  \brief Metoda sprawdzajaca czy wektory zwrocone przez get_vec_opp()
+ *         sa parami rowne. Ponadto sprawdza tez rownosc dla przeciwleglych
+ *         podstaw graniastoslupa.                                                                                                                                                     
+ *  Zwraca:                                                                   
+ *     \retval true - jesli sa rowne
+ *     \retval false - jesli nie sa rowne                                
+ */
+bool check_vec_pairs() const;
+
+
+/*!
  *  \brief Przeciazenie operatora == dla klasy Prism                                               
  *  Argumenty:                                                                
  *      \param[in] pri - porownywany Prism                                             
@@ -190,7 +244,9 @@ Prism scale_pri() const;
 /*!
  *  \brief Metoda skalujaca o wektor scal podany na wejsciu                         
  *  Argumenty:                                                                
- *      \param[in] scal - wektor o ktory chcemy skalowac,                                                                                                
+ *      \param[in] scal - wektor o ktory chcemy skalowac,    
+ *  
+ *      \return zwraca zeskalowany graniastoslup                                                                                              
  */
 Prism scale_pri(Vector3D const &scal) const;
 };

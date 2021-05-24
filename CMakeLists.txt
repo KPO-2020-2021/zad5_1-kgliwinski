@@ -43,7 +43,8 @@ set(SOURCES          # All .cpp files in src/
     src/menu_cub.cpp
     src/prism.cpp
     src/block.cpp
-
+    src/drone.cpp
+    src/scene.cpp
 
 )
 set(TESTFILES        # All .cpp files in tests/

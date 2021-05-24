@@ -1,3 +1,4 @@
+#pragma once
 #include "prism.hpp"
 #include "cuboid.hpp"
 
@@ -8,6 +9,11 @@
  *         budowanie i przemieszczanie go
  */
 
+
+/*!
+ *  \class Drone
+ *  \brief Opisuje drona o prostopadlosciennym korpusie i 4 rotorach
+ */
 class Drone
 {
 /*!

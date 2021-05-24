@@ -13,6 +13,7 @@
 #include"../include/matrix4D.hpp"
 #include"../include/vector2D.hpp"
 #include "../include/menu_cub.hpp"
+#include "scene.hpp"
 #include "exampleConfig.h"
 
 
