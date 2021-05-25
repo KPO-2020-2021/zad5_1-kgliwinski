@@ -12,7 +12,7 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bsamseth/cpp-project.svg)](http://isitmaintained.com/project/bsamseth/cpp-project "Percentage of issues still open")
 # Dron faza 1
 
-![Cuboid in 3D](../readme_pics/cuboid3D.png)
+![Cuboid in 3D](/readme_pics/cuboid3D.png)
 
 ## Building
 
