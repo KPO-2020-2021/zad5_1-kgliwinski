@@ -995,9 +995,82 @@ TEST_CASE("P 7.08 [ASERCJE]: check_vec_ver() 3 - with rotation")
 
 TEST_CASE("P 7.09 [ASERCJE]: get_vec_pairs() i check_vec_pairs 1")
 {
+     int i,j;
      Prism a;
      Vector3D vec[2][3][2];
      a.get_vec_pairs(vec);
+     Vector3D tmp[3];
+     double tab[3][3] = {{-0.5,sqrt(3)*0.5,0},{-1,0,0},{-0.5,-sqrt(3)*0.5,0}};
+     for (i=0;i<3;++i)
+     {
+          tmp[i] = Vector3D(tab[i]);
+     }
+     for(i=0;i<2;++i)
+    {
+        for(j=0;j<3;++j)
+        {
+            CHECK(vec[i][j][0] == tmp[j]);
+            CHECK(vec[i][j][1] == tmp[j]*(-1));
+        }
+    }
+     CHECK (a.check_vec_pairs());
+     CHECK (a.check_pri());
+}
 
-     
+TEST_CASE("P 7.10 [ASERCJE]: get_vec_pairs() i check_vec_pairs 2")
+{
+     int i,j;
+     Prism a;
+     double tr[3] = {131224,4124.124,-2414};
+     Vector3D trans(tr);
+     a = a.translation(trans);
+     Vector3D vec[2][3][2];
+     a.get_vec_pairs(vec);
+     Vector3D tmp[3];
+     double tab[3][3] = {{-0.5,sqrt(3)*0.5,0},{-1,0,0},{-0.5,-sqrt(3)*0.5,0}};
+     for (i=0;i<3;++i)
+     {
+          tmp[i] = Vector3D(tab[i]);
+     }
+     for(i=0;i<2;++i)
+    {
+        for(j=0;j<3;++j)
+        {
+            CHECK(vec[i][j][0] == tmp[j]);
+            CHECK(vec[i][j][1] == tmp[j]*(-1));
+        }
+    }
+     CHECK (a.check_vec_pairs());
+     CHECK (a.check_pri());
+}
+
+TEST_CASE("P 7.11 [ASERCJE]: get_vec_pairs() i check_vec_pairs 3")
+{
+     int i,j;
+     Prism a;
+     double tr[3] = {131224,4124.124,-2414};
+     Vector3D trans(tr);
+     a = a.translation(trans);
+     Matrix3D rot;
+     rot = rot.rotation_matrix(60, 'x');
+     rot = rot.rotation_matrix(0, 'y');
+     a = a.rotation_around_cen(rot);
+     Vector3D vec[2][3][2];
+     a.get_vec_pairs(vec);
+     Vector3D tmp[3];
+     double tab[3][3] = {{-0.5,sqrt(3)*0.5,0},{-1,0,0},{-0.5,-sqrt(3)*0.5,0}};
+     for (i=0;i<3;++i)
+     {
+          tmp[i] = Vector3D(tab[i]);
+     }
+     for(i=0;i<2;++i)
+    {
+        for(j=0;j<3;++j)
+        {
+            CHECK(vec[i][j][0] == tmp[j]);
+            CHECK(vec[i][j][1] == tmp[j]*(-1));
+        }
+    }
+     CHECK (a.check_vec_pairs());
+     CHECK (a.check_pri());
 }

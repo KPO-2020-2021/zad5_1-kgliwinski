@@ -315,7 +315,7 @@ Prism Prism::scale_pri(Vector3D const &scal) const
 
 bool Prism::check_pri()
 {
-    if (!(check_vec_ver()))
+    if (!(check_vec_ver() && check_vec_pairs()))
         return 0;
     return 1;
 }
@@ -368,7 +368,7 @@ bool Prism::check_vec_pairs() const
         {
             if(!(par[i][j][0] == par[i][j][1]*(-1)))
                 return 0;
-            if (!(par[0][j][i] == par[1][j][i]*(-1)))
+            if (!(par[0][j][i] == par[1][j][i]))
                 return 0;
         }
     }

@@ -12,6 +12,8 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bsamseth/cpp-project.svg)](http://isitmaintained.com/project/bsamseth/cpp-project "Percentage of issues still open")
 # Dron faza 1
 
+Below it is shown how the programme declares 3D geometric figures.
+
 ## Cuboid
 
 This is how (default) cuboid looks like in the project: (made using [Geogebra](https://www.geogebra.org/3d?lang=pl))
