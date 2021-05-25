@@ -359,5 +359,18 @@ void Prism::get_vec_pairs(Vector3D (&vecs) [2][3][2]) const
 
 bool Prism::check_vec_pairs() const
 {
+    Vector3D par[2][3][2];
+    get_vec_pairs(par);
+    int i,j;
+    for(i=0;i<2;++i)
+    {
+        for(j=0;j<3;++j)
+        {
+            if(!(par[i][j][0] == par[i][j][1]*(-1)))
+                return 0;
+            if (!(par[0][j][i] == par[1][j][i]*(-1)))
+                return 0;
+        }
+    }
     return 1;
 }

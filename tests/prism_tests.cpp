@@ -993,8 +993,11 @@ TEST_CASE("P 7.08 [ASERCJE]: check_vec_ver() 3 - with rotation")
      CHECK (a.check_pri());
 }
 
-TEST_CASE("P 7.09 [ASERCJE]: get_vec_pairs() 1")
+TEST_CASE("P 7.09 [ASERCJE]: get_vec_pairs() i check_vec_pairs 1")
 {
      Prism a;
+     Vector3D vec[2][3][2];
+     a.get_vec_pairs(vec);
+
      
 }
