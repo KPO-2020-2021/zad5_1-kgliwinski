@@ -14,13 +14,13 @@
 
 ## Cuboid
 
-This is how (default) cuboid looks like in the project: (made using ![Geogebra](https://www.geogebra.org/3d?lang=pl))
+This is how (default) cuboid looks like in the project: (made using [Geogebra](https://www.geogebra.org/3d?lang=pl))
 
 ![Cuboid in 3D](/readme_pics/cuboid3D.png)
 
 ## Prism
 
-This is how (default) prism looks like in the project: (made using ![Geogebra](https://www.geogebra.org/3d?lang=pl))
+This is how (default) prism looks like in the project: (made using [Geogebra](https://www.geogebra.org/3d?lang=pl))
 
 ![Prism in 3D](/readme_pics/prism3D.png)
 
