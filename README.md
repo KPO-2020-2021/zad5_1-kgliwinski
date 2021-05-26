@@ -41,4 +41,20 @@ Example:
 > make coverage  # Generate a coverage report.
 > make doc       # Generate html documentation.
 ```
+## Tests
 
+Tests are made using doctests.
+There are two different ways to initiate tests:
+``` bash
+> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
+> make
+> ./unit_tests
+```
+OR:
+``` bash
+> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
+> make fulltest
+```
+
+*Important note:* there are problems while using _make fulltest_ command. Tests that write data to _.dat_ files will be shown as failed while using this command.
+In case _./unit_tests_ is used, all tests have success status. The problematic tests have also been done manually and everything seems to work good.
