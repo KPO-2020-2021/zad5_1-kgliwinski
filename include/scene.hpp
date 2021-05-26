@@ -2,8 +2,10 @@
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
+#include <unistd.h>
 #include "drone.hpp"
 #include "lacze_do_gnuplota.hpp"
+
 
 constexpr int SIZE = 2;
 

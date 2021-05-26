@@ -169,6 +169,22 @@ void Menu_cub::switch_menu(const char &oper, Cuboid &cub)
         break;
     }
 
+    case 'a':
+    {
+        int i;
+        Vector3D top[2][6];
+        double iter[6][3] = {{100, 0, -50}, {50, sqrt(3) * 50, -50}, {-50, sqrt(3) * 50, -50}, {-100, 0, -50}, {-50, -sqrt(3) * 50, -50}, {50, -sqrt(3) * 50, -50}};
+        for (i = 0; i < 6; ++i)
+        {
+            top[0][i] = Vector3D(iter[i]);
+            iter[i][2] = 50;
+            top[1][i] = Vector3D(iter[i]);
+        }
+        Prism pri(top);
+        Print_to_gnuplot_animation(pri);
+        break;
+    }
+
     case 'k':
     {
         std::cout << "Koniec dzialania programu\n";
@@ -248,6 +264,7 @@ void Menu_cub::show_menu()
     std::cout << "  m - wyswietl menu\n";
     std::cout << "  h - MODYFIKACJA: tworzenie i wyswietlanie lacznej macierzy obrotu i translacji\n";
     std::cout << "  g - wyswietl graniastoslup\n";
+    std::cout << "  a - animacja obrotu\n";
     std::cout << "  k - koniec dzialania programu\n\n";
 }
 
@@ -316,6 +333,33 @@ void Menu_cub::Print_to_gnuplot(Prism const &pri)
     pri.print_prism_3D(std::cout);
     if (!this->PrismToFile("../datasets/prism.dat", pri))
         std::cerr << "ERROR" << std::endl;
+    Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
+    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    std::cin.ignore(100000, '\n');
+}
+
+void Menu_cub::Print_to_gnuplot_animation(Prism  &pri)
+{
+    PzG::LaczeDoGNUPlota Lacze; // Ta zmienna jest potrzebna do wizualizacji
+
+    Lacze.DodajNazwePliku("../datasets/prism.dat", PzG::SR_Ciagly);
+
+    Lacze.DodajNazwePliku("../datasets/prism.dat", PzG::SR_Punktowy);
+
+    Lacze.ZmienTrybRys(PzG::TR_3D);
+    pri.print_prism_3D(std::cout);
+    Matrix3D mat;
+    mat = mat.rotation_matrix(0.1, 'x');
+    mat = mat.rotation_matrix(0.1, 'y') * mat;
+    int i;
+    for (i=0;i<1000000;++i)
+    {
+        if (!this->PrismToFile("../datasets/prism.dat", pri))
+            std::cerr << "ERROR" << std::endl;
+        usleep(1000); // 0.1 ms
+        Lacze.Rysuj();
+        pri = pri.rotation_around_cen(mat);
+    }
     Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');

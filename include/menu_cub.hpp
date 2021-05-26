@@ -6,6 +6,7 @@
 #include "prism.hpp"
 #include "lacze_do_gnuplota.hpp"
 #include "matrix4D.hpp"
+#include <unistd.h>
 
 /*!
  * \file  menu_cub.hpp
@@ -101,6 +102,8 @@ void show_menu();
  *      \param[in] pri - wyswietlany graniastoslup
  */
     void Print_to_gnuplot(Prism const &pri);
+
+    void Print_to_gnuplot_animation(Prism  &pri);
 
 /*!
  * Przyklad zapisu wspolrzednych zbioru punktow do pliku, z ktorego
