@@ -168,7 +168,7 @@ Prism Prism::translation(Vector3D const &tran) const
 Prism Prism::translation_to_O() const
 {
     Prism translated;
-    Vector3D tran = centre*(-1);
+    Vector3D tran = centre * (-1);
     translated = this->translation(tran);
     return translated;
 }
@@ -259,38 +259,76 @@ void Prism::print_prism_3D(std::ostream &out) const
         }
         out << std::setw(10) << std::fixed << std::setprecision(10) << "\n\n";
     }
-        for (k = 0; k < 3; ++k)
+    for (k = 0; k < 3; ++k)
+    {
+        out << std::setw(10) << std::fixed << std::setprecision(10) << cut[1][k] << " ";
+    }
+    out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+    for (k = 0; k < 3; ++k)
+    {
+        out << std::setw(10) << std::fixed << std::setprecision(10) << top[1][0][k] << " ";
+    }
+    out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+    for (k = 0; k < 3; ++k)
+    {
+        out << std::setw(10) << std::fixed << std::setprecision(10) << top[0][0][k] << " ";
+    }
+    out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
+    for (k = 0; k < 3; ++k)
+    {
+        out << std::setw(10) << std::fixed << std::setprecision(10) << cut[0][k] << " ";
+    }
+    out << std::setw(10) << std::fixed << std::setprecision(10) << "\n\n";
+}
+
+Prism Prism::Prism_From_Sample() const
+{
+    std::ifstream file;
+    file.open(sample_name);
+    int i, j;
+    Vector3D read[2][6];
+    Vector3D bin;
+    for (i = 0; i < 6; ++i)
+    {
+        file >> bin;
+        for (j = 1; j >= 0; --j)
         {
-            out << std::setw(10) << std::fixed << std::setprecision(10) << cut[1][k] << " ";
+            file >> read[j][i];
         }
-        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
-        for (k = 0; k < 3; ++k)
-        {
-            out << std::setw(10) << std::fixed << std::setprecision(10) << top[1][0][k] << " ";
-        }
-        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
-        for (k = 0; k < 3; ++k)
-        {
-            out << std::setw(10) << std::fixed << std::setprecision(10) << top[0][0][k] << " ";
-        }
-        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n";
-        for (k = 0; k < 3; ++k)
-        {
-            out << std::setw(10) << std::fixed << std::setprecision(10) << cut[0][k] << " ";
-        }
-        out << std::setw(10) << std::fixed << std::setprecision(10) << "\n\n";
+        file >> bin;
+    }
+    Prism pri(read);
+    return pri;
+}
+
+bool Prism::Prism_To_File(const std::string &filename) const
+{
+    std::ofstream filestrm;
+
+    filestrm.open(filename);
+    if (!filestrm.is_open())
+    {
+        std::cerr << ":(  Operacja otwarcia do zapisu \"" << filename << "\"" << std::endl
+                  << ":(  nie powiodla sie." << std::endl;
+        return false;
+    }
+    std::ostringstream out;
+    print_prism_3D(filestrm);
+
+    filestrm.close();
+    return !filestrm.fail();
 }
 
 Prism Prism::scale_pri() const
 {
-    int i,j;
+    int i, j;
     Prism res;
     res = this->translation_to_O();
-    for (i=0;i<2;++i)
+    for (i = 0; i < 2; ++i)
     {
         res.cuts[i] = res.cuts[i].scale_vec(scale);
-        for(j=0;j<6;++j)
-        {   
+        for (j = 0; j < 6; ++j)
+        {
             res.tops[i][j] = res.tops[i][j].scale_vec(scale);
         }
     }
@@ -298,17 +336,16 @@ Prism Prism::scale_pri() const
     return res;
 }
 
-
 Prism Prism::scale_pri(Vector3D const &scal) const
 {
-    int i,j;
+    int i, j;
     Prism res;
     res = this->translation_to_O();
-    for (i=0;i<2;++i)
+    for (i = 0; i < 2; ++i)
     {
         res.cuts[i] = res.cuts[i].scale_vec(scal);
-        for(j=0;j<6;++j)
-        {   
+        for (j = 0; j < 6; ++j)
+        {
             res.tops[i][j] = res.tops[i][j].scale_vec(scal);
         }
     }
@@ -318,15 +355,15 @@ Prism Prism::scale_pri(Vector3D const &scal) const
 
 bool Prism::check_pri()
 {
-    if (!(check_vec_ver() && check_vec_pairs()))
+    if (!(check_vec_ver() && check_vec_pairs() && check_vec_ver() && check_vec_basis()))
         return 0;
     return 1;
 }
 
-void Prism::get_vec_ver(Vector3D (&vecs) [6]) const
+void Prism::get_vec_ver(Vector3D (&vecs)[6]) const
 {
     int i;
-    for (i=0;i<6;++i)
+    for (i = 0; i < 6; ++i)
     {
         vecs[i] = tops[1][i] - tops[0][i];
     }
@@ -337,20 +374,20 @@ bool Prism::check_vec_ver() const
     Vector3D ver[6];
     get_vec_ver(ver);
     int i;
-    for (i=0;i<5;++i)
+    for (i = 0; i < 5; ++i)
     {
-        if(!(ver[i] == ver[i+1]))
+        if (!(ver[i] == ver[i + 1]))
             return 0;
     }
     return 1;
 }
 
-void Prism::get_vec_pairs(Vector3D (&vecs) [2][3][2]) const
+void Prism::get_vec_pairs(Vector3D (&vecs)[2][3][2]) const
 {
-    int i,j;
-    for (i=0;i<2;++i)
+    int i, j;
+    for (i = 0; i < 2; ++i)
     {
-        for (j=0;j<2;++j)
+        for (j = 0; j < 2; ++j)
         {
             vecs[i][j][0] = tops[i][j + 1] - tops[i][j];
             vecs[i][j][1] = tops[i][j + 4] - tops[i][j + 3];
@@ -364,16 +401,57 @@ bool Prism::check_vec_pairs() const
 {
     Vector3D par[2][3][2];
     get_vec_pairs(par);
-    int i,j;
-    for(i=0;i<2;++i)
+    int i, j;
+    for (i = 0; i < 2; ++i)
     {
-        for(j=0;j<3;++j)
+        for (j = 0; j < 3; ++j)
         {
-            if(!(par[i][j][0] == par[i][j][1]*(-1)))
+            if (!(par[i][j][0] == par[i][j][1] * (-1)))
                 return 0;
             if (!(par[0][j][i] == par[1][j][i]))
                 return 0;
         }
+    }
+    return 1;
+}
+
+bool Prism::check_vec_perp() const
+{
+    int i, j;
+    Vector3D prs[2][3][2];
+    get_vec_pairs(prs);
+    Vector3D ver[3];
+    for (i = 0; i < 3; ++i)
+    {
+        ver[i] = tops[1][i] - tops[0][i];
+    }
+    for (i = 0; i < 2; ++i)
+    {
+        for (j = 0; j < 3; ++j)
+        {
+            if (!(prs[i][j][0].scalar_prod(ver[i]) == 0))
+                return 0;
+        }
+    }
+    return 1;
+}
+
+bool Prism::check_vec_basis() const
+{
+    int i;
+    Vector3D vecs[3];
+    for (i = 0; i < 3; ++i)
+    {
+        vecs[i] = tops[0][i + 1] - tops[0][i];
+    }
+    for (i = 0; i < 2; ++i)
+    {
+        if (!(abs(vecs[i].scalar_prod(vecs[i+1]) - vecs[i].get_len() * vecs[i+1].get_len()*0.5) <= 0.000001 ))
+        {
+            std::cout<<abs(vecs[i].scalar_prod(vecs[i+1]) - 0.5);
+            return 0;
+        }
+
     }
     return 1;
 }

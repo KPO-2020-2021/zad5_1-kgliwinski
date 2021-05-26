@@ -45,6 +45,17 @@ int main()
   }
   Cuboid cub(tops);
   menu.init_menu(tops);
+/*
+     Prism a;
+     a.set_sample_name("../tests/test_datasets/test_cub.dat");
+     a.Prism_To_File(a.get_sample_name());
 
-
+     Prism b;
+     b = a.Prism_From_Sample();
+     std::cout<<a<<std::endl;
+     std::cout<<b<<std::endl;
+     if (a==b)
+      std::cout<<"Gituwa"<<std::endl;
+    else std::cout<<":(((((((((";
+*/
 }

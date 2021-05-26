@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include"block.hpp"
 
 /*!
@@ -161,6 +162,23 @@ void get_vec_pairs(Vector3D (&vecs) [2][3][2]) const;
  */
 bool check_vec_pairs() const;
 
+/*!
+ *  \brief Metoda sprawdzajaca katy miedzy krawedziami "pionowymi"
+ *          graniastoslupa sa prostopadle do podstaw.                                                                                                                                                 
+ *  Zwraca:                                                                   
+ *     \retval true - jesli sa prostopadle
+ *     \retval false - jesli nie sa prostopadle                                
+ */
+bool check_vec_perp() const;
+
+/*!
+ *  \brief Metoda sprawdzajaca katy wewnetrzne podstaw
+ *          graniastoslupa sa rowne 60 st.                                                                                                                                               
+ *  Zwraca:                                                                   
+ *     \retval true - jesli sa rowne
+ *     \retval false - jesli nie sa rowne                                
+ */
+bool check_vec_basis() const;
 
 /*!
  *  \brief Przeciazenie operatora == dla klasy Prism                                               
@@ -246,6 +264,25 @@ Vector3D special_points(Vector3D (&vecs)[2]) const;
  *      \param[in] out - strumien wyjsciowy,                                                                                                
  */
 void print_prism_3D(std::ostream &out) const;
+
+/*!
+ *  \brief Metoda wczytywania odpowiednich wierzcholkow z pliku wzorcowego
+ *         zgodnie z zaproponowanym sposobem zadaniu dron.
+ *         Przypisuje wczytane wierzcholki do graniastoslupa.                         
+ *  Zwraca:
+ *      \param[out] pri - wczytwany graniastoslup                                                                                                 
+ */
+Prism Prism_From_Sample() const;
+
+/*!
+ * Zapis wspolrzednych graniastoslupa do pliku
+ * \param[in] filename - nazwa pliku, do którego zostana zapisane
+ *                          wspolrzędne punktów.
+ * Zwraca:
+ *      \retval true - gdy operacja zapisu powiodła się,
+ *      \retval false - w przypadku przeciwnym.
+ */
+    bool Prism_To_File(const std::string &filename) const;
 
 /*!
  *  \brief Metoda skalujaca o wektor scale bedacy

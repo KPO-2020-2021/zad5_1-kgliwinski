@@ -351,8 +351,10 @@ void Menu_cub::Print_to_gnuplot_animation(Prism  &pri)
     Matrix3D mat;
     mat = mat.rotation_matrix(0.1, 'x');
     mat = mat.rotation_matrix(0.1, 'y') * mat;
+    double tab[3] = {50,50,50};
+    pri = pri.translation(tab);
     int i;
-    for (i=0;i<1000000;++i)
+    for (i=0;i<10000;++i)
     {
         if (!this->PrismToFile("../datasets/prism.dat", pri))
             std::cerr << "ERROR" << std::endl;
