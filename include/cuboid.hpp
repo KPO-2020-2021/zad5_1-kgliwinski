@@ -283,12 +283,23 @@ void print_cuboid_weird(std::ostream &out) const;
 void print_cuboid_3D(std::ostream &out) const;
 
 /*!
- *  \brief Metoda wczytania odpowiednich wierzcholkow z pliku
- *         zgodnie z zaproponowanym sposobem w zadaniu dron                            
- *  Argumenty:                                                                
- *      \param[in] out - strumien wyjsciowy,                                                                                                
+ *  \brief Metoda wczytywania odpowiednich wierzcholkow z pliku wzorcowego
+ *         zgodnie z zaproponowanym sposobem zadaniu dron.
+ *         Przypisuje wczytane wierzcholki do prostopadloscianu.                         
+ *  Zwraca:
+ *      \param[out] cub - wczytywany prostopadloscian                                                                                                 
  */
-void read_cuboid_3D(std::istream &in) const;
+Cuboid Cuboid_From_Sample() const;
+
+/*!
+ * Zapis wspolrzednych prostopadloscianu do pliku
+ * \param[in] filename - nazwa pliku, do którego zostana zapisane
+ *                          wspolrzędne punktów.
+ * Zwraca:
+ *      \retval true - gdy operacja zapisu powiodła się,
+ *      \retval false - w przypadku przeciwnym.
+ */
+    bool Cuboid_To_File(const std::string &filename) const;
 
 /*!
  *  \brief Metoda skalujaca o wektor scale bedacy

@@ -441,6 +441,58 @@ void Cuboid::print_cuboid_3D(std::ostream &out) const
     }
 }
 
+Cuboid Cuboid::Cuboid_From_Sample() const
+{
+    Vector3D tab[2][4];
+    std::ifstream file;
+    file.open(sample_name);
+    int i, j;
+    Vector3D read[2][4];
+    Vector3D bin;
+    j=0;
+    for (i = 0; i < 2; ++i)
+    {
+        if (i==1)
+            j=1;
+        file >> bin;
+        file >> read[j][0];
+        file >> read[j][1];
+        file >> bin;
+        file >> bin;
+        file >> read[j][2];
+        file >> read[j][3];
+        file >> bin;
+    }
+    tab[0][1] = read[0][0];
+    tab[0][2] = read[0][1];
+    tab[0][0] = read[0][2];
+    tab[0][3] = read[0][3];
+    tab[1][0] = read[1][0];
+    tab[1][3] = read[1][1];
+    tab[1][1] = read[1][2];
+    tab[1][2] = read[1][3];
+    Cuboid pri(tab);
+    return pri;
+}
+
+bool Cuboid::Cuboid_To_File(const std::string &filename) const
+{
+    std::ofstream filestrm;
+
+    filestrm.open(filename);
+    if (!filestrm.is_open())
+    {
+        std::cerr << ":(  Operacja otwarcia do zapisu \"" << filename << "\"" << std::endl
+                  << ":(  nie powiodla sie." << std::endl;
+        return false;
+    }
+    std::ostringstream out;
+    print_cuboid_3D(filestrm);
+
+    filestrm.close();
+    return !filestrm.fail();
+}
+
 Cuboid Cuboid::scale_cub() const
 {
     int i,j;

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <fstream>
 #include "vector3D.hpp"
 #include "matrix3D.hpp"
 

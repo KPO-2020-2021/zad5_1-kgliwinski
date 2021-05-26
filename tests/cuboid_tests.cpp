@@ -761,3 +761,66 @@ TEST_CASE("C 7.04: Cuboid::special_points() 4")
     CHECK (tab[0] == cut_res1);
     CHECK (tab[1] == cut_res2);
 }
+
+TEST_CASE("C 8.01 : Cuboid::print_Cuboid_3D() oraz Cuboid::read_Cuboid_3D()")
+{
+     Cuboid a;
+     a.set_sample_name("../tests/test_datasets/test_cub.dat");
+     a.Cuboid_To_File(a.get_sample_name());
+
+     Cuboid b;
+     b = a.Cuboid_From_Sample();
+
+     CHECK (a==b);
+}
+
+TEST_CASE("C 8.02 : Cuboid::print_Cuboid_3D() oraz Cuboid::read_Cuboid_3D() 2")
+{
+     Cuboid a;
+     double tab[3] = {100,100,100};
+     Vector3D sc(tab);
+     a = a.scale_cub(sc);
+     a.set_sample_name("../tests/test_datasets/test_cub2.dat");
+     a.Cuboid_To_File(a.get_sample_name());
+
+     Cuboid b;
+     b = a.Cuboid_From_Sample();
+
+     CHECK (a==b);
+}
+
+TEST_CASE("C 8.03 : Cuboid::print_Cuboid_3D() oraz Cuboid::read_Cuboid_3D() 3")
+{
+     Cuboid a;
+     double tab[3] = {100,100,100};
+     Vector3D sc(tab);
+     a = a.scale_cub(sc);
+     a = a.translation(sc);
+     a.set_sample_name("../tests/test_datasets/test_cub3.dat");
+     a.Cuboid_To_File(a.get_sample_name());
+
+     Cuboid b;
+     b = a.Cuboid_From_Sample();
+
+     CHECK (a==b);
+}
+
+TEST_CASE("C 8.04 : Cuboid::print_Cuboid_3D() oraz Cuboid::read_Cuboid_3D() 4")
+{
+     Cuboid a;
+     double tab[3] = {100,100,100};
+     Vector3D sc(tab);
+     a = a.scale_cub(sc);
+     a = a.translation(sc);
+     Matrix3D mat;
+     mat = mat.rotation_matrix(5132, 'x');
+     mat = mat.rotation_matrix(124, 'y') * mat;
+     a = a.rotation_around_cen(mat);
+     a.set_sample_name("../tests/test_datasets/test_cub4.dat");
+     a.Cuboid_To_File(a.get_sample_name());
+
+     Cuboid b;
+     b = a.Cuboid_From_Sample();
+
+     CHECK (a==b);
+}
