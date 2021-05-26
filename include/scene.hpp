@@ -5,6 +5,8 @@
 #include "drone.hpp"
 #include "lacze_do_gnuplota.hpp"
 
+constexpr int SIZE = 2;
+
 /*!
  * \file  scene.hpp
  *  
@@ -18,6 +20,10 @@
  */
 class Scene
 {
-    Drone a;
+private:
+/*!
+ * \brief Tablica dronow obslugiwanych w programie
+ */
+    Drone flies[SIZE];
 
 };

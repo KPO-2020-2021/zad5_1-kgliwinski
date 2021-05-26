@@ -10,6 +10,7 @@ set(TESTFILES        # All .cpp files in tests/
     cuboid_tests.cpp
     block_tests.cpp
     prism_tests.cpp
+    drone_tests.cpp
 )
 
 set(TEST_MAIN unit_tests)   # Default name for test executable (change if you wish).

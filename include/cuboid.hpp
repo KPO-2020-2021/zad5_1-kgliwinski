@@ -6,6 +6,8 @@
  *  
  *  \brief Plik zawiera definicję klasy reprezentujacej prostopadloscian
  *  w przestrzeni trojwymiarowej
+ * 
+ *  \image html prism3D.png 
  */
 
 

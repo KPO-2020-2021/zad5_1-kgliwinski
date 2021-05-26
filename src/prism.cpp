@@ -104,12 +104,16 @@ bool Prism::operator==(const Prism &pri) const
     int i, j;
     for (i = 0; i < 2; ++i)
     {
+        if (!(cuts[i] == pri.cuts[i]))
+            return 0;
         for (j = 0; j < 6; ++j)
         {
             if (!(tops[i][j] == pri.tops[i][j]))
                 return 0;
         }
     }
+    if (!(centre == pri.centre))
+        return 0;
     return 1;
 }
 
@@ -164,17 +168,16 @@ Prism Prism::translation(Vector3D const &tran) const
 Prism Prism::translation_to_O() const
 {
     Prism translated;
-    int i, j;
     Vector3D tran = centre*(-1);
-    for (i = 0; i < 2; ++i)
-    {
-        translated.cuts[i] = cuts[i] +tran;
-        for (j = 0; j < 6; ++j)
-        {
-            translated.tops[i][j] = tops[i][j] + tran;
-        }
-    }
-    translated.centre = centre +tran;
+    translated = this->translation(tran);
+    return translated;
+}
+
+Prism Prism::translation_of_lower_cen(Vector3D const &pt) const
+{
+    Prism translated;
+    Vector3D trs = pt - cuts[0];
+    translated = this->translation(trs);
     return translated;
 }
 

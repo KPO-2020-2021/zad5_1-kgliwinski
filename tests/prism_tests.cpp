@@ -538,6 +538,60 @@ TEST_CASE("P 3.03: Prism::translation() 3 smol")
      CHECK(a == res);
 }
 
+TEST_CASE("P 3.04: Prism::translation_of_lower_cen() 1")
+{
+     int i, j;
+     double tab[3] = {0.00000001, 0.00000001, 0.00000001};
+     Vector3D tran(tab);
+     Prism a;
+     a = a.translation(tran);
+     double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     for (i = 0; i < 6; ++i)
+     {
+          for (j = 0; j < 3; ++j)
+          {
+               iter[i][j] += 0.00000001;
+          }
+     }
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+     {
+
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = 0.50000001;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism res(tops);
+     CHECK(a == res);
+}
+
+TEST_CASE("P 3.05: Prism::translation_of_lower_cen() 2")
+{
+     int i, j;
+     double tab[3] = {-234, -234, -234};
+     Vector3D tran(tab);
+     Prism a;
+     a = a.translation(tran);
+     double iter[6][3] = {{1, 0, -0.5}, {0.5, sqrt(3) * 0.5, -0.5}, {-0.5, sqrt(3) * 0.5, -0.5}, {-1, 0, -0.5}, {-0.5, -sqrt(3) * 0.5, -0.5}, {0.5, -sqrt(3) * 0.5, -0.5}};
+     for (i = 0; i < 6; ++i)
+     {
+          for (j = 0; j < 3; ++j)
+          {
+               iter[i][j] += -234;
+          }
+     }
+     Vector3D tops[2][6];
+     for (i = 0; i < 6; ++i)
+     {
+
+          tops[0][i] = Vector3D(iter[i]);
+          iter[i][2] = -233.5;
+          tops[1][i] = Vector3D(iter[i]);
+     }
+     Prism res(tops);
+     CHECK(a == res);
+}
+
 TEST_CASE("P 4.01: Prism::centre_point() 1")
 {
      Prism a;

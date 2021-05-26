@@ -242,11 +242,11 @@ Cuboid Cuboid::translation(Vector3D const &tran) const
 
     for (i = 0; i < 2; ++i)
     {
+        translated.cuts[i] = cuts[i] + tran;
         for (j = 0; j < 4; ++j)
         {
             translated.tops[i][j] = tops[i][j] + tran;
             translated.centre = centre + tran;
-            translated.cuts[i] = cuts[i] + tran;
         }
     }
     return translated;

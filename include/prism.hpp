@@ -6,6 +6,8 @@
  *  
  *  \brief Plik zawiera definicję klasy reprezentujacej graniastoslup o podstawie o 6 wierzcholkach
  *  w przestrzeni trojwymiarowej
+ *  
+ *  \image html prism3D.png
  */
 
 /*!
@@ -178,6 +180,18 @@ bool operator == (const Prism &pri) const;
  *     \param[out] translated - graniastoslup po operacji przesuniecia                                
  */
 Prism translation(Vector3D const &tran) const;
+
+/*!
+ *  \brief Metoda przesuwajaca graniastoslup o zadany wektor w 3D w taki sposob,
+ *          ze srodek jego dolnej podstawy pokrywa sie z pewnym (zadanym) punktem.
+ *         Metoda przydatna glownie w konstruowaniu drona                                         
+ *  Argumenty:                                                                
+ *      \param[in] pt - Vector3D reprezentujacy punkt, w ktorym po translacji
+ *                         ma sie znalezc srodek dolnej podstawy graniastoslupa                                                 
+ *  Zwraca:                                                                   
+ *     \param[out] translated - graniastoslup po operacji przesuniecia                                
+ */
+Prism translation_of_lower_cen(Vector3D const &pt) const;
 
 /*!
  *  \brief Metoda przesuwajaca graniastoslup do srodka ukladu wspolrzednych
