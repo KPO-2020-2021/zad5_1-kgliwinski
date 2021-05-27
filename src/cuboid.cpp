@@ -246,7 +246,7 @@ bool Cuboid::operator==(const Cuboid &cub) const
 Cuboid Cuboid::translation(Vector3D const &tran) const
 {
     int i, j;
-    Cuboid translated;
+    Cuboid translated = *this;
 
     for (i = 0; i < 2; ++i)
     {
@@ -262,7 +262,7 @@ Cuboid Cuboid::translation(Vector3D const &tran) const
 
 Cuboid Cuboid::translation_to_O() const
 {
-    Cuboid translated;
+    Cuboid translated = *this;
     int i, j;
     Vector3D tran = centre*(-1);
     for (i = 0; i < 2; ++i)
@@ -280,7 +280,7 @@ Cuboid Cuboid::translation_to_O() const
 Cuboid Cuboid::rotation(Matrix3D const &mat) const
 {
     int i, j;
-    Cuboid rotated;
+    Cuboid rotated = *this;
     for (i = 0; i < 2; ++i)
     {
         for (j = 0; j < 4; ++j)
@@ -296,7 +296,7 @@ Cuboid Cuboid::rotation(Matrix3D const &mat) const
 Cuboid Cuboid::rotation_around_cen(Matrix3D const &mat) const
 {
     int i,j;
-    Cuboid rotated;
+    Cuboid rotated = *this;
     rotated = this->translation_to_O();
     for (i = 0; i < 2; ++i)
     {

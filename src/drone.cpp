@@ -75,7 +75,7 @@ void Drone::get_dro(Cuboid &b, Prism (&rot)[4], Vector3D &p) const
 
 Drone Drone::rotation_around_cen(const Matrix3D &mat) const
 {
-    Drone rotated;
+    Drone rotated = *this;
     rotated.body = body.rotation_around_cen(mat);
     rotated.set_rotors_in_place();
     return rotated;
@@ -111,4 +111,14 @@ bool Drone::set_drone_pos(Vector3D const  &pos)
         return 0;
     drone_pos = pos;
     return 1;
+}
+
+void Drone::set_scale_all(Vector3D const  &scal)
+{
+    int i;
+    body.set_scale(scal);
+    for(i=0;i<4;++i)
+    {
+        rotors[i].set_scale(scal);
+    }
 }

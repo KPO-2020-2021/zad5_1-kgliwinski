@@ -158,3 +158,67 @@ TEST_CASE("D 2.06: set_drone_pos() 3")
     Drone a;
     CHECK (!a.set_drone_pos(p));
 }
+
+TEST_CASE("D 2.07: set_scale_all() 1")
+{
+    double tab[3] = {100,100,100};
+    Vector3D p(tab);
+    Drone a;
+    a.set_scale_all(p);
+    int i;
+    Cuboid body;
+    Prism rotors[4];
+    Vector3D x;
+    a.get_dro(body, rotors, x);
+    CHECK (body.get_scale() == p);
+    for (i=0;i<4;++i)
+    {
+        CHECK (rotors[i].get_scale() == p);
+    }
+}
+
+TEST_CASE("D 2.08: set_scale_all() 2")
+{
+    double tab[3] = {100,100,100};
+    Vector3D p(tab);
+    Drone a;
+    Matrix3D mat;
+    mat = mat.rotation_matrix(234,'x');
+    mat = mat.rotation_matrix(234,'y') * mat;
+    mat = mat.rotation_matrix(234,'z') * mat;
+    a = a.rotation_around_cen(mat);
+    a.set_scale_all(p);
+    int i;
+    Cuboid body;
+    Prism rotors[4];
+    Vector3D x;
+    a.get_dro(body, rotors, x);
+    CHECK (body.get_scale() == p);
+    for (i=0;i<4;++i)
+    {
+        CHECK (rotors[i].get_scale() == p);
+    }
+}
+
+TEST_CASE("D 2.09: set_scale_all() 3")
+{
+    double tab[3] = {100,100,100};
+    Vector3D p(tab);
+    Drone a;
+    a.set_scale_all(p);
+    Matrix3D mat;
+    mat = mat.rotation_matrix(234,'x');
+    mat = mat.rotation_matrix(234,'y') * mat;
+    mat = mat.rotation_matrix(234,'z') * mat;
+    a = a.rotation_around_cen(mat);
+    int i;
+    Cuboid body;
+    Prism rotors[4];
+    Vector3D x;
+    a.get_dro(body, rotors, x);
+    CHECK (body.get_scale() == p);
+    for (i=0;i<4;++i)
+    {
+        CHECK (rotors[i].get_scale() == p);
+    }
+}

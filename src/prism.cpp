@@ -151,7 +151,7 @@ std::ostream &operator<<(std::ostream &out, Prism const &Pri)
 
 Prism Prism::translation(Vector3D const &tran) const
 {
-    Prism translated;
+    Prism translated = *this;
     int i, j;
     for (i = 0; i < 2; ++i)
     {
@@ -167,7 +167,7 @@ Prism Prism::translation(Vector3D const &tran) const
 
 Prism Prism::translation_to_O() const
 {
-    Prism translated;
+    Prism translated = *this;
     Vector3D tran = centre * (-1);
     translated = this->translation(tran);
     return translated;
@@ -175,7 +175,7 @@ Prism Prism::translation_to_O() const
 
 Prism Prism::translation_of_lower_cen(Vector3D const &pt) const
 {
-    Prism translated;
+    Prism translated = *this;
     Vector3D trs = pt - cuts[0];
     translated = this->translation(trs);
     return translated;
@@ -184,7 +184,7 @@ Prism Prism::translation_of_lower_cen(Vector3D const &pt) const
 Prism Prism::rotation_around_cen(Matrix3D const &mat) const
 {
     int i, j;
-    Prism rotated;
+    Prism rotated = *this;
     rotated = this->translation_to_O();
 
     for (i = 0; i < 2; ++i)
@@ -322,7 +322,7 @@ bool Prism::Prism_To_File(const std::string &filename) const
 Prism Prism::scale_pri() const
 {
     int i, j;
-    Prism res;
+    Prism res = *this;
     res = this->translation_to_O();
     for (i = 0; i < 2; ++i)
     {
@@ -339,7 +339,7 @@ Prism Prism::scale_pri() const
 Prism Prism::scale_pri(Vector3D const &scal) const
 {
     int i, j;
-    Prism res;
+    Prism res = *this;
     res = this->translation_to_O();
     for (i = 0; i < 2; ++i)
     {

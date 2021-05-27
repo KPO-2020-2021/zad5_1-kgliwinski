@@ -1,4 +1,3 @@
-#pragma once
 #include"../include/matrix2D.hpp"
 
 
