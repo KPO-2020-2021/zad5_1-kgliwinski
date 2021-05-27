@@ -1191,3 +1191,24 @@ TEST_CASE("P 8.04 : Prism::print_prism_3D() oraz Prism::read_prism_3D() 4")
 
      CHECK (a==b);
 }
+
+TEST_CASE("P 8.05 : Prism::print_prism_3D() oraz Prism::read_prism_3D() 5")
+{
+     Prism a;
+     double tab[3] = {100,100,100};
+     Vector3D sc(tab);
+     a = a.scale_pri(sc);
+     a = a.translation(sc);
+     Matrix3D mat;
+     mat = mat.rotation_matrix(5132, 'x');
+     mat = mat.rotation_matrix(124, 'y') * mat;
+     for(int i=0;i<100;++i)
+          a = a.rotation_around_cen(mat);
+     a.set_sample_name("../tests/test_datasets/test_pri5.dat");
+     a.Prism_To_File(a.get_sample_name());
+
+     Prism b;
+     b = a.Prism_From_Sample();
+
+     CHECK (a==b);
+}

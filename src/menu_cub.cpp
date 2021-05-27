@@ -325,9 +325,11 @@ void Menu_cub::Print_to_gnuplot(Prism const &pri)
 {
     PzG::LaczeDoGNUPlota Lacze; // Ta zmienna jest potrzebna do wizualizacji
 
-    Lacze.DodajNazwePliku("../datasets/prism.dat", PzG::SR_Ciagly);
 
     Lacze.DodajNazwePliku("../datasets/prism.dat", PzG::SR_Punktowy);
+    Cuboid a;
+
+
 
     Lacze.ZmienTrybRys(PzG::TR_3D);
     pri.print_prism_3D(std::cout);
@@ -337,7 +339,24 @@ void Menu_cub::Print_to_gnuplot(Prism const &pri)
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');
 }
+/*
+void Menu_cub::Print_to_gnuplot(Cuboid const &cub,Prism const &pri)
+{
+    PzG::LaczeDoGNUPlota Lacze; // Ta zmienna jest potrzebna do wizualizacji
 
+    Lacze.DodajNazwePliku("../datasets/cuboid.dat", PzG::SR_Ciagly);
+
+    Lacze.DodajNazwePliku("../datasets/cuboid.dat", PzG::SR_Punktowy);
+
+    Lacze.ZmienTrybRys(PzG::TR_3D);
+    cub.print_cuboid_3D(std::cout);
+    if (!this->CuboidToFile("../datasets/cuboid.dat", cub))
+        std::cerr << "ERROR" << std::endl;
+    Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
+    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    std::cin.ignore(100000, '\n');
+}
+*/
 void Menu_cub::Print_to_gnuplot_animation(Prism  &pri)
 {
     PzG::LaczeDoGNUPlota Lacze; // Ta zmienna jest potrzebna do wizualizacji

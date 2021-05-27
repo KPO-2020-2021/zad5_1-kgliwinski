@@ -103,6 +103,8 @@ void show_menu();
  */
     void Print_to_gnuplot(Prism const &pri);
 
+    void Print_to_gnuplot(Cuboid const &cub,Prism const &pri);
+
     void Print_to_gnuplot_animation(Prism  &pri);
 
 /*!
