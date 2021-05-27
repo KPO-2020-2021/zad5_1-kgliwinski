@@ -104,3 +104,11 @@ void Drone::get_filenames(std::string (&bod)[2], std::string (&rots)[4][2]) cons
         rots[i][1] = rotors[i].get_final_name();
     }
 }
+
+bool Drone::set_drone_pos(Vector3D const  &pos)
+{
+    if (pos[2]<body.get_height()*0.5)
+        return 0;
+    drone_pos = pos;
+    return 1;
+}

@@ -102,7 +102,22 @@ public:
  */
    bool operator==(const Drone &dro) const;
 
-   /*!
+/*!
+ *  \brief Metoda ustawiajaca drone_pos   
+ *  \pre Pozycja drona musi znajdowac sie nad plaszcyzna.
+ *       Punktem referencji jest srodek prostopadloscianu body, wiec
+ *       aby dron nie zapadal sie w podloze, minimalna wspolrzedna z polozenia
+ *       nie moze nigdy byc mniejsza od polowy wysokosci prostopadloscianu                                       
+ *  Argumenty:                                                                
+ *      \param[in] pos - wektor pozycji                                                     
+ *  Zwraca:                                                                   
+ *     \post Ustawia pozycje drona (zadana przez uzytkownika)       
+ *     \retval false - jesli wprowadzona pozycja jest bledna
+ *     \retval true - jesli jest prawidlowa                          
+ */
+bool set_drone_pos(Vector3D const  &pos);
+
+/*!
  *  \brief Metoda zwracajaca wszystkie elementy drona do odpowiednich zmiennych                                          
  *  Argumenty:                                                                
  *      \param[in] b - tu zwrocone bedzie body

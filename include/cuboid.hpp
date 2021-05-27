@@ -190,6 +190,13 @@ void get_cub(Vector3D (&tab)[2][4]) const;
 void get_cub(double (&tab)[2][4][3]) const;
 
 /*!
+ *  \brief Metoda zwracajaca wysokosc prostopadloscianu   
+ *      Zwraca:
+ *      \param[out] res - wysokosc                          
+ */
+double get_height() const;
+
+/*!
  *  \brief Przeciazenie operatora == dla klasy Cuboid                                                
  *  Argumenty:                                                                
  *      \param[in] cub - porownywany Cuboid                                             

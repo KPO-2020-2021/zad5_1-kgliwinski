@@ -221,6 +221,14 @@ void Cuboid::get_cub(double (&tab)[2][4][3]) const
     }
 }
 
+double Cuboid::get_height() const
+{
+    double res;
+    Vector3D ver = tops[1][0] - tops[0][0];
+    res = ver.get_len();
+    return res;
+}
+
 bool Cuboid::operator==(const Cuboid &cub) const
 {
     int i, j;

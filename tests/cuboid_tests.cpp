@@ -340,6 +340,46 @@ TEST_CASE("C 2.05: Cuboid::get_cub() double")
     }
 }
 
+TEST_CASE("C 2.06: Cuboid::get_height() double 1")
+{
+    Cuboid a;
+    CHECK (a.get_height() == 1);
+}
+
+TEST_CASE("C 2.07: Cuboid::get_height() double 2")
+{
+    Cuboid a;
+    double tab[3] = {100,100,100};
+    Vector3D scale(tab);
+    a = a.scale_cub(scale);
+    CHECK (a.get_height() == 100);
+}
+
+TEST_CASE("C 2.08: Cuboid::get_height() double 3")
+{
+    Cuboid a;
+    double tab[3] = {100,100,100};
+    Vector3D scale(tab);
+    a = a.scale_cub(scale);
+    a = a.translation(scale);
+    CHECK (a.get_height() == 100);
+}
+
+TEST_CASE("C 2.09: Cuboid::get_height() double 4")
+{
+    Cuboid a;
+    double tab[3] = {100,100,100};
+    Matrix3D mat;
+    mat = mat.rotation_matrix(23235,'x');
+    mat = mat.rotation_matrix(-124,'y') * mat;
+    mat = mat.rotation_matrix(-124,'z') * mat;
+    a = a.rotation(mat);
+    Vector3D scale(tab);
+    a = a.scale_cub(scale);
+    a = a.translation(scale);
+    CHECK (a.get_height() == 100);
+}
+
 TEST_CASE("C 3.01: Cuboid::translation(Vector3D)")
 {
     Cuboid a;

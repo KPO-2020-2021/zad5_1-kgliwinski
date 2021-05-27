@@ -108,3 +108,53 @@ TEST_CASE("D 2.02: setup_files() check_files() 2")
         }
     }  
 }
+
+TEST_CASE("D 2.03: setup_files() check_files() 3")
+{
+    int i,j;
+    std::string tmp = "";
+    std::string b[2], r[4][2];
+    for(i=0;i<2;++i)
+    {
+        b[i] = tmp;
+        for(j=0;j<4;++j)
+        {
+            r[j][i] = tmp;
+        }
+    }
+    Drone dron;
+    dron.setup_filenames(b, r);
+    std::string b2[2], r2[4][2];
+    dron.get_filenames(b2,r2);
+    for(i=0;i<2;++i)
+    {
+        CHECK(b[i] == b2[i]);
+        for(j=0;j<4;++j)
+        {
+            CHECK(r[j][i] == r2[j][i]);
+        }
+    }  
+}
+TEST_CASE("D 2.04: set_drone_pos() 1")
+{
+    double tab[3] = {1,1,10};
+    Vector3D p(tab);
+    Drone a;
+    CHECK (a.set_drone_pos(p));
+}
+
+TEST_CASE("D 2.05: set_drone_pos() 2")
+{
+    double tab[3] = {1,1,-1};
+    Vector3D p(tab);
+    Drone a;
+    CHECK (!a.set_drone_pos(p));
+}
+
+TEST_CASE("D 2.06: set_drone_pos() 3")
+{
+    double tab[3] = {1,1,4.999999999};
+    Vector3D p(tab);
+    Drone a;
+    CHECK (!a.set_drone_pos(p));
+}
