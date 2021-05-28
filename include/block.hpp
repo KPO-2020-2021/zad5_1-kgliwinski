@@ -43,11 +43,9 @@ class Block
     Block();
 /*!
  * \brief Konstruktor paramereyczny klasy Block
- *    
  *      \param[in] s_name - docelowo sample_name z klasy Block
  *      \param[in] f_name - docelowo final_name z klasy Block
  *      \param[in] vec - docelowo scale z klasy Block
- *     
  *      \post Ustawia nazwy na odpowiednie podane przez uzytkownika
  */
     Block(const std::string &s_name, const std::string &f_name, const Vector3D &vec);

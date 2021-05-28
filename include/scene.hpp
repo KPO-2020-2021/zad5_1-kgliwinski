@@ -51,7 +51,6 @@ public:
  *      \param[in] scal_rot - tablica skali rotorow dronow
  *      \param[in] name - nazwa pliku w ktorym opisana jest
  *                          plaszczyzna sceny
- *     
  *      \post Ustawia odpowiednie wartosci klasy, zadane przez uzytkownika
  */
 Scene(Vector3D const (&pos)[SIZE], Vector3D const (&scal_bod)[SIZE],Vector3D const (&scal_rot)[SIZE], std::string const &name );
@@ -67,9 +66,7 @@ bool check_scene() const;
 /*!
  *  \brief Przeciazenie operatora == dla klasy Scene    
  *          \b{Parametr active jest pomijany}                                         
- *                                                                    
  *      \param[in] pri - porownywana scena                                            
- *     
  *      \retval false - nie sa rowne, 
  *      \retval true - sa rowne                                                     
  */
@@ -78,9 +75,7 @@ bool operator == (const Scene &sce) const;
 
 /*!
  * \brief Metoda pozwalajaca na wybor aktywnego drona
- *    
  *      \param[in] ch - nowo wybrany dron
- *     
  *      \post Wybiera aktywnego drona (wartosc klasy active)
  *      \retval false - jesli zadana wartosc jest spoza zakresu
  *      \retval true - jesli zadana wartosc jest poprawna
