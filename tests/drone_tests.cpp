@@ -164,7 +164,7 @@ TEST_CASE("D 2.07: set_scale_all() 1")
     double tab[3] = {100,100,100};
     Vector3D p(tab);
     Drone a;
-    a.set_scale_all(p);
+    a.set_scale_all(p,p);
     int i;
     Cuboid body;
     Prism rotors[4];
@@ -187,7 +187,7 @@ TEST_CASE("D 2.08: set_scale_all() 2")
     mat = mat.rotation_matrix(234,'y') * mat;
     mat = mat.rotation_matrix(234,'z') * mat;
     a = a.rotation_around_cen(mat);
-    a.set_scale_all(p);
+    a.set_scale_all(p,p);
     int i;
     Cuboid body;
     Prism rotors[4];
@@ -205,7 +205,7 @@ TEST_CASE("D 2.09: set_scale_all() 3")
     double tab[3] = {100,100,100};
     Vector3D p(tab);
     Drone a;
-    a.set_scale_all(p);
+    a.set_scale_all(p,p);
     Matrix3D mat;
     mat = mat.rotation_matrix(234,'x');
     mat = mat.rotation_matrix(234,'y') * mat;
@@ -221,4 +221,41 @@ TEST_CASE("D 2.09: set_scale_all() 3")
     {
         CHECK (rotors[i].get_scale() == p);
     }
+}
+
+TEST_CASE("D 3.01: check_dro() 1")
+{
+    Drone a;
+    CHECK (a.check_dro());
+}
+
+TEST_CASE("D 3.02: check_dro() 2")
+{
+    Drone a;
+    double tab[3] = {123,123,123};
+    Vector3D sca(tab);
+    a.set_scale_all(sca,sca);
+    a = a.scale_dro();
+    CHECK (a.check_dro());
+}
+
+TEST_CASE("D 3.03: check_dro() 3")
+{
+    Drone a;
+    double tab[3] = {232,123,123};
+    Vector3D sca(tab);
+    a.set_scale_all(sca,sca);
+    a = a.scale_dro();
+    CHECK (!a.check_dro());
+}
+
+TEST_CASE("D 3.04: check_dro() 4")
+{
+    Drone a;
+    double tab1[3] = {1233,123,123};
+    double tab2[3] = {1,2,3};
+    Vector3D vec1(tab1), vec2(tab2);
+    a.set_scale_all(vec1,vec2);
+    a = a.scale_dro();
+    CHECK (!a.check_dro());
 }

@@ -29,7 +29,7 @@ void Drone::set_rotors_in_place()
 
 Drone Drone::translation(Vector3D const &tran) const
 {
-    Drone rotated;
+    Drone rotated = *this;
     int i;
     rotated.body = body.translation(tran);
     for (i = 0; i < 4; ++i)
@@ -41,7 +41,7 @@ Drone Drone::translation(Vector3D const &tran) const
 
 Drone Drone::translation_to_pos() const
 {
-    Drone translated;
+    Drone translated = *this;
     Vector3D tran = drone_pos - body.centre_point();
     translated = this->translation(tran);
     return translated;
@@ -81,6 +81,18 @@ Drone Drone::rotation_around_cen(const Matrix3D &mat) const
     return rotated;
 }
 
+Drone Drone::scale_dro() const
+{
+    Drone scaled = *this;
+    int i;
+    scaled.body = body.scale_cub();
+    for(i=0;i<4;++i)
+    {
+        scaled.rotors[i] = rotors[i].scale_pri();
+    }
+    return scaled;
+}
+
 void Drone::setup_filenames(std::string const (&bod)[2], std::string const (&rots)[4][2])
 {
     int i;
@@ -105,20 +117,33 @@ void Drone::get_filenames(std::string (&bod)[2], std::string (&rots)[4][2]) cons
     }
 }
 
-bool Drone::set_drone_pos(Vector3D const  &pos)
+bool Drone::set_drone_pos(Vector3D const &pos)
 {
-    if (pos[2]<body.get_height()*0.5)
+    if (pos[2] < body.get_height() * 0.5)
         return 0;
     drone_pos = pos;
     return 1;
 }
 
-void Drone::set_scale_all(Vector3D const  &scal)
+void Drone::set_scale_all(Vector3D const &bod, Vector3D const &rot)
 {
     int i;
-    body.set_scale(scal);
-    for(i=0;i<4;++i)
+    body.set_scale(bod);
+    for (i = 0; i < 4; ++i)
     {
-        rotors[i].set_scale(scal);
+        rotors[i].set_scale(rot);
     }
+}
+
+bool Drone::check_dro() const
+{
+    int i;
+    if (!body.check_cub())
+        return 0;
+    for (i = 0; i < 4; ++i)
+    {
+        if (!rotors[i].check_pri())
+            return 0;
+    }
+    return 1;
 }

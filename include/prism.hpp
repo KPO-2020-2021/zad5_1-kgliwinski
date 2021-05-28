@@ -111,7 +111,7 @@ void get_pri(double (&tab)[2][6][3]) const;
  *     \retval true - jest poprawny
  *     \retval false - nie jest poprawny                                   
  */
-bool check_pri();
+bool check_pri() const;
 
 /*!
  *  \brief Metoda zwracajaca do tablicy wektorow

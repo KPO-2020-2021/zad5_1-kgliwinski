@@ -353,7 +353,7 @@ Prism Prism::scale_pri(Vector3D const &scal) const
     return res;
 }
 
-bool Prism::check_pri()
+bool Prism::check_pri() const
 {
     if (!(check_vec_ver() && check_vec_pairs() && check_vec_ver() && check_vec_basis()))
         return 0;
@@ -448,7 +448,6 @@ bool Prism::check_vec_basis() const
     {
         if (!(abs(vecs[i].scalar_prod(vecs[i+1]) - vecs[i].get_len() * vecs[i+1].get_len()*0.5) <= 0.000001 ))
         {
-            std::cout<<abs(vecs[i].scalar_prod(vecs[i+1]) - 0.5);
             return 0;
         }
 

@@ -47,13 +47,33 @@ public:
  * \brief Konstruktor paramereyczny klasy Scene
  *    
  *      \param[in] pos - tablica polozen dronow
- *      \param[in] scal - tablica skali dronow
+ *      \param[in] scal_bod - tablica skali korpusow dronow
+ *      \param[in] scal_rot - tablica skali rotorow dronow
  *      \param[in] name - nazwa pliku w ktorym opisana jest
  *                          plaszczyzna sceny
  *     
  *      \post Ustawia odpowiednie wartosci klasy, zadane przez uzytkownika
  */
-Scene(Vector3D const (&pos)[SIZE],Vector3D const (&scal)[SIZE], std::string const &name);
+Scene(Vector3D const (&pos)[SIZE], Vector3D const (&scal_bod)[SIZE],Vector3D const (&scal_rot)[SIZE], std::string const &name );
+
+/*!
+ * \brief Metoda sprawdzajaca poprawnosc inicjacji sceny
+ *     
+ *      \retval true - scena poprawnie zainicjowana
+ *      \retval false - scena blednie zainicjowana
+ */
+bool check_scene() const;
+
+/*!
+ *  \brief Przeciazenie operatora == dla klasy Scene    
+ *          \b{Parametr active jest pomijany}                                         
+ *                                                                    
+ *      \param[in] pri - porownywana scena                                            
+ *     
+ *      \retval false - nie sa rowne, 
+ *      \retval true - sa rowne                                                     
+ */
+bool operator == (const Scene &sce) const;
 
 
 /*!
@@ -69,7 +89,9 @@ bool choose_drone(unsigned int const &ch);
 
 /*!
  * \brief Metoda inicjalizujaca lacze do gnuplota
- *  \post 
+ *
+ *  \post Powstaje w pelni skonfigurowane lacze, ktore 
+ *          moze byc uzyte do rysowanie calej sceny
  */
 PzG::LaczeDoGNUPlota init_gnuplot();
 };
