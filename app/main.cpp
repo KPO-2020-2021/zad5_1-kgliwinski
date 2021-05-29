@@ -30,7 +30,7 @@ int main()
             << "."
             << PROJECT_VERSION_TWEAK
             << std::endl;
-
+/*
   int i;
   Menu_cub menu;
 
@@ -45,7 +45,7 @@ int main()
   }
   Cuboid cub(tops);
   menu.init_menu(tops);
-/*
+
      Prism a;
      a.set_sample_name("../tests/test_datasets/test_cub.dat");
      a.Prism_To_File(a.get_sample_name());
@@ -58,4 +58,25 @@ int main()
       std::cout<<"Gituwa"<<std::endl;
     else std::cout<<":(((((((((";
 */
+
+Drone a;
+std::string body[2];
+std::string rot[4][2];
+body[0] = "../datasets/tests/TEST_drone_body_f.dat";
+body[1] = "../datasets/tests/TEST_drone_body_s.dat";
+rot[0][0] = "../datasets/tests/TEST_drone_rotor_f1.dat";
+rot[1][0] = "../datasets/tests/TEST_drone_rotor_f2.dat";
+rot[2][0] = "../datasets/tests/TEST_drone_rotor_f3.dat";
+rot[3][0] = "../datasets/tests/TEST_drone_rotor_f4.dat";
+rot[0][1] = "../datasets/tests/TEST_drone_rotor_s1.dat";
+rot[1][1] = "../datasets/tests/TEST_drone_rotor_s2.dat";
+rot[2][1] = "../datasets/tests/TEST_drone_rotor_s3.dat";
+rot[3][1] = "../datasets/tests/TEST_drone_rotor_s4.dat";
+a.setup_filenames(body,rot);
+
+double tab[3] = {50,50,10};
+Vector3D pos(tab);
+a.set_drone_pos(pos);
+a = a.translation_to_pos();
+a.Print_to_gnuplot_drone();
 }

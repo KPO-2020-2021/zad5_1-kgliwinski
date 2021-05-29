@@ -3,10 +3,12 @@
 Drone::Drone()
 {
     int i;
-    double tmp[3] = {10, 10, 10};
+    double tmp[3] = {15, 20, 5};
     drone_pos = Vector3D(tmp);
     body.set_scale(tmp);
     body = body.scale_cub();
+    tmp[0] = 5;
+    tmp[1] = 5;
     tmp[2] = 5;
     for (i = 0; i < 4; ++i)
     {
@@ -86,7 +88,7 @@ Drone Drone::scale_dro() const
     Drone scaled = *this;
     int i;
     scaled.body = body.scale_cub();
-    for(i=0;i<4;++i)
+    for (i = 0; i < 4; ++i)
     {
         scaled.rotors[i] = rotors[i].scale_pri();
     }
@@ -147,3 +149,24 @@ bool Drone::check_dro() const
     }
     return 1;
 }
+
+void Drone::Print_to_gnuplot_drone() const
+{
+    int i;
+    PzG::LaczeDoGNUPlota Lacze;
+    body.Cuboid_To_File(body.get_sample_name());
+    Lacze.DodajNazwePliku(body.get_sample_name().c_str(), PzG::SR_Ciagly);
+    for(i=0;i<4;++i)
+    {
+        Lacze.DodajNazwePliku(rotors[i].get_sample_name().c_str(), PzG::SR_Ciagly);
+        rotors[i].Prism_To_File(rotors[i].get_sample_name());
+    }
+    Lacze.UstawZakresX(0, 200);
+    Lacze.UstawZakresY(0, 200);
+    Lacze.UstawZakresZ(0, 120);
+    Lacze.ZmienTrybRys(PzG::TR_3D);
+    Lacze.Rysuj();
+    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    std::cin.ignore(100000, '\n');
+}
+

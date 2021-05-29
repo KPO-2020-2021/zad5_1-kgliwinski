@@ -144,4 +144,11 @@ public:
  *     \return przypisuje argumentom odpowiednie wartosci                                 
  */
   void get_filenames(std::string (&bod)[2], std::string (&rots)[4][2]) const;
+
+  /*!
+ *  \brief Metoda rysujaca drona w gnuplocie. Przeznaczona do testow                                                                                    
+ *     \post Wyswietla okienko gnuplota z wyrysowanym dronem                                 
+ */
+  void Print_to_gnuplot_drone() const;
+  
 };
