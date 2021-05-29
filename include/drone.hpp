@@ -2,7 +2,7 @@
 #include "prism.hpp"
 #include "cuboid.hpp"
 #include "lacze_do_gnuplota.hpp"
-
+#include <unistd.h>
 /*!
  * \file  drone.hpp
  *  
@@ -22,6 +22,13 @@ private:
  *         polozenie punktu centralnego prostopadloscianu body)
  */
   Vector3D drone_pos;
+
+/*!
+ * \brief Zmienna reprezentujaca zwrot drona.
+ *         Reprezentowana przez jednostkowy Vector,
+ *         nie dopuszcza sie zwrotu pionowego.
+ */
+  Vector3D drone_orient;
 
   /*!
  * \brief Tablica graniastoslupow szesciokatnych, 
@@ -122,9 +129,24 @@ public:
 
   /*!
  *  \brief Metoda sprawdzajaca budowe drona                                                                                          
- *     \post Zwraca odpowiednio pola klasy Drone                                  
+ *     \retval true - dron odpowiednio zbudowany
+ *     \retval false - dron blednie zbudowany                                 
  */
   bool check_dro() const;
+  
+  /*!
+ *  \brief Metoda zwracajaca orientacje drona                                                                                         
+ *     \return res - Zwracana orientacja                                 
+ */
+Vector3D get_orien() const;
+
+/*!
+ *  \brief Metoda sprawdzajaca orientacje drona                                                                                         
+ *          Vector3D dron_orien musi byc jednostkowy, oraz miec skladowa z=0
+ *     \retval true - odpowiednia orientacja
+ *     \retval false - bledna orientacja                               
+ */
+  bool check_orien() const;
 
 /*!
  *  \brief Metoda ustawiajaca nazwy plikow do zapisu dla drona
@@ -136,7 +158,7 @@ public:
   void setup_filenames(std::string const (&bod)[2], std::string const (&rots)[4][2]);
 
 /*!
- *  \brief Metoda ustawiajaca nazwy plikow w laczy do gnuplota
+ *  \brief Metoda ustawiajaca nazwy plikow w laczy do gnuplota (nazwy final!)
  *     \param[in] Lacze - lacze do ktorego wpisane zostana nazwy
  *     \pre Metoda wymaga zainicjowanych nazw elementow drona                                                                                    
  *     \post Zmienia lacze, przypisuje mu odpowiednie parametry                                 
@@ -152,9 +174,34 @@ public:
  */
   void get_filenames(std::string (&bod)[2], std::string (&rots)[4][2]) const;
 
-  /*!
+/*!
  *  \brief Metoda rysujaca drona w gnuplocie. Przeznaczona do testow                                                                                    
  *     \post Wyswietla okienko gnuplota z wyrysowanym dronem                                 
  */
   void Print_to_gnuplot_drone() const;
+
+/*!
+ *  \brief Metoda zapisujaca parametry drona do plikow (do plikow final kazdego z elementow)                                                                                    
+ *     \post Aktualizuje pliki z danymi                              
+ */
+  void Print_to_files_drone() const;
+
+/*!
+ *  \brief Metoda animujaca obrot rotorow i zapisujaca to w plikach.
+ *          Metoda sluzy jako metoda pomocnicza, przy kazdej animacji (translacji czy 
+ *          rotacji drona) rotory sie niezaleznie obracaja. Ta metoda to umozliwia.
+ *     \pre Pliki musza byc odpowiednio skonfigurowane                                                                                
+ *     \post Rotory sa obracane o kat 1 stopnia, zmieniany jest obiekt drona
+ *            efekt rotacji zapisywnay jest w plikach
+ */
+  void Rotors_rotation_animation();
+
+/*!
+ *  \brief Metoda animujaca obrot drona i wyrysowujaca calosc w gnuplocie
+ *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] Lacze - aktywne lacze do gnuplota
+ *     \param[in] angle - kat obrotu w stopniach, obrot wykonuje sie wylacznie wokol osi z                                                                                 
+ *     \post W oknie gnuplota wykonuje sie animacja obrotu drona                                 
+ */
+  void Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &angle);
 };

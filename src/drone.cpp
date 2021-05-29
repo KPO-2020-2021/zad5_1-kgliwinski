@@ -16,6 +16,11 @@ Drone::Drone()
         rotors[i] = rotors[i].scale_pri();
     }
     set_rotors_in_place();
+    double tab[3] = {1, 0, 0};
+    drone_orient = Vector3D(tab);
+    Matrix3D mat;
+    mat = mat.rotation_matrix(90, 'z');
+    *this = rotation_around_cen(mat);
 }
 
 void Drone::set_rotors_in_place()
@@ -77,8 +82,14 @@ void Drone::get_dro(Cuboid &b, Prism (&rot)[4], Vector3D &p) const
 
 Drone Drone::rotation_around_cen(const Matrix3D &mat) const
 {
+    int i;
     Drone rotated = *this;
     rotated.body = body.rotation_around_cen(mat);
+    for (i = 0; i < 4; ++i)
+    {
+        rotated.rotors[i] = rotors[i].rotation_around_cen(mat);
+    }
+    rotated.drone_orient = mat * drone_orient;
     rotated.set_rotors_in_place();
     return rotated;
 }
@@ -110,16 +121,16 @@ void Drone::setup_filenames(std::string const (&bod)[2], std::string const (&rot
 bool Drone::set_filenames_gnuplot(PzG::LaczeDoGNUPlota &Lacze) const
 {
     int i;
-    if (body.get_sample_name() == "")
+    if (body.get_final_name() == "")
         return 0;
-    body.Cuboid_To_File(body.get_sample_name());
-    Lacze.DodajNazwePliku(body.get_sample_name().c_str(), PzG::SR_Ciagly);
+    body.Cuboid_To_File(body.get_final_name());
+    Lacze.DodajNazwePliku(body.get_final_name().c_str(), PzG::SR_Ciagly);
     for (i = 0; i < 4; ++i)
     {
-        if (rotors[i].get_sample_name() == "")
+        if (rotors[i].get_final_name() == "")
             return 0;
-        Lacze.DodajNazwePliku(rotors[i].get_sample_name().c_str(), PzG::SR_Ciagly);
-        rotors[i].Prism_To_File(rotors[i].get_sample_name());
+        Lacze.DodajNazwePliku(rotors[i].get_final_name().c_str(), PzG::SR_Ciagly);
+        rotors[i].Prism_To_File(rotors[i].get_final_name());
     }
     return 1;
 }
@@ -164,6 +175,22 @@ bool Drone::check_dro() const
         if (!rotors[i].check_pri())
             return 0;
     }
+    if (!check_orien())
+        return 0;
+    return 1;
+}
+
+Vector3D Drone::get_orien() const
+{
+    Vector3D res;
+    res = drone_orient;
+    return res;
+}
+
+bool Drone::check_orien() const
+{
+    if (!(abs(drone_orient.get_len() - 1) <= 0.00000001))
+        return 0;
     return 1;
 }
 
@@ -185,4 +212,43 @@ void Drone::Print_to_gnuplot_drone() const
     Lacze.Rysuj();
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');
+}
+
+void Drone::Print_to_files_drone() const
+{
+    int i;
+    body.Cuboid_To_File(body.get_final_name());
+    for (i = 0; i < 4; ++i)
+    {
+        rotors[i].Prism_To_File(rotors[i].get_final_name());
+    }
+}
+
+void Drone::Rotors_rotation_animation()
+{
+    Matrix3D mat_pos, mat_neg;
+    mat_pos = mat_pos.rotation_matrix(1,'z');
+    mat_neg = mat_neg.rotation_matrix(-1,'z');
+    rotors[0] = rotors[0].rotation_around_cen(mat_pos);
+    rotors[1] = rotors[1].rotation_around_cen(mat_neg);
+    rotors[2] = rotors[2].rotation_around_cen(mat_neg);
+    rotors[3] = rotors[3].rotation_around_cen(mat_pos);
+    Print_to_files_drone();
+}
+
+void Drone::Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &angle)
+{
+    int i;
+    double theta = angle * 0.01;
+    Matrix3D mat = mat.rotation_matrix(theta, 'z');
+    for (i = 0; i < 100; ++i)
+    {
+        *this = rotation_around_cen(mat);
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    //std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    //std::cin.ignore(100000, '\n');
 }

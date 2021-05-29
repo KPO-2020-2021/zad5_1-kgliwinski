@@ -29,6 +29,10 @@ TEST_CASE("D 1.01: konstruktor bezparametryczny drona oraz operatora ==")
     Drone b;
 
     CHECK (a==b);
+    double tab2[3]={1,0,0};
+    Vector3D res(tab2);
+    CHECK (res == a.get_orien());
+    CHECK (res == b.get_orien());
 }
 
 TEST_CASE("D 1.02: konstruktor bezparametryczny drona oraz operatora == 1")
@@ -39,7 +43,11 @@ TEST_CASE("D 1.02: konstruktor bezparametryczny drona oraz operatora == 1")
     Vector3D tr(tab);
     a = a.translation(tr);
     b = b.translation(tr);
-    CHECK (a==b);
+    CHECK (a==b);    
+    double tab2[3]={1,0,0};
+    Vector3D res(tab2);
+    CHECK (res == a.get_orien());
+    CHECK (res == b.get_orien());
 }
 
 TEST_CASE("D 1.03: konstruktor bezparametryczny drona oraz operatora == 2")
@@ -53,6 +61,10 @@ TEST_CASE("D 1.03: konstruktor bezparametryczny drona oraz operatora == 2")
     tr = Vector3D(tab);
     b = b.translation(tr);
     CHECK (!(a==b));
+    double tab2[3]={1,0,0};
+    Vector3D res(tab2);
+    CHECK (res == a.get_orien());
+    CHECK (res == b.get_orien());
 }
 
 TEST_CASE("D 2.01: setup_files() check_files() 1")
@@ -258,4 +270,52 @@ TEST_CASE("D 3.04: check_dro() 4")
     a.set_scale_all(vec1,vec2);
     a = a.scale_dro();
     CHECK (!a.check_dro());
+}
+
+TEST_CASE("D 4.01: Drone rotation 1")
+{
+    Drone a,b;
+    Matrix3D mat;
+    mat = mat.rotation_matrix(360,'z');
+    a.rotation_around_cen(mat);
+    CHECK (a==b);
+    double tab[3]={1,0,0};
+    Vector3D res(tab);
+    CHECK (res == a.get_orien());
+}
+
+TEST_CASE("D 4.02: Drone rotation 2")
+{
+    Drone a,b;
+    Matrix3D mat;
+    mat = mat.rotation_matrix(60,'z');
+    a.rotation_around_cen(mat);
+    CHECK (a.get_orien().get_len() == 1);
+}
+
+TEST_CASE("D 4.03: Drone rotation 3")
+{
+    Drone a,b;
+    Matrix3D mat;
+    mat = mat.rotation_matrix(60,'z');
+    a.rotation_around_cen(mat);
+    CHECK (a.get_orien().get_len() == 1);
+}
+
+TEST_CASE("D 4.04: Drone rotation 4")
+{
+    Drone a,b;
+    Matrix3D mat;
+    mat = mat.rotation_matrix(65135,'y');
+    a.rotation_around_cen(mat);
+    CHECK (a.get_orien().get_len() == 1);
+}
+
+TEST_CASE("D 4.05: Drone rotation 5")
+{
+    Drone a,b;
+    Matrix3D mat;
+    mat = mat.rotation_matrix(451413,'x');
+    a.rotation_around_cen(mat);
+    CHECK (a.get_orien().get_len() == 1);
 }
