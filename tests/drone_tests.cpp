@@ -153,7 +153,7 @@ TEST_CASE("D 2.05: set_drone_pos() 2")
 
 TEST_CASE("D 2.06: set_drone_pos() 3")
 {
-    double tab[3] = {1,1,4.999999999};
+    double tab[3] = {1,1,2.499999};
     Vector3D p(tab);
     Drone a;
     CHECK (!a.set_drone_pos(p));

@@ -22,7 +22,7 @@
 class Menu_cub
 {
 private:
-    /*!
+/*!
  * \brief Zmienna mowiaca czy menu jest aktywne
  */
     bool open;

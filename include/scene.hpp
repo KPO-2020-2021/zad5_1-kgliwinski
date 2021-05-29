@@ -45,19 +45,19 @@ public:
 
 /*!
  * \brief Konstruktor paramereyczny klasy Scene
- *    
  *      \param[in] pos - tablica polozen dronow
  *      \param[in] scal_bod - tablica skali korpusow dronow
  *      \param[in] scal_rot - tablica skali rotorow dronow
- *      \param[in] name - nazwa pliku w ktorym opisana jest
- *                          plaszczyzna sceny
+ *      \param[in] name - nazwa pliku w ktorym opisana jest plaszczyzna sceny
+ *      \param[in] names_bod - tablica nazw plikow sample i final dla prostopadloscianow body
+ *      \param[in] names_rot - tablica nazw plikow sample i final dla graniastoslupow rotors
  *      \post Ustawia odpowiednie wartosci klasy, zadane przez uzytkownika
  */
-Scene(Vector3D const (&pos)[SIZE], Vector3D const (&scal_bod)[SIZE],Vector3D const (&scal_rot)[SIZE], std::string const &name );
+Scene(Vector3D const (&pos)[SIZE], Vector3D const (&scal_bod)[SIZE],Vector3D const (&scal_rot)[SIZE], std::string const &name, 
+std::string const (&names_bod)[SIZE][2],std::string const (&names_rot)[SIZE][4][2]);
 
 /*!
  * \brief Metoda sprawdzajaca poprawnosc inicjacji sceny
- *     
  *      \retval true - scena poprawnie zainicjowana
  *      \retval false - scena blednie zainicjowana
  */
@@ -65,7 +65,7 @@ bool check_scene() const;
 
 /*!
  *  \brief Przeciazenie operatora == dla klasy Scene    
- *          \b{Parametr active jest pomijany}                                         
+ *       \b{Parametr active jest pomijany}                                         
  *      \param[in] pri - porownywana scena                                            
  *      \retval false - nie sa rowne, 
  *      \retval true - sa rowne                                                     
@@ -84,9 +84,8 @@ bool choose_drone(unsigned int const &ch);
 
 /*!
  * \brief Metoda inicjalizujaca lacze do gnuplota
- *
  *  \post Powstaje w pelni skonfigurowane lacze, ktore 
- *          moze byc uzyte do rysowanie calej sceny
+ *          moze byc uzyte do rysowania calej sceny
  */
-PzG::LaczeDoGNUPlota init_gnuplot();
+PzG::LaczeDoGNUPlota init_gnuplot() const;
 };

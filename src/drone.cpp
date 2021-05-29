@@ -3,13 +3,13 @@
 Drone::Drone()
 {
     int i;
-    double tmp[3] = {15, 20, 5};
+    double tmp[3] = {17, 20, 5};
     drone_pos = Vector3D(tmp);
     body.set_scale(tmp);
     body = body.scale_cub();
-    tmp[0] = 5;
-    tmp[1] = 5;
-    tmp[2] = 5;
+    tmp[0] = 6;
+    tmp[1] = 6;
+    tmp[2] = 6;
     for (i = 0; i < 4; ++i)
     {
         rotors[i].set_scale(tmp);
@@ -107,6 +107,23 @@ void Drone::setup_filenames(std::string const (&bod)[2], std::string const (&rot
     }
 }
 
+bool Drone::set_filenames_gnuplot(PzG::LaczeDoGNUPlota &Lacze) const
+{
+    int i;
+    if (body.get_sample_name() == "")
+        return 0;
+    body.Cuboid_To_File(body.get_sample_name());
+    Lacze.DodajNazwePliku(body.get_sample_name().c_str(), PzG::SR_Ciagly);
+    for (i = 0; i < 4; ++i)
+    {
+        if (rotors[i].get_sample_name() == "")
+            return 0;
+        Lacze.DodajNazwePliku(rotors[i].get_sample_name().c_str(), PzG::SR_Ciagly);
+        rotors[i].Prism_To_File(rotors[i].get_sample_name());
+    }
+    return 1;
+}
+
 void Drone::get_filenames(std::string (&bod)[2], std::string (&rots)[4][2]) const
 {
     int i;
@@ -156,7 +173,7 @@ void Drone::Print_to_gnuplot_drone() const
     PzG::LaczeDoGNUPlota Lacze;
     body.Cuboid_To_File(body.get_sample_name());
     Lacze.DodajNazwePliku(body.get_sample_name().c_str(), PzG::SR_Ciagly);
-    for(i=0;i<4;++i)
+    for (i = 0; i < 4; ++i)
     {
         Lacze.DodajNazwePliku(rotors[i].get_sample_name().c_str(), PzG::SR_Ciagly);
         rotors[i].Prism_To_File(rotors[i].get_sample_name());
@@ -169,4 +186,3 @@ void Drone::Print_to_gnuplot_drone() const
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');
 }
-

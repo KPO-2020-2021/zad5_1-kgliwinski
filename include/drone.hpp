@@ -69,15 +69,14 @@ public:
  */
   Drone translation_to_pos() const;
 
-/*!
+  /*!
  *  \brief Metoda obracajaca dron o zadany kat w 3D wokol srodka figury                                      
  *      \param[in] mat - macierz obrotu                                                  
  *      \param[out] rotated - dron po przeprowadzonej rotacji                               
  */
   Drone rotation_around_cen(const Matrix3D &mat) const;
 
-
-/*!
+  /*!
  *  \brief Metoda skalujaca wszystkie elementy drona przez skale kazdego elementu                                                                                     
  *     \param[out] scaled - dron po operacji skalowania                              
  */
@@ -110,7 +109,7 @@ public:
  *      \param[in] rot - skala rotorow                                               
  *     \post Ustawia skale korpusa i rotorow                                  
  */
-  void set_scale_all(Vector3D const &bod,Vector3D const &rot);
+  void set_scale_all(Vector3D const &bod, Vector3D const &rot);
 
   /*!
  *  \brief Metoda zwracajaca wszystkie elementy drona do odpowiednich zmiennych                                          
@@ -127,7 +126,7 @@ public:
  */
   bool check_dro() const;
 
-  /*!
+/*!
  *  \brief Metoda ustawiajaca nazwy plikow do zapisu dla drona
  *     \param[in] bod - tablica nazw plikow odpowiednio 0-sample_name, 1-final_name;
  *                      zawierajacych dane do korpusu drona
@@ -135,6 +134,14 @@ public:
  *     \post Zmienia obiekt, przypisuje mu odpowiednie parametry                                 
  */
   void setup_filenames(std::string const (&bod)[2], std::string const (&rots)[4][2]);
+
+/*!
+ *  \brief Metoda ustawiajaca nazwy plikow w laczy do gnuplota
+ *     \param[in] Lacze - lacze do ktorego wpisane zostana nazwy
+ *     \pre Metoda wymaga zainicjowanych nazw elementow drona                                                                                    
+ *     \post Zmienia lacze, przypisuje mu odpowiednie parametry                                 
+ */
+  bool set_filenames_gnuplot(PzG::LaczeDoGNUPlota &Lacze) const;
 
   /*!
  *  \brief Metoda zwracajaca nazwy plikow do zapisu dla drona
@@ -150,5 +157,4 @@ public:
  *     \post Wyswietla okienko gnuplota z wyrysowanym dronem                                 
  */
   void Print_to_gnuplot_drone() const;
-  
 };
