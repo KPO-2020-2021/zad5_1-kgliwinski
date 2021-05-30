@@ -138,7 +138,6 @@ std::istream &operator>>(std::istream &in, Vector<type, SIZE> &tmp)
     {
         in >> tmp[i];
     }
-    std::cout << std::endl;
     return in;
 }
 

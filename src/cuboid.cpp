@@ -480,6 +480,8 @@ Cuboid Cuboid::Cuboid_From_Sample() const
     tab[1][1] = read[1][2];
     tab[1][2] = read[1][3];
     Cuboid pri(tab);
+    pri.set_sample_name(this->get_sample_name());
+    pri.set_final_name(this->get_final_name());
     return pri;
 }
 

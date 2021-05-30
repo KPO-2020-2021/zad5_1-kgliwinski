@@ -29,6 +29,6 @@ void Count<T>::get_count(int &created, int &alive) const
 template <typename T>
 void Count<T>::print_count() const
 {
-    std::cout<<"Aktualna ilosc obiektow Vector3D: "<<objects_alive;
-    std::cout<<"  Laczna ilosc obiektow Vector3D: "<<objects_created;
+    std::cout<<"Aktualna ilosc obiektow Vector3D: "<<objects_alive<<std::endl;
+    std::cout<<"  Laczna ilosc obiektow Vector3D: "<<objects_created<<std::endl;
 }

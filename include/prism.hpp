@@ -37,8 +37,7 @@ private:
 public:
     /*!
  *  \brief Konstruktor bezparametryczny klasy Prism.
- *         Powstaly granistoslup ma podstawy "tworzace":                                                    
- *                                                                        
+ *         Powstaly granistoslup ma podstawy "tworzace":                                                                                                             
  *     \post Zwraca dwanascie wiercholkow                                   
  */
     Prism();

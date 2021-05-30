@@ -298,6 +298,8 @@ Prism Prism::Prism_From_Sample() const
         file >> bin;
     }
     Prism pri(read);
+    pri.set_sample_name(this->get_sample_name());
+    pri.set_final_name(this->get_final_name());
     return pri;
 }
 

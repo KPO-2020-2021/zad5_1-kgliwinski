@@ -93,12 +93,18 @@ PzG::LaczeDoGNUPlota Lacze;
 Lacze.Rysuj();
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');
-  for(int i=0;i<100;++i)
-  {
-a.Drone_rotation_animation(Lacze, 60);
-  }
 
+a.Drone_rotation_animation(Lacze, 60);
 Lacze.Rysuj();
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');
+
+a.Drone_rotation_animation(Lacze, 250);
+Lacze.Rysuj();
+    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    std::cin.ignore(100000, '\n');
+
+Vector3D vec;
+vec.print_count();
+
 }

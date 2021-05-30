@@ -3,6 +3,7 @@
 #include "cuboid.hpp"
 #include "lacze_do_gnuplota.hpp"
 #include <unistd.h>
+#include <vector>
 /*!
  * \file  drone.hpp
  *  
@@ -204,4 +205,39 @@ Vector3D get_orien() const;
  *     \post W oknie gnuplota wykonuje sie animacja obrotu drona                                 
  */
   void Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &angle);
+  
+/*!
+ *  \brief Metoda wyrysowujaca sciezke drona z uzyciem std::vector<>
+ *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] Lacze - aktywne lacze do gnuplota
+ *     \param[in] tran - wektor translacji                                                                                   
+ *     \post W oknie gnuplota wyrysowuje sie sciezka drona                                 
+ */
+  void Drone_draw_path(PzG::LaczeDoGNUPlota Lacze, Vector3D const &tran);
+  
+/*!
+ *  \brief Metoda animujaca translacje drona i wyrysowujaca calosc w gnuplocie
+ *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] Lacze - aktywne lacze do gnuplota
+ *     \param[in] tran - wektor translacji                                                                                 
+ *     \post W oknie gnuplota wykonuje sie animacja translacji drona                                 
+ */
+  void Drone_translation_animation(PzG::LaczeDoGNUPlota Lacze, Vector3D const &tran);
+
+/*!
+ *  \brief Metoda zamieniajaca drona na tego z pliku sample
+ *     \pre PLiki musza byc odpowiednio skonfigurowane           
+ *     \param[in] angle - jesli dron roboczy jest obrocony o pewien kat, nalezy
+ *                         podac ten kat w metodzie                                                                      
+ *     \post Zamienia drona na tego o wzorcowych wymiarach                              
+ */
+  void Drone_change_to_sample(double const &angle);
+
+  /*!
+ *  \brief Metoda wczytywania odpowiednich wierzcholkow z pliku wzorcowego
+ *         zgodnie z zaproponowanym sposobem w zadaniu dron.
+ *         Przypisuje wczytane wierzcholki do elementow drona.                  
+ *      \param[out] dro - wczytwany dron                                                                                                 
+ */
+    Drone Drone_From_Sample() const;
 };

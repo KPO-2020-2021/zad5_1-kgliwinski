@@ -125,12 +125,18 @@ bool Drone::set_filenames_gnuplot(PzG::LaczeDoGNUPlota &Lacze) const
         return 0;
     body.Cuboid_To_File(body.get_final_name());
     Lacze.DodajNazwePliku(body.get_final_name().c_str(), PzG::SR_Ciagly);
+    if (body.get_sample_name() == "")
+        return 0;
+    body.Cuboid_To_File(body.get_sample_name());
     for (i = 0; i < 4; ++i)
     {
         if (rotors[i].get_final_name() == "")
             return 0;
-        Lacze.DodajNazwePliku(rotors[i].get_final_name().c_str(), PzG::SR_Ciagly);
         rotors[i].Prism_To_File(rotors[i].get_final_name());
+        Lacze.DodajNazwePliku(rotors[i].get_final_name().c_str(), PzG::SR_Ciagly);
+        if (rotors[i].get_sample_name() == "")
+            return 0;
+        rotors[i].Prism_To_File(rotors[i].get_sample_name());
     }
     return 1;
 }
@@ -210,8 +216,6 @@ void Drone::Print_to_gnuplot_drone() const
     Lacze.UstawZakresZ(0, 120);
     Lacze.ZmienTrybRys(PzG::TR_3D);
     Lacze.Rysuj();
-    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-    std::cin.ignore(100000, '\n');
 }
 
 void Drone::Print_to_files_drone() const
@@ -227,8 +231,8 @@ void Drone::Print_to_files_drone() const
 void Drone::Rotors_rotation_animation()
 {
     Matrix3D mat_pos, mat_neg;
-    mat_pos = mat_pos.rotation_matrix(1,'z');
-    mat_neg = mat_neg.rotation_matrix(-1,'z');
+    mat_pos = mat_pos.rotation_matrix(3, 'z');
+    mat_neg = mat_neg.rotation_matrix(-3, 'z');
     rotors[0] = rotors[0].rotation_around_cen(mat_pos);
     rotors[1] = rotors[1].rotation_around_cen(mat_neg);
     rotors[2] = rotors[2].rotation_around_cen(mat_neg);
@@ -239,9 +243,9 @@ void Drone::Rotors_rotation_animation()
 void Drone::Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &angle)
 {
     int i;
-    double theta = angle * 0.01;
+    double theta = 1;
     Matrix3D mat = mat.rotation_matrix(theta, 'z');
-    for (i = 0; i < 100; ++i)
+    for (i = 0; i < angle; ++i)
     {
         *this = rotation_around_cen(mat);
         Print_to_files_drone();
@@ -249,6 +253,43 @@ void Drone::Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &a
         usleep(10000); // 0.1 ms
         Lacze.Rysuj();
     }
+    Drone_change_to_sample(angle);
     //std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     //std::cin.ignore(100000, '\n');
+}
+/*
+void Drone_translation_animation(PzG::LaczeDoGNUPlota Lacze, Vector3D const &tran)
+{
+
+}
+*/
+Drone Drone::Drone_From_Sample() const
+{
+    int i;
+    Drone dro;
+    dro.body.Cuboid_From_Sample();
+    for(i=0;i<4;++i)
+    {
+        dro.rotors[i].Prism_From_Sample();
+    }
+    std::string bod[2],rots[4][2];
+    get_filenames(bod,rots);
+    dro.setup_filenames(bod,rots);
+    return dro;
+}
+
+void Drone::Drone_change_to_sample(double const &angle)
+{
+    int i;
+    Drone sam = Drone_From_Sample();
+    Matrix3D mat;
+    mat = mat.rotation_matrix(angle,'z');
+    sam = sam.rotation_around_cen(mat);
+    sam.set_drone_pos(drone_pos);
+    sam = sam.translation_to_pos();
+    body = sam.body;
+    for(i=0;i<4;++i)
+    {
+        rotors[i]=sam.rotors[i];
+    }
 }
