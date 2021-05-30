@@ -428,6 +428,132 @@ bool Drone::Drone_basic_motion(double const &angle, double const &len, PzG::Lacz
     return 1;
 }
 
+bool Drone::Drone_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze)
+{
+    long unsigned int i;
+    std::vector<Vector3D> cur_path = {drone_pos};
+    if (!Drone_make_path_roundabout(radius, cur_path))
+        return 0;
+    std::cout << "Naciśnij ENTER, aby narysowac sciezke" << std::endl;
+    std::cin.ignore(100000, '\n');
+    
+    if (!Drone_path_to_file(cur_path, "../datasets/sciezka.dat", Lacze))
+        return 0;
+    std::cout << "Naciśnij ENTER, aby wykonac animacje przelotu" << std::endl;
+    std::cin.ignore(100000, '\n');
+    std::cout << "Wznoszenie" << std::endl;
+    for (i = 0; i < 80; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    std::cout << "Odlecenie na promien okregu" << std::endl;
+    for (; i < 160; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    Drone_change_to_sample(drone_angle);
+    Matrix3D mat;
+    mat = mat.rotation_matrix(1,'z');
+    std::cout << "Oblot" << std::endl;
+    for (; i < 520; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        *this = rotation_around_cen(mat);
+        drone_angle+=1;
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    Drone_change_to_sample(drone_angle);
+    std::cout << "Powrot" << std::endl;
+    for (; i < 600; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    std::cout << "Opadanie" << std::endl;
+    
+    for (; i < 680; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    Drone_change_to_sample(drone_angle);
+    std::cout << "Naciśnij ENTER, aby usunac sciezke" << std::endl;
+    std::cin.ignore(100000, '\n');
+    if (!Drone_path_clear("../datasets/sciezka.dat"))
+        return 0;
+    Lacze.Rysuj();
+    drone_pos.print_count();
+    
+    cur_path.clear();
+    return 1;
+}
+
+bool Drone::Drone_make_path_roundabout(double const &radius, std::vector<Vector3D> &path)
+{
+    int i;
+    if (radius <= 0)
+        return 0;
+    double posi[3];
+    drone_pos.get_vec(posi);
+    posi[3] = 80;
+    Vector3D tmp(posi);
+    double tab[3] = {0, 0, 1};
+    Vector3D rise(tab);
+    for (i = 0; i < 80; ++i)
+    {
+        path.push_back(path.at(i) + rise);
+    }
+    double tab2[3] = {0,radius,0};
+    Vector3D tran(tab2);
+    Vector3D fly = tran / 80;
+    for (; i < 160; ++i)
+    {
+        path.push_back(path.at(i) + fly);
+    }
+    Matrix3D mat;
+    mat = mat.rotation_matrix(1,'z');
+    for (; i < 520; ++i)
+    {
+        path.at(i) = path.at(i) - tmp;
+        path.at(i) = mat*path.at(i);
+        path.at(i) = path.at(i) + tmp;
+        path.push_back(path.at(i));
+    }
+    Vector3D back = fly*(-1);
+    for (; i < 600; ++i)
+    {
+        path.push_back(path.at(i) + back);
+    }
+    Vector3D fall = rise *(-1);
+    for (; i < 680; ++i)
+    {
+        path.push_back(path.at(i) + fall);
+    }
+    return 1;
+}
+
 void Drone::print_drone_pos() const
 {
     std::cout << drone_pos[0] << " " << drone_pos[1];

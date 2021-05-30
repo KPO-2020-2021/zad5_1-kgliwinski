@@ -15,9 +15,9 @@ void Menu::init_menu(Scene &sc, PzG::LaczeDoGNUPlota &Lacze)
     }
     else
     {
-        Lacze = sc.init_gnuplot(0,200,0,200);
+        Lacze = sc.init_gnuplot(0, 200, 0, 200);
         Lacze.Rysuj();
-        std::cout<<"\n Polozenie Drona aktywnego (x,y): ";
+        std::cout << "\n Polozenie Drona aktywnego (x,y): ";
         sc.print_active();
         show_menu();
     }
@@ -50,12 +50,22 @@ void Menu::switch_menu(Scene &sc, PzG::LaczeDoGNUPlota &Lacze, const char &oper)
     }
     case 'p':
     {
-        double ang,len;
+        double ang, len;
         std::cout << "Podaj kierunek lotu (kat w stopniach): ";
         std::cin >> ang;
         std::cout << "Podaj długość lotu: ";
-        std::cin>>len;
-        sc.fly(ang,len,Lacze);
+        std::cin >> len;
+        if(!sc.fly(ang, len, Lacze))
+            std::cout<<"Error: Bledne dane\n";
+        break;
+    }
+    case 'o':
+    {
+        double rad;
+        std::cout << "Podaj promien okregu: ";
+        std::cin >> rad;
+        if(!sc.fly_roundabout(rad, Lacze))
+            std::cout<<"Error: Bledne dane\n";
         break;
     }
     case 'm':

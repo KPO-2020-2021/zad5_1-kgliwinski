@@ -118,7 +118,16 @@ void Scene::print_positions() const
               << std::endl;
 }
 
-void Scene::fly(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze)
+bool Scene::fly(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze)
 {
-    flies[active].Drone_basic_motion(angle,len,Lacze);
+    if(!flies[active].Drone_basic_motion(angle,len,Lacze))
+        return 0;
+    return 1;
+}
+
+bool Scene::fly_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze)
+{
+    if(!flies[active].Drone_roundabout(radius, Lacze))
+        return 0;
+    return 1;
 }

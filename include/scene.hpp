@@ -123,9 +123,21 @@ void print_positions() const;
  *     \param[in] len - dlugosc przelotu       
  *     \param[in] Lacze - aktywne lacze do gnuplota                                                                          
  *     \post W oknie gnuplota wykonuje sie animacja translacji drona
- *     \retval true - jesli operacja sie powiedzie
+ *     \retval true - jesli jest odpowiednio skonfigurowane lacze
  *     \retval false - w przeciwnym wypadku                                   
  */
  
-void fly(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze);
+bool fly(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze);
+
+/*!
+ * \brief Przelot aktywnego drona
+  *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] radius - promien okregu przelotu      
+ *     \param[in] Lacze - aktywne lacze do gnuplota                                                                          
+ *     \post W oknie gnuplota wykonuje sie animacja translacji drona  
+ *     \retval true - jesli jest odpowiednio skonfigurowane lacze
+ *     \retval false - w przeciwnym wypadku                                 
+ */
+ 
+bool fly_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze);
 };

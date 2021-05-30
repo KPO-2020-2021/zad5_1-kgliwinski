@@ -280,9 +280,32 @@ public:
  *     \param[in] angle - kat w stopniach
  *     \param[in] len - dlugosc przelotu       
  *     \param[in] Lacze - aktywne lacze do gnuplota                                                                          
- *     \post W oknie gnuplota wykonuje sie animacja translacji drona
+ *     \post W oknie gnuplota wykonuje sie animacja ruchu drona
  *     \retval true - jesli operacja sie powiedzie
  *     \retval false - w przeciwnym wypadku                                   
  */
   bool Drone_basic_motion(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze);
+
+/*!
+ *  \brief Metoda robiaca "oblot" drona wokol punktu (z modyfikacji)
+ *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] radius - promien okregu   
+ *     \param[in] Lacze - aktywne lacze do gnuplota                                                                          
+ *     \post W oknie gnuplota wykonuje sie animacja ruchu drona   
+ *     \retval true - jesli operacja sie powiedzie
+ *     \retval false - w przeciwnym wypadku                             
+ */
+  bool Drone_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze);
+
+  /*!
+ *  \brief Metoda przygotowujaca sciezke drona z uzyciem std::vector<> do roundabout
+ *     \pre Lacze musi byc odpowiednio skonfigurowane. Promien musi byc dodatni
+ *     \param[in] radius - promien okregu  
+ *     \param[in] path - std::vector<> do ktorego zapisywana jest sciezka                                                                                   
+ *     \post W oknie gnuplota wyrysowuje sie sciezka drona    
+ *     \retval true - jesli jest odpowiednio skonfigurowane lacze
+ *     \retval false - w przeciwnym wypadku                             
+ */
+  bool Drone_make_path_roundabout(double const &radius, std::vector<Vector3D> &path);
+
 };
