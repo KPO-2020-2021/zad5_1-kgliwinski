@@ -29,12 +29,6 @@ void Vector<type, SIZE>::get_vec(type (&tab)[SIZE]) const
 }
 
 template <typename type, unsigned int SIZE>
-Vector<type, SIZE>::~Vector()
-{
-    //std::cout<<"Deleting vector"<<std::endl;
-}
-
-template <typename type, unsigned int SIZE>
 Vector<type, SIZE> Vector<type, SIZE>::operator+(const Vector<type, SIZE> &v) const
 {
     Vector result;

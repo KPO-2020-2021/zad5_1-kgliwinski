@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include"count.hpp"
 
 constexpr double PI = 3.14159265;
 /*!
@@ -11,16 +12,12 @@ constexpr double PI = 3.14159265;
  *  o wymiarach SIZEx1
  */
 
-
-
-
-
 /*! \class Vector
  *  \brief Opisuje wektor o SIZE-wierszach
  */
 
 template <typename type, unsigned int SIZE> 
-class Vector {
+class Vector: public Count<Vector<type,SIZE>> {
 
 private:
 /*!
@@ -49,14 +46,6 @@ public:
  */
     Vector(type [SIZE]);
 
-/*!
- *  \brief Destruktor klasy Vector.                                                 
- *  Argumenty:                                                               
- *      Brak argumentow.                                                     
- *  Zwraca:                                                                  
- *      \post Usuwa wektor                                                         
- */
-    ~Vector();
 
 /*!
  *  \brief Realizuje dodawanie dwoch wektorow.                                      

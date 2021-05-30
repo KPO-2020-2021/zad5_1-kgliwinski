@@ -1002,7 +1002,6 @@ TEST_CASE("P 7.06 [ASERCJE]: check_vec_ver() 1 - with rotation")
      double scale_tab[3] = {100,100,100};
      a.set_scale(scale_tab);
      a = a.scale_pri();
-     Vector3D tab[6];
      double trans[3] = {124,124124,12343};
      a = a.translation(Vector3D(trans));
      Matrix3D rot;
@@ -1018,7 +1017,6 @@ TEST_CASE("P 7.07 [ASERCJE]: check_vec_ver() 2 - with rotation")
      double scale_tab[3] = {1410,1410,1410};
      a.set_scale(scale_tab);
      a = a.scale_pri();
-     Vector3D tab[6];
      double trans[3] = {-124,124124,-12343};
      a = a.translation(Vector3D(trans));
      Matrix3D rot;
@@ -1035,7 +1033,6 @@ TEST_CASE("P 7.08 [ASERCJE]: check_vec_ver() 3 - with rotation")
      double scale_tab[3] = {100,100,100};
      a.set_scale(scale_tab);
      a = a.scale_pri();
-     Vector3D tab[6];
      double trans[3] = {124,124124,12343};
      a = a.translation(Vector3D(trans));
      Matrix3D rot;

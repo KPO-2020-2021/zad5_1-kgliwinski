@@ -241,17 +241,9 @@ TEST_CASE("D 3.01: check_dro() 1")
     CHECK (a.check_dro());
 }
 
-TEST_CASE("D 3.02: check_dro() 2")
-{
-    Drone a;
-    double tab[3] = {123,123,123};
-    Vector3D sca(tab);
-    a.set_scale_all(sca,sca);
-    a = a.scale_dro();
-    CHECK (a.check_dro());
-}
 
-TEST_CASE("D 3.03: check_dro() 3")
+
+TEST_CASE("D 3.02: check_dro() 2")
 {
     Drone a;
     double tab[3] = {232,123,123};
@@ -261,7 +253,7 @@ TEST_CASE("D 3.03: check_dro() 3")
     CHECK (!a.check_dro());
 }
 
-TEST_CASE("D 3.04: check_dro() 4")
+TEST_CASE("D 3.03: check_dro() 3")
 {
     Drone a;
     double tab1[3] = {1233,123,123};

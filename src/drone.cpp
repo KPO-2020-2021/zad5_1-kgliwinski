@@ -16,11 +16,11 @@ Drone::Drone()
         rotors[i] = rotors[i].scale_pri();
     }
     set_rotors_in_place();
-    double tab[3] = {1, 0, 0};
-    drone_orient = Vector3D(tab);
     Matrix3D mat;
     mat = mat.rotation_matrix(90, 'z');
     *this = rotation_around_cen(mat);
+    double tab[3] = {1, 0, 0};
+    drone_orient = Vector3D(tab);
 }
 
 void Drone::set_rotors_in_place()
@@ -189,7 +189,7 @@ Vector3D Drone::get_orien() const
 
 bool Drone::check_orien() const
 {
-    if (!(abs(drone_orient.get_len() - 1) <= 0.00000001))
+    if (!(abs(drone_orient.get_len() - 1.0) <= 0.00001))
         return 0;
     return 1;
 }

@@ -48,6 +48,7 @@ set(SOURCES          # All .cpp files in src/
     src/matrix.tpp
     src/vector.tpp
     src/menu.cpp
+    src/count.tpp
 )
 set(TESTFILES        # All .cpp files in tests/
     main.cpp
