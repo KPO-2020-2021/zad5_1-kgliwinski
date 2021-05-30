@@ -58,7 +58,7 @@ set(TESTFILES        # All .cpp files in tests/
     cuboid_tests.cpp
     prism_tests.cpp
     block_tests.cpp
-
+    count_tests.cpp
 )
 set(LIBRARY_NAME engine)  # Default name for the library built from src/*.cpp (change if you wish)
 

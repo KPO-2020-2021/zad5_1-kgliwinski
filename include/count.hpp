@@ -54,6 +54,11 @@ protected:
  * \brief Wypisuje odpowiednie wartosci klasy na standardowym wyjsciu
  */
     void print_count() const;
+
+/*!
+ * \brief Wyzerowuje pola klasy. Przeznaczona do testow.
+ */
+    void zero_count();
 };
 
 #include"../src/count.tpp"

@@ -678,10 +678,3 @@ TEST_CASE("V 13.05: scale_vec 5")
     CHECK (a == res);
 }
 
-TEST_CASE("V 14.01: Count")
-{
-    Vector3D a,b,c;
-    int ac,cr;
-    a.get_count(ac,cr);
-    CHECK(cr ==3);
-}
