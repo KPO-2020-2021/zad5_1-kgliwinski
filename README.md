@@ -18,6 +18,8 @@ Below it is shown how the programme is structured and how it declares 3D geometr
 
 ![Cuboid in 3D](/readme_pics/class_diagram.png)
 
+To see more indepth diagrams and documentation go to /documentation dir.
+
 ## Cuboid
 
 This is how (default) cuboid looks like in the project: (made using [Geogebra](https://www.geogebra.org/3d?lang=pl))
@@ -71,7 +73,7 @@ OR:
 > make fulltest
 ```
 
-Results of tests on my local machine:
+Results of tests on my local machine: (using *./unit_tests*)
 ```
 ===============================================================================
 [doctest] test cases: 292 | 292 passed | 0 failed | 0 skipped
