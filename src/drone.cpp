@@ -257,24 +257,93 @@ void Drone::Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &a
     //std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     //std::cin.ignore(100000, '\n');
 }
-/*
-void Drone_translation_animation(PzG::LaczeDoGNUPlota Lacze, Vector3D const &tran)
-{
 
+bool Drone::Drone_make_path( Vector3D const &tran, std::vector<Vector3D> &path)
+{
+    int i;
+    if (tran[2] != 0)
+        return 0;
+    double tab[3] = {0, 0, 1};
+    Vector3D rise(tab);
+    for (i = 0; i < 80; ++i)
+    {
+        path.push_back(path.at(i) + rise);
+    }
+    Vector3D fly = tran/360;
+    for (; i < 440; ++i)
+    {
+        path.push_back(path.at(i) + fly);
+    }
+    double tab2[3] = {0, 0, -1};
+    Vector3D fall(tab2);
+    for (; i < 520; ++i)
+    {
+        path.push_back(path.at(i) + fall);
+    }
+    return 1;
 }
-*/
+
+  bool Drone::Drone_path_clear(std::string const &name)
+  {
+    std::ofstream filestrm;
+    filestrm.open(name,std::ofstream::out | std::ofstream::trunc);
+    filestrm.close();
+    return !filestrm.fail();
+  }
+
+  bool Drone::Drone_path_to_file(std::vector<Vector3D> &path, std::string const &name, PzG::LaczeDoGNUPlota &Lacze)
+  {
+    long unsigned int i;
+    std::ofstream filestrm;
+    filestrm.open(name);
+    if (!filestrm.is_open())
+    {
+        std::cerr << ":(  Operacja otwarcia do zapisu \"" << name << "\"" << std::endl
+                  << ":(  nie powiodla sie." << std::endl;
+        return false;
+    }
+
+    for(i=0;i<path.size();++i)
+    {
+        filestrm<<std::setw(10) << std::fixed << std::setprecision(10)<<path[i][0]<<" "<<path[i][1]<<" "<<path[i][2]<<std::endl;
+    }
+    filestrm.close();
+    Lacze.DodajNazwePliku(name.c_str(), PzG::SR_Ciagly);
+    Lacze.Rysuj();
+    return !filestrm.fail();
+  }
+
+
+void Drone::Drone_translation_animation(PzG::LaczeDoGNUPlota &Lacze, Vector3D const &tran)
+{
+    std::vector<Vector3D> cur_path = {drone_pos};
+    Drone_make_path(tran, cur_path);
+    Drone_path_to_file(cur_path,"../datasets/sciezka.dat",Lacze);
+    long unsigned int i;
+    for(i=0;i<cur_path.size(); ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    Drone_change_to_sample(0);
+}
+
 Drone Drone::Drone_From_Sample() const
 {
     int i;
     Drone dro;
     dro.body.Cuboid_From_Sample();
-    for(i=0;i<4;++i)
+    for (i = 0; i < 4; ++i)
     {
         dro.rotors[i].Prism_From_Sample();
     }
-    std::string bod[2],rots[4][2];
-    get_filenames(bod,rots);
-    dro.setup_filenames(bod,rots);
+    std::string bod[2], rots[4][2];
+    get_filenames(bod, rots);
+    dro.setup_filenames(bod, rots);
     return dro;
 }
 
@@ -283,13 +352,71 @@ void Drone::Drone_change_to_sample(double const &angle)
     int i;
     Drone sam = Drone_From_Sample();
     Matrix3D mat;
-    mat = mat.rotation_matrix(angle,'z');
+    mat = mat.rotation_matrix(angle, 'z');
     sam = sam.rotation_around_cen(mat);
     sam.set_drone_pos(drone_pos);
     sam = sam.translation_to_pos();
     body = sam.body;
-    for(i=0;i<4;++i)
+    for (i = 0; i < 4; ++i)
     {
-        rotors[i]=sam.rotors[i];
+        rotors[i] = sam.rotors[i];
     }
 }
+
+ bool Drone::Drone_basic_motion(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze)
+ {
+     long unsigned int i;
+     double theta = angle*(PI/180);
+     double x = len*cos(theta);
+     double y = len*sin(theta);
+     double tab[3] = {x,y,0};
+     Vector3D tran(tab);
+    std::vector<Vector3D> cur_path = {drone_pos};
+    if(!Drone_make_path(tran, cur_path))
+        return 0;
+    std::cout << "Naciśnij ENTER, aby narysowac sciezke" << std::endl;
+    std::cin.ignore(100000, '\n');
+    if(!Drone_path_to_file(cur_path,"../datasets/sciezka.dat",Lacze))
+        return 0;
+    std::cout << "Naciśnij ENTER, aby wykonac animacje przelotu" << std::endl;
+    std::cin.ignore(100000, '\n');
+    std::cout << "Wznoszenie" << std::endl;
+    for (i = 0; i < 80; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    std::cout << "Zmiana orientacji" << std::endl;
+    Drone_rotation_animation(Lacze,angle);
+    std::cout << "Lot do przodu" << std::endl;
+    for (; i < 440; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    Drone_change_to_sample(angle);
+    std::cout << "Opadanie" << std::endl;
+    for (; i < 520; ++i)
+    {
+        this->drone_pos = cur_path.at(i);
+        *this = translation_to_pos();
+        Print_to_files_drone();
+        Rotors_rotation_animation();
+        usleep(10000); // 0.1 ms
+        Lacze.Rysuj();
+    }
+    Drone_change_to_sample(angle);
+    std::cout << "Naciśnij ENTER, aby usunac sciezke" << std::endl;
+    std::cin.ignore(100000, '\n');
+    if(!Drone_path_clear("../datasets/sciezka.dat"))
+        return 0;
+    return 1;
+ }

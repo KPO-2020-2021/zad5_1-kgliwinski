@@ -24,7 +24,7 @@ private:
  */
   Vector3D drone_pos;
 
-/*!
+  /*!
  * \brief Zmienna reprezentujaca zwrot drona.
  *         Reprezentowana przez jednostkowy Vector,
  *         nie dopuszcza sie zwrotu pionowego.
@@ -134,14 +134,14 @@ public:
  *     \retval false - dron blednie zbudowany                                 
  */
   bool check_dro() const;
-  
+
   /*!
  *  \brief Metoda zwracajaca orientacje drona                                                                                         
  *     \return res - Zwracana orientacja                                 
  */
-Vector3D get_orien() const;
+  Vector3D get_orien() const;
 
-/*!
+  /*!
  *  \brief Metoda sprawdzajaca orientacje drona                                                                                         
  *          Vector3D dron_orien musi byc jednostkowy, oraz miec skladowa z=0
  *     \retval true - odpowiednia orientacja
@@ -149,7 +149,7 @@ Vector3D get_orien() const;
  */
   bool check_orien() const;
 
-/*!
+  /*!
  *  \brief Metoda ustawiajaca nazwy plikow do zapisu dla drona
  *     \param[in] bod - tablica nazw plikow odpowiednio 0-sample_name, 1-final_name;
  *                      zawierajacych dane do korpusu drona
@@ -158,7 +158,7 @@ Vector3D get_orien() const;
  */
   void setup_filenames(std::string const (&bod)[2], std::string const (&rots)[4][2]);
 
-/*!
+  /*!
  *  \brief Metoda ustawiajaca nazwy plikow w laczy do gnuplota (nazwy final!)
  *     \param[in] Lacze - lacze do ktorego wpisane zostana nazwy
  *     \pre Metoda wymaga zainicjowanych nazw elementow drona                                                                                    
@@ -175,19 +175,19 @@ Vector3D get_orien() const;
  */
   void get_filenames(std::string (&bod)[2], std::string (&rots)[4][2]) const;
 
-/*!
+  /*!
  *  \brief Metoda rysujaca drona w gnuplocie. Przeznaczona do testow                                                                                    
  *     \post Wyswietla okienko gnuplota z wyrysowanym dronem                                 
  */
   void Print_to_gnuplot_drone() const;
 
-/*!
+  /*!
  *  \brief Metoda zapisujaca parametry drona do plikow (do plikow final kazdego z elementow)                                                                                    
  *     \post Aktualizuje pliki z danymi                              
  */
   void Print_to_files_drone() const;
 
-/*!
+  /*!
  *  \brief Metoda animujaca obrot rotorow i zapisujaca to w plikach.
  *          Metoda sluzy jako metoda pomocnicza, przy kazdej animacji (translacji czy 
  *          rotacji drona) rotory sie niezaleznie obracaja. Ta metoda to umozliwia.
@@ -197,7 +197,7 @@ Vector3D get_orien() const;
  */
   void Rotors_rotation_animation();
 
-/*!
+  /*!
  *  \brief Metoda animujaca obrot drona i wyrysowujaca calosc w gnuplocie
  *     \pre Lacze musi byc odpowiednio skonfigurowane
  *     \param[in] Lacze - aktywne lacze do gnuplota
@@ -205,26 +205,48 @@ Vector3D get_orien() const;
  *     \post W oknie gnuplota wykonuje sie animacja obrotu drona                                 
  */
   void Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &angle);
-  
-/*!
- *  \brief Metoda wyrysowujaca sciezke drona z uzyciem std::vector<>
- *     \pre Lacze musi byc odpowiednio skonfigurowane
- *     \param[in] Lacze - aktywne lacze do gnuplota
- *     \param[in] tran - wektor translacji                                                                                   
- *     \post W oknie gnuplota wyrysowuje sie sciezka drona                                 
+
+  /*!
+ *  \brief Metoda przygotowujaca sciezke drona z uzyciem std::vector<>
+ *     \pre Lacze musi byc odpowiednio skonfigurowane. Wektor translacji
+ *          musi miec zerowa wpolrzedna z
+ *     \param[in] tran - wektor translacji
+ *     \param[in] path - std::vector<> do ktorego zapisywana jest sciezka                                                                                   
+ *     \post W oknie gnuplota wyrysowuje sie sciezka drona    
+ *     \retval true - jesli jest odpowiednio skonfigurowane lacze
+ *     \retval false - w przeciwnym wypadku                             
  */
-  void Drone_draw_path(PzG::LaczeDoGNUPlota Lacze, Vector3D const &tran);
-  
-/*!
+  bool Drone_make_path( Vector3D const &tran, std::vector<Vector3D> &path);
+
+  /*!
+ *  \brief Metoda zapisujaca sciezke do pliku oraz do lacza
+ *     \param[in] path - std::vector<> z ktorego wypisywana jest sciezka
+ *     \param[in] name - nazwa pliku do zapisu      
+ *     \param[in] Lacze - lacze do gnuplota                                                                            
+ *     \post W podanym pliku zapisuje sie sciezka, jest rysowana w gnuplocie 
+ *     \retval true - jesli zapis sie powiedzie
+ *     \retval false - w przeciwnym wypadku                             
+ */
+  bool Drone_path_to_file(std::vector<Vector3D> &path, std::string const &name, PzG::LaczeDoGNUPlota &Lacze);
+
+  /*!
+ *  \brief Oczyszcza plik ze sciezka
+ *     \param[in] name - nazwa pliku ze sciezka      
+ *     \retval true - jesli operacja sie powiedzie
+ *     \retval false - w przeciwnym wypadku                             
+ */
+  bool Drone_path_clear(std::string const &name);
+
+  /*!
  *  \brief Metoda animujaca translacje drona i wyrysowujaca calosc w gnuplocie
  *     \pre Lacze musi byc odpowiednio skonfigurowane
  *     \param[in] Lacze - aktywne lacze do gnuplota
  *     \param[in] tran - wektor translacji                                                                                 
  *     \post W oknie gnuplota wykonuje sie animacja translacji drona                                 
  */
-  void Drone_translation_animation(PzG::LaczeDoGNUPlota Lacze, Vector3D const &tran);
+  void Drone_translation_animation(PzG::LaczeDoGNUPlota &Lacze, Vector3D const &tran);
 
-/*!
+  /*!
  *  \brief Metoda zamieniajaca drona na tego z pliku sample
  *     \pre PLiki musza byc odpowiednio skonfigurowane           
  *     \param[in] angle - jesli dron roboczy jest obrocony o pewien kat, nalezy
@@ -239,5 +261,18 @@ Vector3D get_orien() const;
  *         Przypisuje wczytane wierzcholki do elementow drona.                  
  *      \param[out] dro - wczytwany dron                                                                                                 
  */
-    Drone Drone_From_Sample() const;
+  Drone Drone_From_Sample() const;
+
+/*!
+ *  \brief Metoda obliczajaca i przeprowadzajaca caly ruch drona
+ *          (obrot o kat i przelot z zadania 5.1) 
+ *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] angle - kat w stopniach
+ *     \param[in] len - dlugosc przelotu       
+ *     \param[in] Lacze - aktywne lacze do gnuplota                                                                          
+ *     \post W oknie gnuplota wykonuje sie animacja translacji drona
+ *     \retval true - jesli operacja sie powiedzie
+ *     \retval false - w przeciwnym wypadku                                   
+ */
+  bool Drone_basic_motion(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze);
 };
