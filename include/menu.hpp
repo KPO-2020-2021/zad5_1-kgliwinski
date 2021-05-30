@@ -20,4 +20,32 @@ private:
  */
     bool open;
 
+    public:
+    
+/*!
+ * \brief Konstruktor bezparametryczny menu
+ */
+    Menu();
+
+public:
+/*!
+ * \brief Inicjuje i obsluguje menu
+ *  \param[in] sc - scena
+ *  \param[in] Lacze - lacze do gnuplota
+ */
+    void init_menu(Scene &sc, PzG::LaczeDoGNUPlota &Lacze);
+
+/*!
+ * \brief Obsluguje wybor menu
+ *  \param[in] sc - scena
+ *  \param[in] Lacze - lacze do gnuplota
+ *  \param[in] oper - operator switch'a
+ */
+void switch_menu(Scene &sc, PzG::LaczeDoGNUPlota &Lacze, const char &oper);
+
+/*!
+ * \brief Wyswietla menu
+ */
+void show_menu();
+
 };

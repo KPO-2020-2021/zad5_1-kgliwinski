@@ -32,6 +32,11 @@ private:
   Vector3D drone_orient;
 
   /*!
+ * \brief Zmienna reprezentujaca zwrot drona jako kat w stopniach.
+ */
+  double drone_angle;
+
+  /*!
  * \brief Tablica graniastoslupow szesciokatnych, 
  *        reprezentujaca rotory drona
  */
@@ -110,6 +115,11 @@ public:
  *     \retval true - jesli jest prawidlowa                          
  */
   bool set_drone_pos(Vector3D const &pos);
+  
+  /*!
+ *  \brief Metoda wypisuje na standardowym wyjsciu pozycje drona (bez wysokosci)                               
+ */
+  void print_drone_pos() const;
 
   /*!
  *  \brief Metoda ustawiajaca skale wszystkich elementow drona                                         

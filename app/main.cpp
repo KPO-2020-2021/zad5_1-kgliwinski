@@ -6,7 +6,7 @@
 #include "../tests/doctest/doctest.h"
 #endif
 
-#include "scene.hpp"
+#include "menu.hpp"
 #include "exampleConfig.h"
 
 
@@ -23,32 +23,32 @@ int main()
             << "."
             << PROJECT_VERSION_TWEAK
             << std::endl;
-/*
+
 int i;
-std::string plane = "../datasets/tests/TEST_plane.dat";
+std::string plane = "../datasets/plane.dat";
 std::string body[2][2];
 std::string rot[2][4][2];
-body[0][0] = "../datasets/tests/final/TEST_drone1_body_f.dat";
-body[0][1] = "../datasets/tests/sample/TEST_drone1_body_s.dat";
-rot[0][0][0] = "../datasets/tests/final/TEST_drone1_rotor_f1.dat";
-rot[0][1][0] = "../datasets/tests/final/TEST_drone1_rotor_f2.dat";
-rot[0][2][0] = "../datasets/tests/final/TEST_drone1_rotor_f3.dat";
-rot[0][3][0] = "../datasets/tests/final/TEST_drone1_rotor_f4.dat";
-rot[0][0][1] = "../datasets/tests/sample/TEST_drone1_rotor_s1.dat";
-rot[0][1][1] = "../datasets/tests/sample/TEST_drone1_rotor_s2.dat";
-rot[0][2][1] = "../datasets/tests/sample/TEST_drone1_rotor_s3.dat";
-rot[0][3][1] = "../datasets/tests/sample/TEST_drone1_rotor_s4.dat";
+body[0][0] = "../datasets/main/final/drone1_body_f.dat";
+body[0][1] = "../datasets/main/sample/drone1_body_s.dat";
+rot[0][0][0] = "../datasets/main/final/drone1_rotor_f1.dat";
+rot[0][1][0] = "../datasets/main/final/drone1_rotor_f2.dat";
+rot[0][2][0] = "../datasets/main/final/drone1_rotor_f3.dat";
+rot[0][3][0] = "../datasets/main/final/drone1_rotor_f4.dat";
+rot[0][0][1] = "../datasets/main/sample/drone1_rotor_s1.dat";
+rot[0][1][1] = "../datasets/main/sample/drone1_rotor_s2.dat";
+rot[0][2][1] = "../datasets/main/sample/drone1_rotor_s3.dat";
+rot[0][3][1] = "../datasets/main/sample/drone1_rotor_s4.dat";
 
-body[1][0] = "../datasets/tests/final/TEST_drone2_body_f.dat";
-body[1][1] = "../datasets/tests/sample/TEST_drone2_body_s.dat";
-rot[1][0][0] = "../datasets/tests/final/TEST_drone2_rotor_f1.dat";
-rot[1][1][0] = "../datasets/tests/final/TEST_drone2_rotor_f2.dat";
-rot[1][2][0] = "../datasets/tests/final/TEST_drone2_rotor_f3.dat";
-rot[1][3][0] = "../datasets/tests/final/TEST_drone2_rotor_f4.dat";
-rot[1][0][1] = "../datasets/tests/sample/TEST_drone2_rotor_s1.dat";
-rot[1][1][1] = "../datasets/tests/sample/TEST_drone2_rotor_s2.dat";
-rot[1][2][1] = "../datasets/tests/sample/TEST_drone2_rotor_s3.dat";
-rot[1][3][1] = "../datasets/tests/sample/TEST_drone2_rotor_s4.dat";
+body[1][0] = "../datasets/main/final/drone2_body_f.dat";
+body[1][1] = "../datasets/main/sample/drone2_body_s.dat";
+rot[1][0][0] = "../datasets/main/final/drone2_rotor_f1.dat";
+rot[1][1][0] = "../datasets/main/final/drone2_rotor_f2.dat";
+rot[1][2][0] = "../datasets/main/final/drone2_rotor_f3.dat";
+rot[1][3][0] = "../datasets/main/final/drone2_rotor_f4.dat";
+rot[1][0][1] = "../datasets/main/sample/drone2_rotor_s1.dat";
+rot[1][1][1] = "../datasets/main/sample/drone2_rotor_s2.dat";
+rot[1][2][1] = "../datasets/main/sample/drone2_rotor_s3.dat";
+rot[1][3][1] = "../datasets/main/sample/drone2_rotor_s4.dat";
 
 double positions[2][3] = {{20,20,5},{40,60,5}};
 double scales_bod[2][3] = {{1,1,1},{1,1,1}};
@@ -62,9 +62,10 @@ for(i=0;i<2;++i)
 }
 Scene sc(pos,sca_bod,sca_rot,plane,body,rot);
 PzG::LaczeDoGNUPlota Lacze;
-Lacze = sc.init_gnuplot();
-Lacze.Rysuj();*/
 
+Menu menu;
+menu.init_menu(sc, Lacze);
+/*
 Drone a;
 std::string body[2];
 std::string rot[4][2];
@@ -98,4 +99,5 @@ a.Drone_basic_motion(30,50,Lacze);
 Lacze.Rysuj();
     std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     std::cin.ignore(100000, '\n');
+    */
 }

@@ -21,6 +21,7 @@ Drone::Drone()
     *this = rotation_around_cen(mat);
     double tab[3] = {1, 0, 0};
     drone_orient = Vector3D(tab);
+    drone_angle = 0;
 }
 
 void Drone::set_rotors_in_place()
@@ -253,12 +254,12 @@ void Drone::Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &a
         usleep(10000); // 0.1 ms
         Lacze.Rysuj();
     }
-    Drone_change_to_sample(angle);
+    Drone_change_to_sample(drone_angle);
     //std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
     //std::cin.ignore(100000, '\n');
 }
 
-bool Drone::Drone_make_path( Vector3D const &tran, std::vector<Vector3D> &path)
+bool Drone::Drone_make_path(Vector3D const &tran, std::vector<Vector3D> &path)
 {
     int i;
     if (tran[2] != 0)
@@ -269,7 +270,7 @@ bool Drone::Drone_make_path( Vector3D const &tran, std::vector<Vector3D> &path)
     {
         path.push_back(path.at(i) + rise);
     }
-    Vector3D fly = tran/360;
+    Vector3D fly = tran / 360;
     for (; i < 440; ++i)
     {
         path.push_back(path.at(i) + fly);
@@ -283,16 +284,16 @@ bool Drone::Drone_make_path( Vector3D const &tran, std::vector<Vector3D> &path)
     return 1;
 }
 
-  bool Drone::Drone_path_clear(std::string const &name)
-  {
+bool Drone::Drone_path_clear(std::string const &name)
+{
     std::ofstream filestrm;
-    filestrm.open(name,std::ofstream::out | std::ofstream::trunc);
+    filestrm.open(name, std::ofstream::out | std::ofstream::trunc);
     filestrm.close();
     return !filestrm.fail();
-  }
+}
 
-  bool Drone::Drone_path_to_file(std::vector<Vector3D> &path, std::string const &name, PzG::LaczeDoGNUPlota &Lacze)
-  {
+bool Drone::Drone_path_to_file(std::vector<Vector3D> &path, std::string const &name, PzG::LaczeDoGNUPlota &Lacze)
+{
     long unsigned int i;
     std::ofstream filestrm;
     filestrm.open(name);
@@ -303,24 +304,23 @@ bool Drone::Drone_make_path( Vector3D const &tran, std::vector<Vector3D> &path)
         return false;
     }
 
-    for(i=0;i<path.size();++i)
+    for (i = 0; i < path.size(); ++i)
     {
-        filestrm<<std::setw(10) << std::fixed << std::setprecision(10)<<path[i][0]<<" "<<path[i][1]<<" "<<path[i][2]<<std::endl;
+        filestrm << std::setw(10) << std::fixed << std::setprecision(10) << path[i][0] << " " << path[i][1] << " " << path[i][2] << std::endl;
     }
     filestrm.close();
     Lacze.DodajNazwePliku(name.c_str(), PzG::SR_Ciagly);
     Lacze.Rysuj();
     return !filestrm.fail();
-  }
-
+}
 
 void Drone::Drone_translation_animation(PzG::LaczeDoGNUPlota &Lacze, Vector3D const &tran)
 {
     std::vector<Vector3D> cur_path = {drone_pos};
     Drone_make_path(tran, cur_path);
-    Drone_path_to_file(cur_path,"../datasets/sciezka.dat",Lacze);
+    Drone_path_to_file(cur_path, "../datasets/sciezka.dat", Lacze);
     long unsigned int i;
-    for(i=0;i<cur_path.size(); ++i)
+    for (i = 0; i < cur_path.size(); ++i)
     {
         this->drone_pos = cur_path.at(i);
         *this = translation_to_pos();
@@ -329,7 +329,7 @@ void Drone::Drone_translation_animation(PzG::LaczeDoGNUPlota &Lacze, Vector3D co
         usleep(10000); // 0.1 ms
         Lacze.Rysuj();
     }
-    Drone_change_to_sample(0);
+    Drone_change_to_sample(drone_angle);
 }
 
 Drone Drone::Drone_From_Sample() const
@@ -341,6 +341,7 @@ Drone Drone::Drone_From_Sample() const
     {
         dro.rotors[i].Prism_From_Sample();
     }
+    dro.drone_angle = drone_angle;
     std::string bod[2], rots[4][2];
     get_filenames(bod, rots);
     dro.setup_filenames(bod, rots);
@@ -355,6 +356,7 @@ void Drone::Drone_change_to_sample(double const &angle)
     mat = mat.rotation_matrix(angle, 'z');
     sam = sam.rotation_around_cen(mat);
     sam.set_drone_pos(drone_pos);
+    sam.drone_angle = drone_angle;
     sam = sam.translation_to_pos();
     body = sam.body;
     for (i = 0; i < 4; ++i)
@@ -363,20 +365,21 @@ void Drone::Drone_change_to_sample(double const &angle)
     }
 }
 
- bool Drone::Drone_basic_motion(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze)
- {
-     long unsigned int i;
-     double theta = angle*(PI/180);
-     double x = len*cos(theta);
-     double y = len*sin(theta);
-     double tab[3] = {x,y,0};
-     Vector3D tran(tab);
+bool Drone::Drone_basic_motion(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze)
+{
+    long unsigned int i;
+    drone_angle += angle;
+    double theta = drone_angle * (PI / 180);
+    double x = len * cos(theta);
+    double y = len * sin(theta);
+    double tab[3] = {x, y, 0};
+    Vector3D tran(tab);
     std::vector<Vector3D> cur_path = {drone_pos};
-    if(!Drone_make_path(tran, cur_path))
+    if (!Drone_make_path(tran, cur_path))
         return 0;
     std::cout << "Naciśnij ENTER, aby narysowac sciezke" << std::endl;
     std::cin.ignore(100000, '\n');
-    if(!Drone_path_to_file(cur_path,"../datasets/sciezka.dat",Lacze))
+    if (!Drone_path_to_file(cur_path, "../datasets/sciezka.dat", Lacze))
         return 0;
     std::cout << "Naciśnij ENTER, aby wykonac animacje przelotu" << std::endl;
     std::cin.ignore(100000, '\n');
@@ -402,7 +405,7 @@ void Drone::Drone_change_to_sample(double const &angle)
         usleep(10000); // 0.1 ms
         Lacze.Rysuj();
     }
-    Drone_change_to_sample(angle);
+    Drone_change_to_sample(drone_angle);
     std::cout << "Opadanie" << std::endl;
     for (; i < 520; ++i)
     {
@@ -413,10 +416,18 @@ void Drone::Drone_change_to_sample(double const &angle)
         usleep(10000); // 0.1 ms
         Lacze.Rysuj();
     }
-    Drone_change_to_sample(angle);
+    Drone_change_to_sample(drone_angle);
     std::cout << "Naciśnij ENTER, aby usunac sciezke" << std::endl;
     std::cin.ignore(100000, '\n');
-    if(!Drone_path_clear("../datasets/sciezka.dat"))
+    if (!Drone_path_clear("../datasets/sciezka.dat"))
         return 0;
+    Lacze.Rysuj();
+    drone_pos.print_count();
+    cur_path.clear();
     return 1;
- }
+}
+
+void Drone::print_drone_pos() const
+{
+    std::cout << drone_pos[0] << " " << drone_pos[1];
+}

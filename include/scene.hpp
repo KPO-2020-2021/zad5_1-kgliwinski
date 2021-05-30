@@ -88,4 +88,37 @@ bool choose_drone(unsigned int const &ch);
  *          moze byc uzyte do rysowania calej sceny
  */
 PzG::LaczeDoGNUPlota init_gnuplot() const;
+
+/*!
+ * \brief Metoda dodajaca do lacza plik z plaszczyzna
+ */
+void Add_Plane(PzG::LaczeDoGNUPlota &Lacze) const;
+
+/*!
+ * \brief Zwraca numer aktywnego drona
+ */
+unsigned int get_active() const;
+
+/*!
+ * \brief Wypisuje polozenie aktywnego drona
+ */
+void print_active() const;
+
+/*!
+ * \brief Wypisuje polozenia dronow
+ */
+void print_positions() const;
+
+/*!
+ * \brief Przelot aktywnego drona
+  *     \pre Lacze musi byc odpowiednio skonfigurowane
+ *     \param[in] angle - kat w stopniach
+ *     \param[in] len - dlugosc przelotu       
+ *     \param[in] Lacze - aktywne lacze do gnuplota                                                                          
+ *     \post W oknie gnuplota wykonuje sie animacja translacji drona
+ *     \retval true - jesli operacja sie powiedzie
+ *     \retval false - w przeciwnym wypadku                                   
+ */
+ 
+void fly(double const &angle, double const &len, PzG::LaczeDoGNUPlota &Lacze);
 };
