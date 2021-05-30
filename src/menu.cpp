@@ -15,8 +15,10 @@ void Menu::init_menu(Scene &sc, PzG::LaczeDoGNUPlota &Lacze)
     }
     else
     {
-        Lacze = sc.init_gnuplot();
+        Lacze = sc.init_gnuplot(0,200,0,200);
         Lacze.Rysuj();
+        std::cout<<"\n Polozenie Drona aktywnego (x,y): ";
+        sc.print_active();
         show_menu();
     }
     char n;
@@ -80,6 +82,7 @@ void Menu::show_menu()
     std::cout << std::endl;
     std::cout << "a - wybierz aktywnego drona\n";
     std::cout << "p - zadaj parametry przelotu\n";
+    std::cout << "o - MODYFIKACJA: wznoszenie na okreslona wysokosc i zatoczenie kola\n";
     std::cout << "m - wyswietl menu\n";
     std::cout << "k - koniec dzialania programu\n\n";
 }

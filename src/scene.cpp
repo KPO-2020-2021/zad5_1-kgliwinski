@@ -50,7 +50,7 @@ bool Scene::choose_drone(unsigned int const &ch)
     return 1;
 }
 
-PzG::LaczeDoGNUPlota Scene::init_gnuplot() const
+PzG::LaczeDoGNUPlota Scene::init_gnuplot(double const &x1, double const &x2,double const &y1,double const &y2) const
 {
     unsigned int i;
     PzG::LaczeDoGNUPlota Lacze;
@@ -58,13 +58,39 @@ PzG::LaczeDoGNUPlota Scene::init_gnuplot() const
     {
         flies[i].set_filenames_gnuplot(Lacze);
     }
-    Lacze.UstawZakresX(0, 200);
-    Lacze.UstawZakresY(0, 200);
+    Lacze.UstawZakresX(x1, x2);
+    Lacze.UstawZakresY(y1, y2);
     Lacze.UstawZakresZ(0, 120);
     Lacze.ZmienTrybRys(PzG::TR_3D);
+    std::string name = "../datasets/plane.dat";
+    Make_Plane(x1,x2,y1,y2,name);
+    Lacze.DodajNazwePliku(name.c_str());
     Add_Plane(Lacze);
     Lacze.Rysuj();
     return Lacze;
+}
+
+bool Scene::Make_Plane(double const &x1, double const &x2,double const &y1,double const &y2, std::string const &name) const
+{
+    int i,j;
+    std::ofstream filestrm;
+    filestrm.open(name);
+    if (!filestrm.is_open())
+    {
+        std::cerr << ":(  Operacja otwarcia do zapisu \"" << name << "\"" << std::endl
+                  << ":(  nie powiodla sie." << std::endl;
+        return false;
+    }
+
+    for (i = x1; i <= x2; i+=10)
+    {
+        for(j=y1;j<=y2;j+=10)
+        {
+                filestrm << std::setw(10) << std::fixed << std::setprecision(10) << j << " " << i << " " << 0 << std::endl;
+        }
+        filestrm<<std::endl;
+    }
+    return 1;
 }
 
 void Scene::Add_Plane(PzG::LaczeDoGNUPlota &Lacze) const

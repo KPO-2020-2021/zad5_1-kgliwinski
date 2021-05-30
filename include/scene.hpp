@@ -84,10 +84,17 @@ bool choose_drone(unsigned int const &ch);
 
 /*!
  * \brief Metoda inicjalizujaca lacze do gnuplota
+ *  \param[in] parametry okreslajace zakresy
  *  \post Powstaje w pelni skonfigurowane lacze, ktore 
  *          moze byc uzyte do rysowania calej sceny
  */
-PzG::LaczeDoGNUPlota init_gnuplot() const;
+PzG::LaczeDoGNUPlota init_gnuplot(double const &x1, double const &x2,double const &y1,double const &y2) const;
+
+/*!
+ * \brief Metoda tworzy plaszczyzne z podanych zakresow
+ *          i zwraca nazwe pliku do zapisu
+ */
+bool Make_Plane(double const &x1, double const &x2,double const &y1,double const &y2, std::string const &name) const;
 
 /*!
  * \brief Metoda dodajaca do lacza plik z plaszczyzna

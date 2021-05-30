@@ -50,7 +50,7 @@ rot[1][1][1] = "../datasets/main/sample/drone2_rotor_s2.dat";
 rot[1][2][1] = "../datasets/main/sample/drone2_rotor_s3.dat";
 rot[1][3][1] = "../datasets/main/sample/drone2_rotor_s4.dat";
 
-double positions[2][3] = {{20,20,5},{40,60,5}};
+double positions[2][3] = {{20,20,2.5},{80,160,2.5}};
 double scales_bod[2][3] = {{1,1,1},{1,1,1}};
 double scales_rot[2][3] = {{1,1,1},{1,1,1}};
 Vector3D pos[2],sca_bod[2],sca_rot[2];
@@ -65,39 +65,4 @@ PzG::LaczeDoGNUPlota Lacze;
 
 Menu menu;
 menu.init_menu(sc, Lacze);
-/*
-Drone a;
-std::string body[2];
-std::string rot[4][2];
-body[0] = "../datasets/tests/TEST_drone_body_f.dat";
-body[1] = "../datasets/tests/TEST_drone_body_s.dat";
-rot[0][0] = "../datasets/tests/TEST_drone_rotor_f1.dat";
-rot[1][0] = "../datasets/tests/TEST_drone_rotor_f2.dat";
-rot[2][0] = "../datasets/tests/TEST_drone_rotor_f3.dat";
-rot[3][0] = "../datasets/tests/TEST_drone_rotor_f4.dat";
-rot[0][1] = "../datasets/tests/TEST_drone_rotor_s1.dat";
-rot[1][1] = "../datasets/tests/TEST_drone_rotor_s2.dat";
-rot[2][1] = "../datasets/tests/TEST_drone_rotor_s3.dat";
-rot[3][1] = "../datasets/tests/TEST_drone_rotor_s4.dat";
-a.setup_filenames(body,rot);
-
-double tab[3] = {50,50,10};
-Vector3D pos(tab);
-a.set_drone_pos(pos);
-a = a.translation_to_pos();
-PzG::LaczeDoGNUPlota Lacze;
-    Lacze.UstawZakresX(0, 200);
-    Lacze.UstawZakresY(0, 200);
-    Lacze.UstawZakresZ(0, 120);
-    Lacze.ZmienTrybRys(PzG::TR_3D);
-    a.set_filenames_gnuplot(Lacze);
-Lacze.Rysuj();
-    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-    std::cin.ignore(100000, '\n');
-
-a.Drone_basic_motion(30,50,Lacze);
-Lacze.Rysuj();
-    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-    std::cin.ignore(100000, '\n');
-    */
 }

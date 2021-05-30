@@ -3,9 +3,10 @@
 Drone::Drone()
 {
     int i;
-    double tmp[3] = {17, 20, 5};
+    double tmp[3] = {17, 20, 2.5};
     drone_pos = Vector3D(tmp);
-    body.set_scale(tmp);
+    double tmp2[3] = {17, 20, 5};
+    body.set_scale(tmp2);
     body = body.scale_cub();
     tmp[0] = 6;
     tmp[1] = 6;
@@ -318,7 +319,7 @@ void Drone::Drone_translation_animation(PzG::LaczeDoGNUPlota &Lacze, Vector3D co
 {
     std::vector<Vector3D> cur_path = {drone_pos};
     Drone_make_path(tran, cur_path);
-    Drone_path_to_file(cur_path, "../datasets/sciezka.dat", Lacze);
+    Drone_path_to_file(cur_path, "../datasets/path.dat", Lacze);
     long unsigned int i;
     for (i = 0; i < cur_path.size(); ++i)
     {
