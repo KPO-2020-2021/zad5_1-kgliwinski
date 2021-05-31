@@ -244,10 +244,15 @@ void Drone::Rotors_rotation_animation()
 
 void Drone::Drone_rotation_animation(PzG::LaczeDoGNUPlota Lacze, double const &angle)
 {
+    double angle1 = angle;
+    while(angle1<0)
+        {
+            angle1 +=360;
+        }
     int i;
     double theta = 1;
     Matrix3D mat = mat.rotation_matrix(theta, 'z');
-    for (i = 0; i < angle; ++i)
+    for (i = 0; i < angle1; ++i)
     {
         *this = rotation_around_cen(mat);
         Print_to_files_drone();
@@ -435,8 +440,7 @@ bool Drone::Drone_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze)
     if (!Drone_make_path_roundabout(radius, cur_path))
         return 0;
     std::cout << "Naciśnij ENTER, aby narysowac sciezke" << std::endl;
-    std::cin.ignore(100000, '\n');
-    
+    std::cin.ignore(10000000000, '\n');
     if (!Drone_path_to_file(cur_path, "../datasets/sciezka.dat", Lacze))
         return 0;
     std::cout << "Naciśnij ENTER, aby wykonac animacje przelotu" << std::endl;
@@ -461,7 +465,6 @@ bool Drone::Drone_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze)
         usleep(10000); // 0.1 ms
         Lacze.Rysuj();
     }
-    Drone_change_to_sample(drone_angle);
     Matrix3D mat;
     mat = mat.rotation_matrix(1,'z');
     std::cout << "Oblot" << std::endl;
@@ -488,7 +491,6 @@ bool Drone::Drone_roundabout(double const &radius, PzG::LaczeDoGNUPlota &Lacze)
         Lacze.Rysuj();
     }
     std::cout << "Opadanie" << std::endl;
-    
     for (; i < 680; ++i)
     {
         this->drone_pos = cur_path.at(i);

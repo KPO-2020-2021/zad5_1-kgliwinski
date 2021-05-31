@@ -53,6 +53,10 @@ void Menu::switch_menu(Scene &sc, PzG::LaczeDoGNUPlota &Lacze, const char &oper)
         double ang, len;
         std::cout << "Podaj kierunek lotu (kat w stopniach): ";
         std::cin >> ang;
+        while(ang<0)
+        {
+            ang +=360;
+        }
         std::cout << "Podaj długość lotu: ";
         std::cin >> len;
         if(!sc.fly(ang, len, Lacze))
