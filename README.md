@@ -71,5 +71,20 @@ Results of tests on my local machine: (using *./unit_tests*)
 There are tests included for counting Vectors, class inheritence, all algebraic operations on vectors and matrices,
 cuboid and prism contruction assertion and more.
 
+
 **Important note:** there are problems while using *make fulltest* command. Tests that write data to *.dat* files will be shown as failed while using this command.
 In case *./unit_tests* is used, all tests have success status. The problematic tests have also been done manually and everything seems to work good.
+
+## datasets directory
+It is important for the program to work that there is a datasets directory (that also includes main dircetory which contains final and sample dirs) for the file to operate. Here is a simple diagram:
+```
+|----zad5_2-kgliwinski
+|    |----datasets
+|         |----main
+|              |---final
+|              |---sample
+```
+
+## Mała zmiana po terminie oddania
+Podczas pracy nad faza 2 drona zauważyłem, że dron ląduje zawsze o jedna jednostke dlugosci ponad powierzchnią. Ponieważ błąd był minimalny (wystarczyło zwiększyć zakresy czterech pętli) postanowiłem poprawić to 7 czerwca. Ponadto dodałem informacje o folderze datasets w README.md
+
