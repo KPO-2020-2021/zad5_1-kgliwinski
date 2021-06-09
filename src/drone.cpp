@@ -519,7 +519,7 @@ bool Drone::Drone_make_path_roundabout(double const &radius, std::vector<Vector3
         return 0;
     double posi[3];
     drone_pos.get_vec(posi);
-    posi[3] = 80;
+    posi[2] = 80;
     Vector3D tmp(posi);
     double tab[3] = {0, 0, 1};
     Vector3D rise(tab);

@@ -88,3 +88,5 @@ It is important for the program to work that there is a datasets directory (that
 ## Mała zmiana po terminie oddania
 Podczas pracy nad faza 2 drona zauważyłem, że dron ląduje zawsze o jedna jednostke dlugosci ponad powierzchnią. Ponieważ błąd był minimalny (wystarczyło zwiększyć zakresy czterech pętli) postanowiłem poprawić to 7 czerwca. Ponadto dodałem informacje o folderze datasets w README.md
 
+Również w dniu 9.06 został wykryty i zmieniony bug podczas budowy wersji Release programu. W wersji Debug dzialal on co ciekawe poprawnie.
+
